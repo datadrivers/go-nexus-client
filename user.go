@@ -72,7 +72,7 @@ func (c client) UserRead(id string) (*User, error) {
 		}
 	}
 
-	return nil, fmt.Errorf("could not find user '%s'", id)
+	return nil, nil
 }
 
 func (c client) UserUpdate(id string, user User) error {
