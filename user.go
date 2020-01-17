@@ -62,7 +62,7 @@ func (c client) UserRead(id string) (*User, error) {
 	}
 
 	var users []User
-	if err := json.Unmarshal(body, users); err != nil {
+	if err := json.Unmarshal(body, &users); err != nil {
 		return nil, fmt.Errorf("could not unmarschal users: %v", err)
 	}
 
