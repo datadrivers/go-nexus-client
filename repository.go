@@ -88,7 +88,7 @@ func (c client) RepositoryRead(id string, format string, repoType string) (*Repo
 		}
 	}
 
-	return nil, fmt.Errorf("could not find repository '%s'", id)
+	return nil, nil
 }
 
 func (c client) RepositoryUpdate(id string, repo Repository) error {
