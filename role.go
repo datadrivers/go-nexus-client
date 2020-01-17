@@ -69,7 +69,7 @@ func (c client) RoleRead(id string) (*Role, error) {
 		}
 	}
 
-	return nil, fmt.Errorf("could not find role '%s'", id)
+	return nil, nil
 }
 
 func (c client) RoleUpdate(id string, role Role) error {
