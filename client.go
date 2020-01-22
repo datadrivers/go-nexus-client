@@ -4,13 +4,21 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
+	"os"
 	"time"
+)
+
+const (
+	// ContentTypeApplicationJSON ...
+	ContentTypeApplicationJSON = "application/json"
+	// ContentTypeTextPlain ...
+	ContentTypeTextPlain = "text/plain"
 )
 
 // Client represents the Nexus API Client interface
 type Client interface {
+	ContentType() string
 	ContentTypeTextPlain()
 	ContentTypeJSON()
 	RepositoryCreate(Repository, string, string) error
@@ -38,22 +46,29 @@ type client struct {
 func NewClient(config Config) Client {
 	return &client{
 		config:      config,
-		contentType: "application/json",
+		contentType: ContentTypeApplicationJSON,
 		client:      &http.Client{},
 	}
 }
 
-func (c client) setContentType(s string) {
-	log.Printf("Setting ContentType: %s", s)
+func (c *client) setContentType(s string) {
+	fmt.Fprintf(os.Stderr, "Setting ContentType: %s", s)
 	c.contentType = s
 }
 
-func (c client) ContentTypeJSON() {
-	c.setContentType("application/json")
+// ContentType returns the current configured HTTP content type
+func (c *client) ContentType() string {
+	return c.contentType
 }
 
-func (c client) ContentTypeTextPlain() {
-	c.setContentType("text/plain")
+// ContentTypJSON configures the content type for future requests to be 'application/json'
+func (c *client) ContentTypeJSON() {
+	c.setContentType(ContentTypeApplicationJSON)
+}
+
+// ContentTypTestPlain configures the content typ for future requests to be 'test/plain'
+func (c *client) ContentTypeTextPlain() {
+	c.setContentType(ContentTypeTextPlain)
 }
 
 func (c client) NewRequest(method string, endpoint string, body io.Reader) (req *http.Request, err error) {
@@ -65,7 +80,7 @@ func (c client) NewRequest(method string, endpoint string, body io.Reader) (req 
 
 	req.SetBasicAuth(c.config.Username, c.config.Password)
 	req.Header.Set("Content-Type", c.contentType)
-	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Accept", ContentTypeApplicationJSON)
 
 	return req, nil
 }
