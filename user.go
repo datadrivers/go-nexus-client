@@ -33,7 +33,7 @@ func userIOReader(user User) (io.Reader, error) {
 	return bytes.NewReader(b), nil
 }
 
-func (c client) UserCreate(user User) error {
+func (c *client) UserCreate(user User) error {
 	ioReader, err := userIOReader(user)
 	if err != nil {
 		return err
@@ -51,7 +51,7 @@ func (c client) UserCreate(user User) error {
 	return nil
 }
 
-func (c client) UserRead(id string) (*User, error) {
+func (c *client) UserRead(id string) (*User, error) {
 	body, resp, err := c.Get(usersAPIEndpoint, nil)
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (c client) UserRead(id string) (*User, error) {
 	return nil, nil
 }
 
-func (c client) UserUpdate(id string, user User) error {
+func (c *client) UserUpdate(id string, user User) error {
 	// Not sure what this is and why is required to update a user
 	if user.Source == "" {
 		user.Source = "default"
@@ -98,7 +98,7 @@ func (c client) UserUpdate(id string, user User) error {
 	return nil
 }
 
-func (c client) UserDelete(id string) error {
+func (c *client) UserDelete(id string) error {
 	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", usersAPIEndpoint, id))
 	if err != nil {
 		return err
@@ -110,15 +110,17 @@ func (c client) UserDelete(id string) error {
 	return err
 }
 
-func (c client) UserChangePassword(id string, password string) error {
+func (c *client) UserChangePassword(id string, password string) error {
 	data := bytes.NewReader([]byte(password))
 	// UserChangePassword  must be send with content-type text/plain :-/
 	c.ContentTypeTextPlain()
 	defer c.ContentTypeJSON()
+
 	body, resp, err := c.Put(fmt.Sprintf("%s/%s/change-password", usersAPIEndpoint, id), data)
 	if err != nil {
 		return fmt.Errorf("could not change password of user '%s': %v", id, err)
 	}
+
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("could not change password of user '%s':  HTTP: %d, %s ", id, resp.StatusCode, string(body))
 	}

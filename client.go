@@ -71,7 +71,7 @@ func (c *client) ContentTypeTextPlain() {
 	c.setContentType(ContentTypeTextPlain)
 }
 
-func (c client) NewRequest(method string, endpoint string, body io.Reader) (req *http.Request, err error) {
+func (c *client) NewRequest(method string, endpoint string, body io.Reader) (req *http.Request, err error) {
 	url := fmt.Sprintf("%s/%s", c.config.URL, endpoint)
 	req, err = http.NewRequest(method, url, body)
 	if err != nil {
@@ -85,7 +85,7 @@ func (c client) NewRequest(method string, endpoint string, body io.Reader) (req 
 	return req, nil
 }
 
-func (c client) execute(method string, endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
+func (c *client) execute(method string, endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
 	req, err := c.NewRequest(method, endpoint, payload)
 	if err != nil {
 		return nil, nil, err
@@ -105,18 +105,18 @@ func (c client) execute(method string, endpoint string, payload io.Reader) ([]by
 	return body, resp, err
 }
 
-func (c client) Get(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
+func (c *client) Get(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
 	return c.execute(http.MethodGet, endpoint, payload)
 }
 
-func (c client) Post(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
+func (c *client) Post(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
 	return c.execute(http.MethodPost, endpoint, payload)
 }
 
-func (c client) Put(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
+func (c *client) Put(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
 	return c.execute(http.MethodPut, endpoint, payload)
 }
 
-func (c client) Delete(endpoint string) ([]byte, *http.Response, error) {
+func (c *client) Delete(endpoint string) ([]byte, *http.Response, error) {
 	return c.execute(http.MethodDelete, endpoint, nil)
 }

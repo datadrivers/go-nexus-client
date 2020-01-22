@@ -30,7 +30,7 @@ func roleIOReader(role Role) (io.Reader, error) {
 	return bytes.NewReader(b), nil
 }
 
-func (c client) RoleCreate(role Role) error {
+func (c *client) RoleCreate(role Role) error {
 	ioReader, err := roleIOReader(role)
 	if err != nil {
 		return err
@@ -48,7 +48,7 @@ func (c client) RoleCreate(role Role) error {
 	return nil
 }
 
-func (c client) RoleRead(id string) (*Role, error) {
+func (c *client) RoleRead(id string) (*Role, error) {
 	body, resp, err := c.Get(rolesAPIEndpoint, nil)
 	if err != nil {
 		return nil, err
@@ -72,7 +72,7 @@ func (c client) RoleRead(id string) (*Role, error) {
 	return nil, nil
 }
 
-func (c client) RoleUpdate(id string, role Role) error {
+func (c *client) RoleUpdate(id string, role Role) error {
 	ioReader, err := roleIOReader(role)
 	if err != nil {
 		return err
@@ -90,7 +90,7 @@ func (c client) RoleUpdate(id string, role Role) error {
 	return nil
 }
 
-func (c client) RoleDelete(id string) error {
+func (c *client) RoleDelete(id string) error {
 	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", rolesAPIEndpoint, id))
 	if err != nil {
 		return err
