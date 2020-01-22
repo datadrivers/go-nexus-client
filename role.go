@@ -59,7 +59,7 @@ func (c *client) RoleRead(id string) (*Role, error) {
 	}
 
 	var roles []Role
-	if err := json.Unmarshal(body, roles); err != nil {
+	if err := json.Unmarshal(body, &roles); err != nil {
 		return nil, fmt.Errorf("could not unmarshal roles: %v", err)
 	}
 
