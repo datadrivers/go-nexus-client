@@ -5,7 +5,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -52,7 +51,6 @@ func NewClient(config Config) Client {
 }
 
 func (c *client) setContentType(s string) {
-	fmt.Fprintf(os.Stderr, "Setting ContentType: %s", s)
 	c.contentType = s
 }
 
