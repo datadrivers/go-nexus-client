@@ -33,6 +33,14 @@ func userIOReader(user User) (io.Reader, error) {
 	return bytes.NewReader(b), nil
 }
 
+func jsonUnmarshalUsers(data []byte) ([]User, error) {
+	var users []User
+	if err := json.Unmarshal(data, &users); err != nil {
+		return nil, fmt.Errorf("could not unmarschal users: %v", err)
+	}
+	return users, nil
+}
+
 func (c *client) UserCreate(user User) error {
 	ioReader, err := userIOReader(user)
 	if err != nil {
@@ -61,9 +69,9 @@ func (c *client) UserRead(id string) (*User, error) {
 		return nil, fmt.Errorf("%s", string(body))
 	}
 
-	var users []User
-	if err := json.Unmarshal(body, &users); err != nil {
-		return nil, fmt.Errorf("could not unmarschal users: %v", err)
+	users, err := jsonUnmarshalUsers(body)
+	if err != nil {
+		return nil, err
 	}
 
 	for _, user := range users {
