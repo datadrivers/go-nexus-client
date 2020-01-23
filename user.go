@@ -129,7 +129,7 @@ func (c *client) UserChangePassword(id string, password string) error {
 		return fmt.Errorf("could not change password of user '%s': %v", id, err)
 	}
 
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
 		return fmt.Errorf("could not change password of user '%s':  HTTP: %d, %s ", id, resp.StatusCode, string(body))
 	}
 	return nil
