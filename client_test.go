@@ -17,7 +17,7 @@ func getEnv(key, fallback string) string {
 
 func getDefaultConfig() Config {
 	return Config{
-		URL:      getEnv("NEXUS_URL", "http://127.0.0.1:8080"),
+		URL:      getEnv("NEXUS_URL", "http://127.0.0.1:8081"),
 		Username: getEnv("NEXUS_USRNAME", "admin"),
 		Password: getEnv("NEXUS_PASSWORD", "admin123"),
 	}
