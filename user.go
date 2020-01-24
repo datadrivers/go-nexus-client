@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 )
 
@@ -24,15 +23,6 @@ type User struct {
 	Roles        []string `json:"roles"`
 }
 
-func userIOReader(user User) (io.Reader, error) {
-	b, err := json.Marshal(user)
-	if err != nil {
-		return nil, fmt.Errorf("could not marshal user data: %v", err)
-	}
-
-	return bytes.NewReader(b), nil
-}
-
 func jsonUnmarshalUsers(data []byte) ([]User, error) {
 	var users []User
 	if err := json.Unmarshal(data, &users); err != nil {
@@ -42,7 +32,7 @@ func jsonUnmarshalUsers(data []byte) ([]User, error) {
 }
 
 func (c *client) UserCreate(user User) error {
-	ioReader, err := userIOReader(user)
+	ioReader, err := jsonMarshalInterfaceToIOReader(user)
 	if err != nil {
 		return err
 	}
@@ -89,7 +79,7 @@ func (c *client) UserUpdate(id string, user User) error {
 		user.Source = "default"
 	}
 
-	ioReader, err := userIOReader(user)
+	ioReader, err := jsonMarshalInterfaceToIOReader(user)
 	if err != nil {
 		return err
 	}

@@ -1,10 +1,8 @@
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 )
 
@@ -45,16 +43,8 @@ type AptSigning struct {
 	Passphrase string `json:"passphrase"`
 }
 
-func repositoryIOReader(repo Repository) (io.Reader, error) {
-	b, err := json.Marshal(repo)
-	if err != nil {
-		return nil, fmt.Errorf("could not marshal repository data: %v", err)
-	}
-	return bytes.NewReader(b), nil
-}
-
 func (c client) RepositoryCreate(repo Repository, format string, repoType string) error {
-	data, err := repositoryIOReader(repo)
+	data, err := jsonMarshalInterfaceToIOReader(repo)
 	if err != nil {
 		return err
 	}
