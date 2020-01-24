@@ -23,6 +23,9 @@ type Client interface {
 	RepositoryAptCreate(Repository, string) error
 	RepositoryAptUpdate(string, Repository, string) error
 	RepositoryAptDelete(string) error
+	RepositoryDockerCreate(Repository, string) error
+	RepositoryDockerUpdate(string, Repository, string) error
+	RepositoryDockerDelete(string) error
 	RepositoryCreate(Repository, string, string) error
 	RepositoryUpdate(string, Repository, string, string) error
 	RepositoryRead(string, string, string) (*Repository, error)

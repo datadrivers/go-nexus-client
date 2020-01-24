@@ -20,6 +20,9 @@ type Repository struct {
 	// Apt Repository data
 	*Apt        `json:"apt,omitempty"`
 	*AptSigning `json:"aptSigning,omitempty"`
+
+	// Docker Repository data
+	*Docker `json:"docker"`
 }
 
 // RepositoryCleanup ...
