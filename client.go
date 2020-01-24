@@ -20,9 +20,12 @@ type Client interface {
 	ContentType() string
 	ContentTypeTextPlain()
 	ContentTypeJSON()
+	RepositoryAptCreate(Repository, string) error
+	RepositoryAptUpdate(string, Repository, string) error
+	RepositoryAptDelete(string) error
 	RepositoryCreate(Repository, string, string) error
+	RepositoryUpdate(string, Repository, string, string) error
 	RepositoryRead(string, string, string) (*Repository, error)
-	RepositoryUpdate(string, Repository) error
 	RepositoryDelete(string) error
 	RoleCreate(Role) error
 	RoleRead(string) (*Role, error)
