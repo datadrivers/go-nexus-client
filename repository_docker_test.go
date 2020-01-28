@@ -13,7 +13,7 @@ func getTestRepositoryDocker(name string) Repository {
 		Cleanup: RepositoryCleanup{
 			PolicyNames: []string{"weekly-cleanup"},
 		},
-		Docker: &Docker{
+		RepositoryDocker: &RepositoryDocker{
 			V1Enabled:      false,
 			ForceBasicAuth: true,
 			HTTPPort:       8082,
@@ -22,7 +22,7 @@ func getTestRepositoryDocker(name string) Repository {
 		Storage: RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 "allow_once",
+			WritePolicy:                 "ALLOW_ONCE",
 		},
 	}
 }

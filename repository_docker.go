@@ -1,7 +1,7 @@
 package client
 
-// Docker represents the data used for Repositories of type Docker
-type Docker struct {
+// RepositoryDocker contains data of a Docker Repositoriy
+type RepositoryDocker struct {
 	V1Enabled      bool `json:"v1Enabled"`
 	ForceBasicAuth bool `json:"forceBasicAuth"`
 	HTTPPort       int  `json:"httpPort"`

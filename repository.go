@@ -24,7 +24,7 @@ type Repository struct {
 	*RepositoryAptSigning `json:"aptSigning,omitempty"`
 
 	// Docker Repository data
-	*Docker `json:"docker"`
+	*RepositoryDocker `json:"docker"`
 }
 
 // RepositoryCleanup ...
