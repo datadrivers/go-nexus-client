@@ -24,7 +24,17 @@ type Repository struct {
 	*RepositoryAptSigning `json:"aptSigning,omitempty"`
 
 	// Docker Repository data
-	*RepositoryDocker `json:"docker"`
+	*RepositoryDocker      `json:"docker"`
+	*RepositoryDockerProxy `json:"dockerProxy"`
+
+	// HTTPClient
+	*RepositoryHTTPClient `json:"httpClient"`
+
+	// Cache data for proxy Repository
+	*RepositoryNegativeCache `json:"negativeCache"`
+
+	// Proxy Repository data
+	*RepositoryProxy `json:"proxy"`
 }
 
 // RepositoryCleanup ...
@@ -37,6 +47,44 @@ type RepositoryStorage struct {
 	BlobStoreName               string `json:"blobStoreName"`
 	StrictContentTypeValidation bool   `json:"strictContentTypeValidation"`
 	WritePolicy                 string `json:"writePolicy"`
+}
+
+// RepositoryProxy contains Proxy Repository data
+type RepositoryProxy struct {
+	ContentMaxAge  int    `json:"contentMaxAge"`
+	MetadataMaxAge int    `json:"metadataMaxAge"`
+	RemoteURL      string `json:"remoteUrl"`
+}
+
+// RepositoryNegativeCache ...
+type RepositoryNegativeCache struct {
+	Enabled bool `json:"enabled"`
+	TTL     int  `json:"timeToLive"`
+}
+
+// RepositoryHTTPClient ...
+type RepositoryHTTPClient struct {
+	Authentication RepositoryHTTPClientAuthentication `json:"authentication"`
+	AutoBlock      bool                               `json:"autoBlock"`
+	Blocked        bool                               `json:"blocked"`
+	Connection     RepositoryHTTPClientConnection     `json:"connection"`
+}
+
+// RepositoryHTTPClientConnection ...
+type RepositoryHTTPClientConnection struct {
+	EnableCircularRedirects bool   `json:"enableCircularRedirects"`
+	EnableCookies           bool   `json:"enableCookies"`
+	Retries                 int    `json:"retries"`
+	Timeout                 int    `json:"timeout"`
+	UserAgentSuffic         string `json:"userAgentSuffix"`
+}
+
+// RepositoryHTTPClientAuthentication ...
+type RepositoryHTTPClientAuthentication struct {
+	NTLMDomain string `json:"ntlmDomain"`
+	NTLMHost   string `json:"ntlmHost"`
+	Type       string `json:"type"`
+	Username   string `json:"username"`
 }
 
 func (c client) RepositoryCreate(repo Repository, format string, repoType string) error {

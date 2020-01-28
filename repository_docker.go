@@ -8,6 +8,12 @@ type RepositoryDocker struct {
 	V1Enabled      bool `json:"v1Enabled"`
 }
 
+// RepositoryDockerProxy contains data of a Docker Proxy Repository
+type RepositoryDockerProxy struct {
+	IndexType string `json:"indexType"`
+	IndexURL  string `json:"indexUrl"`
+}
+
 func (c client) RepositoryDockerCreate(repo Repository, repoType string) error {
 	return c.RepositoryCreate(repo, "docker", repoType)
 }
