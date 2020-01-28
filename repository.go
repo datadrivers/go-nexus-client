@@ -57,7 +57,7 @@ func (c client) RepositoryCreate(repo Repository, format string, repoType string
 }
 
 func (c client) RepositoryRead(id string, format string, repoType string) (*Repository, error) {
-	body, resp, err := c.Get(fmt.Sprintf("%s/%s/%s/%s", repositoryAPIEndpoint, format, repoType, id), nil)
+	body, resp, err := c.Get(fmt.Sprintf("%s", repositoryAPIEndpoint), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +72,7 @@ func (c client) RepositoryRead(id string, format string, repoType string) (*Repo
 	}
 
 	for _, repo := range repositories {
-		if repo.Name == id {
+		if repo.Name == id && repo.Format == format && repo.Type == repoType {
 			return &repo, nil
 		}
 	}
