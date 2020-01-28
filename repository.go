@@ -12,16 +12,17 @@ const (
 
 // Repository ...
 type Repository struct {
-	Cleanup RepositoryCleanup `json:"cleanup"`
-	Format  string            `json:"format,omitempty"`
-	Name    string            `json:"name"`
-	Online  bool              `json:"online"`
-	Storage RepositoryStorage `json:"storage"`
-	Type    string            `json:"type,omitempty"`
+	Format string `json:"format,omitempty"`
+	Name   string `json:"name"`
+	Online bool   `json:"online"`
+	Type   string `json:"type,omitempty"`
 
 	// Apt Repository data
 	*RepositoryApt        `json:"apt,omitempty"`
 	*RepositoryAptSigning `json:"aptSigning,omitempty"`
+
+	// RepositoryCleanup data
+	*RepositoryCleanup `json:"cleanup"`
 
 	// Docker Repository data
 	*RepositoryDocker      `json:"docker"`
@@ -35,6 +36,9 @@ type Repository struct {
 
 	// Proxy Repository data
 	*RepositoryProxy `json:"proxy"`
+
+	// Repository storage data
+	*RepositoryStorage `json:"storage"`
 }
 
 // RepositoryCleanup ...

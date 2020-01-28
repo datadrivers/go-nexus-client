@@ -17,10 +17,10 @@ func getTestRepositoryApt(name string) Repository {
 		},
 		Name:   name,
 		Online: true,
-		Cleanup: RepositoryCleanup{
+		RepositoryCleanup: &RepositoryCleanup{
 			PolicyNames: []string{"weekly-cleanup"},
 		},
-		Storage: RepositoryStorage{
+		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
 			WritePolicy:                 "allow_once",
