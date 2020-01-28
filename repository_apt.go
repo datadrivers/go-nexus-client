@@ -1,12 +1,12 @@
 package client
 
-// Apt ...
-type Apt struct {
+// RepositoryApt contains the data of an Apt Repository
+type RepositoryApt struct {
 	Distribution string `json:"distribution"`
 }
 
-// AptSigning ...
-type AptSigning struct {
+// RepositoryAptSigning contains values for Apt signing
+type RepositoryAptSigning struct {
 	Keypair    string `json:"keypair"`
 	Passphrase string `json:"passphrase"`
 }

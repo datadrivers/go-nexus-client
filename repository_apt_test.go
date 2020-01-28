@@ -8,10 +8,10 @@ import (
 
 func getTestRepositoryApt(name string) Repository {
 	return Repository{
-		Apt: &Apt{
+		RepositoryApt: &RepositoryApt{
 			Distribution: "bionic",
 		},
-		AptSigning: &AptSigning{
+		RepositoryAptSigning: &RepositoryAptSigning{
 			Keypair:    "string",
 			Passphrase: "string",
 		},

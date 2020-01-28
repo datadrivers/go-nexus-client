@@ -20,8 +20,8 @@ type Repository struct {
 	Type    string            `json:"type,omitempty"`
 
 	// Apt Repository data
-	*Apt        `json:"apt,omitempty"`
-	*AptSigning `json:"aptSigning,omitempty"`
+	*RepositoryApt        `json:"apt,omitempty"`
+	*RepositoryAptSigning `json:"aptSigning,omitempty"`
 
 	// Docker Repository data
 	*Docker `json:"docker"`
