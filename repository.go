@@ -13,9 +13,11 @@ const (
 // Repository ...
 type Repository struct {
 	Cleanup RepositoryCleanup `json:"cleanup"`
+	Format  string            `json:"format,omitempty"`
 	Name    string            `json:"name"`
 	Online  bool              `json:"online"`
 	Storage RepositoryStorage `json:"storage"`
+	Type    string            `json:"type,omitempty"`
 
 	// Apt Repository data
 	*Apt        `json:"apt,omitempty"`
