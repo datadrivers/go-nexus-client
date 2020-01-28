@@ -29,7 +29,7 @@ type Client interface {
 	RepositoryDockerDelete(string) error
 	RepositoryCreate(Repository, string, string) error
 	RepositoryUpdate(string, Repository, string, string) error
-	RepositoryRead(string, string, string) (*Repository, error)
+	RepositoryRead(string) (*Repository, error)
 	RepositoryDelete(string) error
 	RoleCreate(Role) error
 	RoleRead(string) (*Role, error)

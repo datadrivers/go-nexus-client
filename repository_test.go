@@ -10,10 +10,8 @@ func TestRepositoryRead(t *testing.T) {
 	client := NewClient(getDefaultConfig())
 
 	name := "maven-central"
-	repoType := "proxy"
-	format := "maven2"
 
-	repo, err := client.RepositoryRead(name, format, repoType)
+	repo, err := client.RepositoryRead(name)
 	assert.Nil(t, err)
 	assert.NotNil(t, repo)
 

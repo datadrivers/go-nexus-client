@@ -16,7 +16,7 @@ func (c client) RepositoryAptCreate(repo Repository, repoType string) error {
 }
 
 func (c client) RepositoryAptRead(id string, repoType string) (*Repository, error) {
-	return c.RepositoryRead(id, "apt", repoType)
+	return c.RepositoryRead(id)
 }
 
 func (c client) RepositoryAptUpdate(id string, repo Repository, repoType string) error {
