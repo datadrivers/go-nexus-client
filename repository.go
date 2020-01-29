@@ -24,6 +24,9 @@ type Repository struct {
 	// RepositoryCleanup data
 	*RepositoryCleanup `json:"cleanup"`
 
+	// RepositoryBower data
+	*RepositoryBower `json:"bower"`
+
 	// Docker Repository data
 	*RepositoryDocker      `json:"docker"`
 	*RepositoryDockerProxy `json:"dockerProxy"`
