@@ -3,8 +3,8 @@ package client
 // RepositoryDocker contains data of a Docker Repositoriy
 type RepositoryDocker struct {
 	ForceBasicAuth bool `json:"forceBasicAuth"`
-	HTTPPort       *int `json:"httpPort"`
-	HTTPSPort      *int `json:"httpsPort"`
+	HTTPPort       *int `json:"httpPort,omitempty"`
+	HTTPSPort      *int `json:"httpsPort,omitempty"`
 	V1Enabled      bool `json:"v1Enabled"`
 }
 
