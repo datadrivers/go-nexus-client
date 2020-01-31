@@ -4,13 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 const (
 	blobstoreAPIEndpoint = "service/rest/beta/blobstores"
 
-	BlobstoreTypeFile = "file"
-	BlobstoreTypeS3   = "s3"
+	BlobstoreTypeFile = "File"
+	BlobstoreTypeS3   = "S3"
 )
 
 // Blobstore data
@@ -31,7 +32,21 @@ type BlobstoreSoftQuota struct {
 	Type  string `json:"type"`
 }
 
-func (c client) BlobstoreCreate(bs Blobstore, bsType string) error {
+func (c client) BlobstoreCreate(bs Blobstore) error {
+	ioReader, err := jsonMarshalInterfaceToIOReader(bs)
+	if err != nil {
+		return err
+	}
+
+	body, resp, err := c.Post(fmt.Sprintf("%s/%s", blobstoreAPIEndpoint, strings.ToLower(bs.Type)), ioReader)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusNoContent {
+		return fmt.Errorf("could not create blobstore \"%s\": HTTP: %d, %s", bs.Name, resp.StatusCode, string(body))
+	}
+
 	return nil
 }
 
@@ -42,7 +57,7 @@ func (c client) BlobstoreRead(id string) (*Blobstore, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("%s", string(body))
+		return nil, fmt.Errorf("could not read blobstores: HTTP: %d, %s", resp.StatusCode, string(body))
 	}
 
 	var blobstores []Blobstore
@@ -59,10 +74,32 @@ func (c client) BlobstoreRead(id string) (*Blobstore, error) {
 	return nil, nil
 }
 
-func (c client) BlobstoreUpdate(id string, bs Blobstore, bsType string) error {
+func (c client) BlobstoreUpdate(id string, bs Blobstore) error {
+	ioReader, err := jsonMarshalInterfaceToIOReader(bs)
+	if err != nil {
+		return err
+	}
+
+	body, resp, err := c.Put(fmt.Sprintf("%s/%s/%s", blobstoreAPIEndpoint, strings.ToLower(bs.Type), id), ioReader)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusNoContent {
+		return fmt.Errorf("could not update blobstore \"%s\": HTTP %d, %s", id, resp.StatusCode, string(body))
+	}
+
 	return nil
 }
 
 func (c client) BlobstoreDelete(id string) error {
+	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", blobstoreAPIEndpoint, id))
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusNoContent {
+		return fmt.Errorf("could not delete blobstore \"%s\": HTTP: %d, %s", id, resp.StatusCode, string(body))
+	}
 	return nil
 }
