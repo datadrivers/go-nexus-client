@@ -8,40 +8,69 @@ import (
 
 const (
 	repositoryAPIEndpoint = "service/rest/beta/repositories"
+
+	FormatApt    = "apt"
+	FormatBower  = "bower"
+	FormatDocker = "docker"
+	FormatMaven2 = "maven2"
+
+	TypeHosted = "hosted"
+	TypeGroup  = "group"
+	TypeProxy  = "proxy"
 )
 
 // Repository ...
 type Repository struct {
-	Format string `json:"format,omitempty"`
-	Name   string `json:"name"`
-	Online bool   `json:"online"`
-	Type   string `json:"type,omitempty"`
+	Format          string  `json:"format"`
+	Name            string  `json:"name"`
+	Online          bool    `json:"online"`
+	RoutingRuleName *string `json:"routingRuleName,omitempty"`
+	Type            string  `json:"type"`
 
 	// Apt Repository data
 	*RepositoryApt        `json:"apt,omitempty"`
 	*RepositoryAptSigning `json:"aptSigning,omitempty"`
 
 	// RepositoryCleanup data
-	*RepositoryCleanup `json:"cleanup"`
+	*RepositoryCleanup `json:"cleanup,omitempty"`
 
 	// RepositoryBower data
-	*RepositoryBower `json:"bower"`
+	*RepositoryBower `json:"bower,omitempty"`
 
 	// Docker Repository data
-	*RepositoryDocker      `json:"docker"`
-	*RepositoryDockerProxy `json:"dockerProxy"`
+	*RepositoryDocker      `json:"docker,omitempty"`
+	*RepositoryDockerProxy `json:"dockerProxy,omitempty"`
+
+	// Group data
+	*RepositoryGroup `json:"group,omitempty"`
 
 	// HTTPClient
-	*RepositoryHTTPClient `json:"httpClient"`
+	*RepositoryHTTPClient `json:"httpClient,omitempty"`
 
 	// Cache data for proxy Repository
-	*RepositoryNegativeCache `json:"negativeCache"`
+	*RepositoryNegativeCache `json:"negativeCache,omitempty"`
 
 	// Proxy Repository data
-	*RepositoryProxy `json:"proxy"`
+	*RepositoryProxy `json:"proxy,omitempty"`
 
 	// Repository storage data
 	*RepositoryStorage `json:"storage"`
+}
+
+// RepositoryApt contains the data of an Apt Repository
+type RepositoryApt struct {
+	Distribution string `json:"distribution"`
+}
+
+// RepositoryAptSigning contains values for Apt signing
+type RepositoryAptSigning struct {
+	Keypair    string `json:"keypair"`
+	Passphrase string `json:"passphrase"`
+}
+
+// RepositoryBower contains data of bower repositories
+type RepositoryBower struct {
+	RewritePackageUrls bool `json:"rewritePackageUrls"`
 }
 
 // RepositoryCleanup ...
@@ -49,24 +78,23 @@ type RepositoryCleanup struct {
 	PolicyNames []string `json:"policyNames"`
 }
 
-// RepositoryStorage ...
-type RepositoryStorage struct {
-	BlobStoreName               string `json:"blobStoreName"`
-	StrictContentTypeValidation bool   `json:"strictContentTypeValidation"`
-	WritePolicy                 string `json:"writePolicy"`
+// RepositoryDocker contains data of a Docker Repositoriy
+type RepositoryDocker struct {
+	ForceBasicAuth bool `json:"forceBasicAuth"`
+	HTTPPort       *int `json:"httpPort"`
+	HTTPSPort      *int `json:"httpsPort"`
+	V1Enabled      bool `json:"v1Enabled"`
 }
 
-// RepositoryProxy contains Proxy Repository data
-type RepositoryProxy struct {
-	ContentMaxAge  int    `json:"contentMaxAge"`
-	MetadataMaxAge int    `json:"metadataMaxAge"`
-	RemoteURL      string `json:"remoteUrl"`
+// RepositoryDockerProxy contains data of a Docker Proxy Repository
+type RepositoryDockerProxy struct {
+	IndexType string `json:"indexType"`
+	IndexURL  string `json:"indexUrl"`
 }
 
-// RepositoryNegativeCache ...
-type RepositoryNegativeCache struct {
-	Enabled bool `json:"enabled"`
-	TTL     int  `json:"timeToLive"`
+// RepositoryGroup contains repository group configuration data
+type RepositoryGroup struct {
+	MemberNames []string `json:"memberNames,omitempty"`
 }
 
 // RepositoryHTTPClient ...
@@ -79,11 +107,11 @@ type RepositoryHTTPClient struct {
 
 // RepositoryHTTPClientConnection ...
 type RepositoryHTTPClientConnection struct {
-	EnableCircularRedirects bool   `json:"enableCircularRedirects"`
-	EnableCookies           bool   `json:"enableCookies"`
-	Retries                 int    `json:"retries"`
-	Timeout                 int    `json:"timeout"`
-	UserAgentSuffic         string `json:"userAgentSuffix"`
+	EnableCircularRedirects bool    `json:"enableCircularRedirects"`
+	EnableCookies           bool    `json:"enableCookies"`
+	Retries                 *int    `json:"retries"`
+	Timeout                 *int    `json:"timeout"`
+	UserAgentSuffic         *string `json:"userAgentSuffix"`
 }
 
 // RepositoryHTTPClientAuthentication ...
@@ -92,6 +120,32 @@ type RepositoryHTTPClientAuthentication struct {
 	NTLMHost   string `json:"ntlmHost"`
 	Type       string `json:"type"`
 	Username   string `json:"username"`
+}
+
+// RepositoryMaven contains additional data of maven repository
+type RepositoryMaven struct {
+	VersionPolicy string `json:"versionPolicy"`
+	LayoutPolicy  string `json:"layoutPolicy"`
+}
+
+// RepositoryNegativeCache ...
+type RepositoryNegativeCache struct {
+	Enabled bool `json:"enabled"`
+	TTL     int  `json:"timeToLive"`
+}
+
+// RepositoryProxy contains Proxy Repository data
+type RepositoryProxy struct {
+	ContentMaxAge  int    `json:"contentMaxAge"`
+	MetadataMaxAge int    `json:"metadataMaxAge"`
+	RemoteURL      string `json:"remoteUrl"`
+}
+
+// RepositoryStorage contains repository storage
+type RepositoryStorage struct {
+	BlobStoreName               string `json:"blobStoreName"`
+	StrictContentTypeValidation bool   `json:"strictContentTypeValidation"`
+	WritePolicy                 string `json:"writePolicy,omitempty"`
 }
 
 func (c client) RepositoryCreate(repo Repository, format string, repoType string) error {
