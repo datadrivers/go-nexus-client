@@ -148,6 +148,14 @@ type RepositoryStorage struct {
 	WritePolicy                 string `json:"writePolicy,omitempty"`
 }
 
+func jsonUnmarshalRepositories(data []byte) ([]Repository, error) {
+	var repositories []Repository
+	if err := json.Unmarshal(data, &repositories); err != nil {
+		return nil, fmt.Errorf("could not unmarshal repositories: %v", err)
+	}
+	return repositories, nil
+}
+
 func (c client) RepositoryCreate(repo Repository, format string, repoType string) error {
 	data, err := jsonMarshalInterfaceToIOReader(repo)
 	if err != nil {
@@ -175,9 +183,9 @@ func (c client) RepositoryRead(id string) (*Repository, error) {
 		return nil, fmt.Errorf("could not read repository '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
 	}
 
-	var repositories []Repository
-	if err := json.Unmarshal(body, &repositories); err != nil {
-		return nil, fmt.Errorf("could not unmarshal repositories: %v", err)
+	repositories, err := jsonUnmarshalRepositories(body)
+	if err != nil {
+		return nil, err
 	}
 
 	for _, repo := range repositories {
