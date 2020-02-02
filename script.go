@@ -17,7 +17,7 @@ type Script struct {
 	Type    string `json:"type"`
 }
 
-func (c *client) ScriptLists() (*[]Script, error) {
+func (c *client) ScriptLists() ([]Script, error) {
 	body, resp, err := c.Get(scriptsAPIEndpoint, nil)
 	if err != nil {
 		return nil, err
@@ -28,10 +28,10 @@ func (c *client) ScriptLists() (*[]Script, error) {
 	}
 
 	var scripts []Script
-	if err := json.Unmarshal(body, &scripts); err != nil {
+	if err := json.Unmarshal(body, scripts); err != nil {
 		return nil, fmt.Errorf("could not unmarschal scripts: %v", err)
 	}
-	return &scripts, nil
+	return scripts, nil
 }
 
 func (c *client) ScriptRead(name string) (*Script, error) {
