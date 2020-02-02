@@ -28,7 +28,7 @@ func (c *client) ScriptLists() ([]Script, error) {
 	}
 
 	var scripts []Script
-	if err := json.Unmarshal(body, scripts); err != nil {
+	if err := json.Unmarshal(body, &scripts); err != nil {
 		return nil, fmt.Errorf("could not unmarschal scripts: %v", err)
 	}
 	return scripts, nil
