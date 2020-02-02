@@ -71,7 +71,7 @@ func TestScriptList(t *testing.T) {
 			Type:    "groovy",
 		},
 	}
-	assert.Equal(t, &expectedScripts, scripts)
+	assert.Equal(t, expectedScripts, scripts)
 }
 
 func TestScriptRead(t *testing.T) {

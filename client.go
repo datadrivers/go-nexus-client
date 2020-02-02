@@ -33,7 +33,7 @@ type Client interface {
 	UserUpdate(string, User) error
 	UserDelete(string) error
 	UserChangePassword(string, string) error
-	ScriptLists() (*[]Script, error)
+	ScriptLists() ([]Script, error)
 	ScriptRead(string) (*Script, error)
 	ScriptCreate(*Script) error
 	ScriptUpdate(*Script) error
