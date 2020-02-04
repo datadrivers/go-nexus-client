@@ -47,6 +47,9 @@ type Repository struct {
 	// HTTPClient
 	*RepositoryHTTPClient `json:"httpClient,omitempty"`
 
+	// Maven Reporitoy data
+	*RepositoryMaven `json:"maven,omitempty"`
+
 	// Cache data for proxy Repository
 	*RepositoryNegativeCache `json:"negativeCache,omitempty"`
 

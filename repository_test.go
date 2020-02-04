@@ -199,3 +199,15 @@ func TestRepositoryDockerHostedWithoutPorts(t *testing.T) {
 	err = client.RepositoryDelete(repo.Name)
 	assert.Nil(t, err)
 }
+
+func TestRepositoryMavenRead(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+
+	repoName := "maven-public"
+
+	repo, err := client.RepositoryRead(repoName)
+	assert.Nil(t, err)
+	assert.NotNil(t, repo)
+	assert.NotNil(t, repo.RepositoryGroup)
+	assert.Greater(t, len(repo.RepositoryGroup.MemberNames), 0)
+}
