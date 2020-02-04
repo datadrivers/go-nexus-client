@@ -9,14 +9,14 @@ import (
 const (
 	repositoryAPIEndpoint = "service/rest/beta/repositories"
 
-	FormatApt    = "apt"
-	FormatBower  = "bower"
-	FormatDocker = "docker"
-	FormatMaven2 = "maven2"
+	RepositoryFormatApt    = "apt"
+	RepositoryFormatBower  = "bower"
+	RepositoryFormatDocker = "docker"
+	RepositoryFormatMaven2 = "maven2"
 
-	TypeHosted = "hosted"
-	TypeGroup  = "group"
-	TypeProxy  = "proxy"
+	RepositoryTypeHosted = "hosted"
+	RepositoryTypeGroup  = "group"
+	RepositoryTypeProxy  = "proxy"
 )
 
 // Repository ...
@@ -91,8 +91,8 @@ type RepositoryDocker struct {
 
 // RepositoryDockerProxy contains data of a Docker Proxy Repository
 type RepositoryDockerProxy struct {
-	IndexType string `json:"indexType"`
-	IndexURL  string `json:"indexUrl"`
+	IndexType string  `json:"indexType"`
+	IndexURL  *string `json:"indexUrl,omitempty"`
 }
 
 // RepositoryGroup contains repository group configuration data
@@ -146,9 +146,9 @@ type RepositoryProxy struct {
 
 // RepositoryStorage contains repository storage
 type RepositoryStorage struct {
-	BlobStoreName               string `json:"blobStoreName"`
-	StrictContentTypeValidation bool   `json:"strictContentTypeValidation"`
-	WritePolicy                 string `json:"writePolicy,omitempty"`
+	BlobStoreName               string  `json:"blobStoreName"`
+	StrictContentTypeValidation bool    `json:"strictContentTypeValidation"`
+	WritePolicy                 *string `json:"writePolicy,omitempty"`
 }
 
 func jsonUnmarshalRepositories(data []byte) ([]Repository, error) {
@@ -159,13 +159,13 @@ func jsonUnmarshalRepositories(data []byte) ([]Repository, error) {
 	return repositories, nil
 }
 
-func (c client) RepositoryCreate(repo Repository, format string, repoType string) error {
+func (c client) RepositoryCreate(repo Repository) error {
 	data, err := jsonMarshalInterfaceToIOReader(repo)
 	if err != nil {
 		return err
 	}
 
-	body, resp, err := c.Post(fmt.Sprintf("%s/%s/%s", repositoryAPIEndpoint, format, repoType), data)
+	body, resp, err := c.Post(fmt.Sprintf("%s/%s/%s", repositoryAPIEndpoint, repo.Format, repo.Type), data)
 	if err != nil {
 		return err
 	}
@@ -200,13 +200,13 @@ func (c client) RepositoryRead(id string) (*Repository, error) {
 	return nil, nil
 }
 
-func (c client) RepositoryUpdate(id string, repo Repository, format string, repoType string) error {
+func (c client) RepositoryUpdate(id string, repo Repository) error {
 	data, err := jsonMarshalInterfaceToIOReader(repo)
 	if err != nil {
 		return err
 	}
 
-	body, resp, err := c.Put(fmt.Sprintf("%s/%s/%s/%s", repositoryAPIEndpoint, format, repoType, id), data)
+	body, resp, err := c.Put(fmt.Sprintf("%s/%s/%s/%s", repositoryAPIEndpoint, repo.Format, repo.Type, id), data)
 	if err != nil {
 		return err
 	}
