@@ -31,8 +31,8 @@ func TestJSONUnmarshalRepositories(t *testing.T) {
 	assert.Equal(t, 1, len(repositories))
 
 	repo := repositories[0]
-	assert.Equal(t, repo.Format, FormatMaven2)
-	assert.Equal(t, repo.Type, TypeProxy)
+	assert.Equal(t, repo.Format, RepositoryFormatMaven2)
+	assert.Equal(t, repo.Type, RepositoryTypeProxy)
 	assert.Nil(t, repo.RepositoryDocker)
 	assert.NotNil(t, repo.RepositoryHTTPClient)
 }
@@ -82,8 +82,15 @@ func testJSONUnmarshalRepositories() string {
 	}]`)
 }
 
-func getTestRepositoryApt(name string) Repository {
+func getTestRepositoryAptHosted(name string) Repository {
+	writePolicy := "ALLOW_ONCE"
+
 	return Repository{
+		Name:   name,
+		Online: true,
+		Type:   RepositoryTypeHosted,
+		Format: RepositoryFormatApt,
+
 		RepositoryApt: &RepositoryApt{
 			Distribution: "bionic",
 		},
@@ -91,45 +98,46 @@ func getTestRepositoryApt(name string) Repository {
 			Keypair:    "string",
 			Passphrase: "string",
 		},
-		Name:   name,
-		Online: true,
 		RepositoryCleanup: &RepositoryCleanup{
 			PolicyNames: []string{"weekly-cleanup"},
 		},
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 "allow_once",
+			WritePolicy:                 &writePolicy,
 		},
 	}
 }
 
 func TestRepositoryAptHosted(t *testing.T) {
 	client := NewClient(getDefaultConfig())
-	repo := getTestRepositoryApt("test-apt-repo-hosted")
+	repo := getTestRepositoryAptHosted("test-apt-repo-hosted")
 
-	err := client.RepositoryCreate(repo, FormatApt, TypeHosted)
+	err := client.RepositoryCreate(repo)
 	assert.Nil(t, err)
 
 	updatedRepo := repo
 	updatedRepo.Online = false
 
-	err = client.RepositoryUpdate(repo.Name, updatedRepo, FormatApt, TypeHosted)
+	err = client.RepositoryUpdate(repo.Name, updatedRepo)
 	assert.Nil(t, err)
 
 	err = client.RepositoryDelete(repo.Name)
 	assert.Nil(t, err)
 }
 
-func getTestRepositoryDockerWithPorts(name string) Repository {
+func getTestRepositoryDockerHostedWithPorts(name string) Repository {
 	httpPort := new(int)
 	httpsPort := new(int)
 	*httpPort = 8082
 	*httpsPort = 8083
+	writePolicy := "ALLOW_ONCE"
 
 	return Repository{
 		Name:   name,
 		Online: true,
+		Format: RepositoryFormatDocker,
+		Type:   RepositoryTypeHosted,
 		RepositoryCleanup: &RepositoryCleanup{
 			PolicyNames: []string{"weekly-cleanup"},
 		},
@@ -142,32 +150,36 @@ func getTestRepositoryDockerWithPorts(name string) Repository {
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 "ALLOW_ONCE",
+			WritePolicy:                 &writePolicy,
 		},
 	}
 }
 
 func TestRepositoryDockerHostedWithPorts(t *testing.T) {
 	client := NewClient(getDefaultConfig())
-	repo := getTestRepositoryDockerWithPorts("test-docker-repo-hosted-with-ports")
+	repo := getTestRepositoryDockerHostedWithPorts("test-docker-repo-hosted-with-ports")
 
-	err := client.RepositoryCreate(repo, FormatDocker, TypeHosted)
+	err := client.RepositoryCreate(repo)
 	assert.Nil(t, err)
 
 	updatedRepo := repo
 	updatedRepo.Online = false
 
-	err = client.RepositoryUpdate(repo.Name, updatedRepo, FormatBower, TypeHosted)
+	err = client.RepositoryUpdate(repo.Name, updatedRepo)
 	assert.Nil(t, err)
 
 	err = client.RepositoryDelete(repo.Name)
 	assert.Nil(t, err)
 }
 
-func getTestRepositoryDockerWithoutPorts(name string) Repository {
+func getTestRepositoryDockerHostedWithoutPorts(name string) Repository {
+	writePolicy := "ALLOW_ONCE"
+
 	return Repository{
 		Name:   name,
 		Online: true,
+		Format: RepositoryFormatDocker,
+		Type:   RepositoryTypeHosted,
 		RepositoryCleanup: &RepositoryCleanup{
 			PolicyNames: []string{"weekly-cleanup"},
 		},
@@ -178,22 +190,22 @@ func getTestRepositoryDockerWithoutPorts(name string) Repository {
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 "ALLOW_ONCE",
+			WritePolicy:                 &writePolicy,
 		},
 	}
 }
 
 func TestRepositoryDockerHostedWithoutPorts(t *testing.T) {
 	client := NewClient(getDefaultConfig())
-	repo := getTestRepositoryDockerWithoutPorts("test-docker-repo-hosted-with-ports")
+	repo := getTestRepositoryDockerHostedWithoutPorts("test-docker-repo-hosted-with-ports")
 
-	err := client.RepositoryCreate(repo, FormatDocker, TypeHosted)
+	err := client.RepositoryCreate(repo)
 	assert.Nil(t, err)
 
 	updatedRepo := repo
 	updatedRepo.Online = false
 
-	err = client.RepositoryUpdate(repo.Name, updatedRepo, FormatDocker, TypeHosted)
+	err = client.RepositoryUpdate(repo.Name, updatedRepo)
 	assert.Nil(t, err)
 
 	err = client.RepositoryDelete(repo.Name)
@@ -210,4 +222,56 @@ func TestRepositoryMavenRead(t *testing.T) {
 	assert.NotNil(t, repo)
 	assert.NotNil(t, repo.RepositoryGroup)
 	assert.Greater(t, len(repo.RepositoryGroup.MemberNames), 0)
+}
+
+func TestRepositoryDockerProxy(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+	repo := getTestRepositoryDockerProxy("test-docker-repo-proxy")
+
+	err := client.RepositoryCreate(repo)
+	assert.Nil(t, err)
+
+	createdRepo, err := client.RepositoryRead(repo.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, createdRepo)
+
+	if createdRepo != nil {
+		assert.Equal(t, repo.Name, createdRepo.Name)
+		assert.Equal(t, repo.Type, createdRepo.Type)
+		assert.Equal(t, repo.Format, createdRepo.Format)
+
+		err := client.RepositoryDelete(repo.Name)
+		assert.Nil(t, err)
+	}
+}
+
+func getTestRepositoryDockerProxy(name string) Repository {
+	return Repository{
+		Name:   name,
+		Online: true,
+		Type:   RepositoryTypeProxy,
+		Format: RepositoryFormatDocker,
+		RepositoryCleanup: &RepositoryCleanup{
+			PolicyNames: []string{"weekly-cleanup"},
+		},
+		RepositoryDocker: &RepositoryDocker{
+			V1Enabled:      false,
+			ForceBasicAuth: true,
+		},
+		RepositoryDockerProxy: &RepositoryDockerProxy{
+			IndexType: "HUB",
+		},
+		RepositoryHTTPClient: &RepositoryHTTPClient{
+			Authentication: RepositoryHTTPClientAuthentication{
+				Type: "username",
+			},
+		},
+		RepositoryNegativeCache: &RepositoryNegativeCache{},
+		RepositoryProxy: &RepositoryProxy{
+			RemoteURL: "https://registry-1.docker.io",
+		},
+		RepositoryStorage: &RepositoryStorage{
+			BlobStoreName: "default",
+		},
+	}
 }
