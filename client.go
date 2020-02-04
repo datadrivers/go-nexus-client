@@ -20,6 +20,10 @@ type Client interface {
 	ContentType() string
 	ContentTypeTextPlain()
 	ContentTypeJSON()
+	BlobstoreCreate(Blobstore) error
+	BlobstoreRead(string) (*Blobstore, error)
+	BlobstoreUpdate(string, Blobstore) error
+	BlobstoreDelete(string) error
 	RepositoryCreate(Repository, string, string) error
 	RepositoryUpdate(string, Repository, string, string) error
 	RepositoryRead(string) (*Repository, error)
