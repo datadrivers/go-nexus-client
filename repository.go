@@ -159,13 +159,25 @@ func jsonUnmarshalRepositories(data []byte) ([]Repository, error) {
 	return repositories, nil
 }
 
+func repoFormatToEndpointFormat(repoFormat string) string {
+	mappings := map[string]string{
+		RepositoryFormatMaven2: "maven",
+	}
+
+	if mapping, ok := mappings[repoFormat]; ok {
+		return mapping
+	}
+
+	return repoFormat
+}
+
 func (c client) RepositoryCreate(repo Repository) error {
 	data, err := jsonMarshalInterfaceToIOReader(repo)
 	if err != nil {
 		return err
 	}
 
-	body, resp, err := c.Post(fmt.Sprintf("%s/%s/%s", repositoryAPIEndpoint, repo.Format, repo.Type), data)
+	body, resp, err := c.Post(fmt.Sprintf("%s/%s/%s", repositoryAPIEndpoint, repoFormatToEndpointFormat(repo.Format), repo.Type), data)
 	if err != nil {
 		return err
 	}
@@ -206,7 +218,7 @@ func (c client) RepositoryUpdate(id string, repo Repository) error {
 		return err
 	}
 
-	body, resp, err := c.Put(fmt.Sprintf("%s/%s/%s/%s", repositoryAPIEndpoint, repo.Format, repo.Type, id), data)
+	body, resp, err := c.Put(fmt.Sprintf("%s/%s/%s/%s", repositoryAPIEndpoint, repoFormatToEndpointFormat(repo.Format), repo.Type, id), data)
 	if err != nil {
 		return err
 	}
