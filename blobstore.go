@@ -23,13 +23,51 @@ type Blobstore struct {
 	TotalSizeInBytes      int    `json:"totalSizeInBytes"`
 	Type                  string `json:"type"`
 
-	*BlobstoreSoftQuota `json:"softQuota,omitempty"`
+	*BlobstoreS3BucketConfiguration `json:"bucketConfiguration,omitempty"`
+	*BlobstoreSoftQuota             `json:"softQuota,omitempty"`
 }
 
 // BlobstoreSoftQuota data
 type BlobstoreSoftQuota struct {
 	Limit int    `json:"limit"`
 	Type  string `json:"type"`
+}
+
+// BlobstoreS3BucketConfiguration data
+type BlobstoreS3BucketConfiguration struct {
+	*BlobstoreS3Bucket                   `json:"bucket,omitempty"`
+	*BlobstoreS3Encryption               `json:"encryption,omitempty"`
+	*BlobstoreS3BucketSecurity           `json:"bucketSecurity,omitempty"`
+	*BlobstoreS3AdvancedBucketConnection `json:"advancedBucketConnection,omitempty"`
+}
+
+// BlobstoreS3Bucket data
+type BlobstoreS3Bucket struct {
+	Expiration int    `json:"expiration"`
+	Name       string `json:"name"`
+	Prefix     string `json:"prefix"`
+	Region     string `json:"region"`
+}
+
+// BlobstoreS3Encryption data
+type BlobstoreS3Encryption struct {
+	Key  string `json:"encryptionKey"`
+	Type string `json:"encryptionType"`
+}
+
+// BlobstoreS3BucketSecurity data
+type BlobstoreS3BucketSecurity struct {
+	AccessKeyID     string `json:"accessKeyId"`
+	Role            string `json:"role"`
+	SecretAccessKey string `json:"secretAccessKey"`
+	SessionToken    string `json:"sessionToken"`
+}
+
+// BlobstoreS3AdvancedBucketConnection data
+type BlobstoreS3AdvancedBucketConnection struct {
+	Endpoint       string `json:"endpoint"`
+	SignerType     string `json:"signerType"`
+	ForcePathStyle bool   `json:"forcePathStyle"`
 }
 
 func (c client) BlobstoreCreate(bs Blobstore) error {
