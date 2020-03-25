@@ -19,7 +19,7 @@ type Blobstore struct {
 	AvailableSpaceInBytes int    `json:"availableSpaceInBytes"`
 	BlobCount             int    `json:"blobCount"`
 	Name                  string `json:"name"`
-	Path                  string `json:"path"`
+	Path                  string `json:"path"` // only if type File
 	TotalSizeInBytes      int    `json:"totalSizeInBytes"`
 	Type                  string `json:"type"`
 
@@ -105,7 +105,21 @@ func (c client) BlobstoreRead(id string) (*Blobstore, error) {
 
 	for _, bs := range blobstores {
 		if bs.Name == id {
-			return c.BlobstoreReadDetails(id, bs.Type)
+			bsDetailed, err := c.BlobstoreReadDetails(id, bs.Type)
+			if err != nil {
+				return nil, err
+			}
+
+			switch bs.Type {
+			case BlobstoreTypeFile:
+				bs.Path = bsDetailed.Path
+			case BlobstoreTypeS3:
+				bs.BlobstoreS3AdvancedBucketConnection = bsDetailed.BlobstoreS3AdvancedBucketConnection
+				bs.BlobstoreS3Bucket = bsDetailed.BlobstoreS3Bucket
+				bs.BlobstoreS3BucketSecurity = bsDetailed.BlobstoreS3BucketSecurity
+				bs.BlobstoreS3Encryption = bsDetailed.BlobstoreS3Encryption
+			}
+			return &bs, nil
 		}
 	}
 
@@ -152,7 +166,7 @@ func (c client) BlobstoreReadDetails(id string, bsType string) (*Blobstore, erro
 		return nil, fmt.Errorf("could not read blobstore \"%s\" of type \"%s\": HTTP: %d, %s", id, bsType, resp.StatusCode, string(body))
 	}
 
-	var blobstore *Blobstore
+	blobstore := &Blobstore{}
 	if err := json.Unmarshal(body, blobstore); err != nil {
 		return nil, fmt.Errorf("could not unmarshal details of blobstore \"%s\": %v", id, err)
 	}
