@@ -81,7 +81,7 @@ func (c client) BlobstoreCreate(bs Blobstore) error {
 		return err
 	}
 
-	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
+	if resp.StatusCode != http.StatusNoContent && resp.StatusCode != http.StatusCreated {
 		return fmt.Errorf("could not create blobstore \"%s\": HTTP: %d, %s", bs.Name, resp.StatusCode, string(body))
 	}
 
@@ -100,12 +100,12 @@ func (c client) BlobstoreRead(id string) (*Blobstore, error) {
 
 	var blobstores []Blobstore
 	if err := json.Unmarshal(body, &blobstores); err != nil {
-		return nil, fmt.Errorf("could not unmarshal blobstore: %v", err)
+		return nil, fmt.Errorf("could not unmarshal blobstore \"%s\": %v", id, err)
 	}
 
 	for _, bs := range blobstores {
 		if bs.Name == id {
-			return &bs, nil
+			return c.BlobstoreReadDetails(id, bs.Type)
 		}
 	}
 
@@ -140,4 +140,22 @@ func (c client) BlobstoreDelete(id string) error {
 		return fmt.Errorf("could not delete blobstore \"%s\": HTTP: %d, %s", id, resp.StatusCode, string(body))
 	}
 	return nil
+}
+
+func (c client) BlobstoreReadDetails(id string, bsType string) (*Blobstore, error) {
+	body, resp, err := c.Get(fmt.Sprintf("%s/%s/%s", blobstoreAPIEndpoint, strings.ToLower(bsType), id), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("could not read blobstore \"%s\" of type \"%s\": HTTP: %d, %s", id, bsType, resp.StatusCode, string(body))
+	}
+
+	var blobstore *Blobstore
+	if err := json.Unmarshal(body, blobstore); err != nil {
+		return nil, fmt.Errorf("could not unmarshal details of blobstore \"%s\": %v", id, err)
+	}
+
+	return blobstore, nil
 }
