@@ -81,7 +81,7 @@ func (c client) BlobstoreCreate(bs Blobstore) error {
 		return err
 	}
 
-	if resp.StatusCode != http.StatusNoContent && resp.StatusCode != http.StatusCreated {
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
 		return fmt.Errorf("could not create blobstore \"%s\": HTTP: %d, %s", bs.Name, resp.StatusCode, string(body))
 	}
 
