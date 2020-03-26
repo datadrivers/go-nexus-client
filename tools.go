@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
 )
 
 func jsonMarshalInterfaceToIOReader(data interface{}) (io.Reader, error) {
@@ -14,4 +15,11 @@ func jsonMarshalInterfaceToIOReader(data interface{}) (io.Reader, error) {
 	}
 
 	return bytes.NewReader(b), nil
+}
+
+func getEnv(key, fallback string) string {
+	if value, exists := os.LookupEnv(key); exists {
+		return value
+	}
+	return fallback
 }

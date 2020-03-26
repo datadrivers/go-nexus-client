@@ -1,19 +1,10 @@
 package client
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
-
-func getEnv(key, fallback string) string {
-	value, exist := os.LookupEnv(key)
-	if !exist {
-		return fallback
-	}
-	return value
-}
 
 func getDefaultConfig() Config {
 	return Config{
