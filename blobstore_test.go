@@ -62,3 +62,36 @@ func TestBlobstoreRead(t *testing.T) {
 		assert.Equal(t, bsName, bs.Name)
 	}
 }
+
+func TestBlobstoreS3(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+
+	bsName := "test-blobstore-s3"
+	bsType := BlobstoreTypeS3
+
+	bs := Blobstore{
+		Name: bsName,
+		Type: bsType,
+		BlobstoreS3BucketConfiguration: &BlobstoreS3BucketConfiguration{
+			BlobstoreS3Bucket: &BlobstoreS3Bucket{
+				Name:   getEnv("AWS_BUCKET_NAME", "terraform-provider-nexus-s3-test"),
+				Region: getEnv("AWS_DEFAULT_REGION", "us-central-1"),
+			},
+			BlobstoreS3BucketSecurity: &BlobstoreS3BucketSecurity{
+				AccessKeyID:     getEnv("AWS_ACCESS_KEY_ID", "AWS_ACCESS_KEY_ID must be set"),
+				SecretAccessKey: getEnv("AWS_SECRET_ACCESS_KEY", "AWS_SECRET_ACCESS_KEY must be set"),
+			},
+		},
+	}
+
+	err := client.BlobstoreCreate(bs)
+	assert.Nil(t, err)
+
+	s3BS, err := client.BlobstoreRead(bs.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, s3BS)
+	assert.Equal(t, BlobstoreTypeS3, s3BS.Type)
+
+	err = client.BlobstoreDelete(bs.Name)
+	assert.Nil(t, err)
+}

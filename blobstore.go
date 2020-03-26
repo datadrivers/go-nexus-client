@@ -19,7 +19,7 @@ type Blobstore struct {
 	AvailableSpaceInBytes int    `json:"availableSpaceInBytes"`
 	BlobCount             int    `json:"blobCount"`
 	Name                  string `json:"name"`
-	Path                  string `json:"path"` // only if type File
+	Path                  string `json:"path,omitempty"` // only if type File
 	TotalSizeInBytes      int    `json:"totalSizeInBytes"`
 	Type                  string `json:"type"`
 
@@ -114,10 +114,12 @@ func (c client) BlobstoreRead(id string) (*Blobstore, error) {
 			case BlobstoreTypeFile:
 				bs.Path = bsDetailed.Path
 			case BlobstoreTypeS3:
-				bs.BlobstoreS3AdvancedBucketConnection = bsDetailed.BlobstoreS3AdvancedBucketConnection
-				bs.BlobstoreS3Bucket = bsDetailed.BlobstoreS3Bucket
-				bs.BlobstoreS3BucketSecurity = bsDetailed.BlobstoreS3BucketSecurity
-				bs.BlobstoreS3Encryption = bsDetailed.BlobstoreS3Encryption
+				bs.BlobstoreS3BucketConfiguration = &BlobstoreS3BucketConfiguration{
+					BlobstoreS3AdvancedBucketConnection: bsDetailed.BlobstoreS3AdvancedBucketConnection,
+					BlobstoreS3Bucket:                   bsDetailed.BlobstoreS3Bucket,
+					BlobstoreS3BucketSecurity:           bsDetailed.BlobstoreS3BucketSecurity,
+					BlobstoreS3Encryption:               bsDetailed.BlobstoreS3Encryption,
+				}
 			}
 			return &bs, nil
 		}
