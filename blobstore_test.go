@@ -25,8 +25,7 @@ func TestBlobstoreFile(t *testing.T) {
 	bsCreated, err := client.BlobstoreRead(bs.Name)
 	assert.Nil(t, err)
 	assert.NotNil(t, bsCreated)
-	// Path not returned by API, not possible to test :-/
-	// assert.Equal(t, bsPath, bsCreated.Path)
+	assert.Equal(t, bsPath, bsCreated.Path)
 	assert.Equal(t, bsType, bsCreated.Type)
 	assert.Equal(t, 0, bsCreated.BlobCount)
 	assert.Nil(t, bsCreated.BlobstoreSoftQuota)
@@ -91,6 +90,9 @@ func TestBlobstoreS3(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, s3BS)
 	assert.Equal(t, BlobstoreTypeS3, s3BS.Type)
+	assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration)
+	assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration.BlobstoreS3Bucket)
+	assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration.BlobstoreS3BucketSecurity)
 
 	err = client.BlobstoreDelete(bs.Name)
 	assert.Nil(t, err)
