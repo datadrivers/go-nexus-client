@@ -110,18 +110,15 @@ func (c client) BlobstoreRead(id string) (*Blobstore, error) {
 				return nil, err
 			}
 
-			switch bs.Type {
-			case BlobstoreTypeFile:
-				bs.Path = bsDetailed.Path
-			case BlobstoreTypeS3:
-				bs.BlobstoreS3BucketConfiguration = &BlobstoreS3BucketConfiguration{
-					BlobstoreS3AdvancedBucketConnection: bsDetailed.BlobstoreS3AdvancedBucketConnection,
-					BlobstoreS3Bucket:                   bsDetailed.BlobstoreS3Bucket,
-					BlobstoreS3BucketSecurity:           bsDetailed.BlobstoreS3BucketSecurity,
-					BlobstoreS3Encryption:               bsDetailed.BlobstoreS3Encryption,
-				}
-			}
-			return &bs, nil
+			bsDetailed.Name = bs.Name
+			bsDetailed.Type = bs.Type
+			bsDetailed.BlobCount = bs.BlobCount
+			bsDetailed.TotalSizeInBytes = bs.TotalSizeInBytes
+			bsDetailed.AvailableSpaceInBytes = bs.AvailableSpaceInBytes
+
+			bs.Name = bsDetailed.Name
+
+			return bsDetailed, nil
 		}
 	}
 
