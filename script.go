@@ -86,7 +86,7 @@ func (c *client) ScriptUpdate(script *Script) error {
 }
 
 func (c *client) ScriptDelete(name string) error {
-	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", scriptsAPIEndpoint, name))
+	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", scriptsAPIEndpoint, name), nil)
 	if err != nil {
 		return err
 	}

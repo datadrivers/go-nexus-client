@@ -91,7 +91,7 @@ func (c *client) RoleUpdate(id string, role Role) error {
 }
 
 func (c *client) RoleDelete(id string) error {
-	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", rolesAPIEndpoint, id))
+	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", rolesAPIEndpoint, id), nil)
 	if err != nil {
 		return err
 	}

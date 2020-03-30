@@ -97,7 +97,7 @@ func (c *client) UserUpdate(id string, user User) error {
 }
 
 func (c *client) UserDelete(id string) error {
-	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", usersAPIEndpoint, id))
+	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", usersAPIEndpoint, id), nil)
 	if err != nil {
 		return err
 	}

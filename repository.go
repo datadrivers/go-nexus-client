@@ -231,7 +231,7 @@ func (c client) RepositoryUpdate(id string, repo Repository) error {
 }
 
 func (c client) RepositoryDelete(id string) error {
-	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", repositoryAPIEndpoint, id))
+	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", repositoryAPIEndpoint, id), nil)
 	if err != nil {
 		return err
 	}

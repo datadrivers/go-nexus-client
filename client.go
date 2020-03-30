@@ -22,6 +22,7 @@ type Client interface {
 	ContentTypeJSON()
 	BlobstoreCreate(Blobstore) error
 	BlobstoreRead(string) (*Blobstore, error)
+	BlobstoreReadSpecified(Blobstore) (*Blobstore, error)
 	BlobstoreUpdate(string, Blobstore) error
 	BlobstoreDelete(string) error
 	RepositoryCreate(Repository) error
@@ -125,6 +126,20 @@ func (c *client) Put(endpoint string, payload io.Reader) ([]byte, *http.Response
 	return c.execute(http.MethodPut, endpoint, payload)
 }
 
-func (c *client) Delete(endpoint string) ([]byte, *http.Response, error) {
-	return c.execute(http.MethodDelete, endpoint, nil)
+func (c *client) Delete(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
+	return c.execute(http.MethodDelete, endpoint, payload)
+}
+
+func (c *client) RequestWrapper(requestFn func(string, io.Reader) ([]byte, *http.Response, error), endpoint string, payload io.Reader) ([]byte, error) {
+	var body, resp, err = requestFn(endpoint, payload)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("could not process a request: HTTP: %s, %d, %s", endpoint, resp.StatusCode, string(body))
+	}
+
+	return body, nil
 }
