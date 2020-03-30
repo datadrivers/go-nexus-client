@@ -59,6 +59,7 @@ func TestBlobstoreRead(t *testing.T) {
 
 	if bs != nil {
 		assert.Equal(t, bsName, bs.Name)
+		assert.NotEqual(t, "", bs.Path)
 	}
 }
 
@@ -89,11 +90,13 @@ func TestBlobstoreS3(t *testing.T) {
 	s3BS, err := client.BlobstoreRead(bs.Name)
 	assert.Nil(t, err)
 	assert.NotNil(t, s3BS)
-	assert.Equal(t, BlobstoreTypeS3, s3BS.Type)
-	assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration)
-	assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration.BlobstoreS3Bucket)
-	assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration.BlobstoreS3BucketSecurity)
+	if s3BS != nil {
+		assert.Equal(t, BlobstoreTypeS3, s3BS.Type)
+		assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration)
+		assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration.BlobstoreS3Bucket)
+		assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration.BlobstoreS3BucketSecurity)
 
-	err = client.BlobstoreDelete(bs.Name)
-	assert.Nil(t, err)
+		err = client.BlobstoreDelete(bs.Name)
+		assert.Nil(t, err)
+	}
 }

@@ -110,13 +110,11 @@ func (c client) BlobstoreRead(id string) (*Blobstore, error) {
 				return nil, err
 			}
 
-			bsDetailed.Name = bs.Name
-			bsDetailed.Type = bs.Type
-			bsDetailed.BlobCount = bs.BlobCount
-			bsDetailed.TotalSizeInBytes = bs.TotalSizeInBytes
 			bsDetailed.AvailableSpaceInBytes = bs.AvailableSpaceInBytes
-
-			bs.Name = bsDetailed.Name
+			bsDetailed.BlobCount = bs.BlobCount
+			bsDetailed.Name = bs.Name
+			bsDetailed.TotalSizeInBytes = bs.TotalSizeInBytes
+			bsDetailed.Type = bs.Type
 
 			return bsDetailed, nil
 		}
