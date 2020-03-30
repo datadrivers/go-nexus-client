@@ -22,7 +22,7 @@ func TestBlobstoreFile(t *testing.T) {
 	createErr := client.BlobstoreCreate(bs)
 	assert.Nil(t, createErr)
 
-	bsCreated, err := client.BlobstoreReadSpecified(bs)
+	bsCreated, err := client.BlobstoreReadSpecified(bs.Name)
 	assert.Nil(t, err)
 	assert.NotNil(t, bsCreated)
 	assert.Equal(t, bsPath, bsCreated.Path)

@@ -128,7 +128,7 @@ func (c client) BlobstoreRead(id string) (*Blobstore, error) {
 	return nil, nil
 }
 
-func (c client) BlobstoreReadSpecified(currentBs Blobstore) (*Blobstore, error) {
+func (c client) BlobstoreReadSpecified(id string) (*Blobstore, error) {
 	body, err := c.RequestWrapper(c.Get, blobstoreAPIEndpoint, nil)
 
 	if err != nil {
@@ -141,7 +141,7 @@ func (c client) BlobstoreReadSpecified(currentBs Blobstore) (*Blobstore, error) 
 	}
 
 	for _, bs := range blobstores {
-		if bs.Name == currentBs.Name {
+		if bs.Name == id {
 			innerBody, innerErr := c.RequestWrapper(c.Get, fmt.Sprintf("%s/%s/%s", blobstoreAPIEndpoint, strings.ToLower(bs.Type), bs.Name), nil)
 
 			if innerErr != nil {

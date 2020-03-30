@@ -22,7 +22,7 @@ type Client interface {
 	ContentTypeJSON()
 	BlobstoreCreate(Blobstore) error
 	BlobstoreRead(string) (*Blobstore, error)
-	BlobstoreReadSpecified(Blobstore) (*Blobstore, error)
+	BlobstoreReadSpecified(string) (*Blobstore, error)
 	BlobstoreUpdate(string, Blobstore) error
 	BlobstoreDelete(string) error
 	RepositoryCreate(Repository) error
