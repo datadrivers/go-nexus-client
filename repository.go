@@ -146,9 +146,9 @@ type RepositoryProxy struct {
 
 // RepositoryStorage contains repository storage
 type RepositoryStorage struct {
-	BlobStoreName               string  `json:"blobStoreName"`
-	StrictContentTypeValidation bool    `json:"strictContentTypeValidation"`
-	WritePolicy                 *string `json:"writePolicy,omitempty"`
+	BlobStoreName               string `json:"blobStoreName"`
+	StrictContentTypeValidation bool   `json:"strictContentTypeValidation"`
+	WritePolicy                 string `json:"writePolicy,omitempty"`
 }
 
 func jsonUnmarshalRepositories(data []byte) ([]Repository, error) {

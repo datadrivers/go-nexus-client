@@ -82,8 +82,6 @@ func testJSONUnmarshalRepositories() string {
 }
 
 func getTestRepositoryAptHosted(name string) Repository {
-	writePolicy := "ALLOW_ONCE"
-
 	return Repository{
 		Name:   name,
 		Online: true,
@@ -103,7 +101,7 @@ func getTestRepositoryAptHosted(name string) Repository {
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 &writePolicy,
+			WritePolicy:                 "ALLOW",
 		},
 	}
 }
@@ -130,7 +128,7 @@ func getTestRepositoryDockerHostedWithPorts(name string) Repository {
 	httpsPort := new(int)
 	*httpPort = 8082
 	*httpsPort = 8083
-	writePolicy := "ALLOW_ONCE"
+	writePolicy := "ALLOW"
 
 	return Repository{
 		Name:   name,
@@ -149,7 +147,7 @@ func getTestRepositoryDockerHostedWithPorts(name string) Repository {
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 &writePolicy,
+			WritePolicy:                 writePolicy,
 		},
 	}
 }
@@ -172,8 +170,6 @@ func TestRepositoryDockerHostedWithPorts(t *testing.T) {
 }
 
 func getTestRepositoryDockerHostedWithoutPorts(name string) Repository {
-	writePolicy := "ALLOW_ONCE"
-
 	return Repository{
 		Name:   name,
 		Online: true,
@@ -189,7 +185,7 @@ func getTestRepositoryDockerHostedWithoutPorts(name string) Repository {
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 &writePolicy,
+			WritePolicy:                 "ALLOW_ONCE",
 		},
 	}
 }
