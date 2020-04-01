@@ -2,6 +2,8 @@
 dist: bionic
 services:
   - docker
+env:
+  - DOCKER_COMPOSE_VERSION=1.4.2
 language: go
 go:
   - 1.14.x
@@ -11,8 +13,10 @@ install:
   # go.googlesource.com so rate limits are higher when using `go get` to fetch
   # packages that live there.
   # See: https://github.com/golang/go/issues/12933
-  - bash scripts/gogetcookie.sh
-  - bash scripts/start-nexus.sh
+  - cd ci
+  - bash gogetcookie.sh
+  - bash start-services.sh
+  - cd -
 
 script:
   - make test

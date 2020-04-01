@@ -70,9 +70,10 @@ type BlobstoreS3AdvancedBucketConnection struct {
 	ForcePathStyle bool   `json:"forcePathStyle"`
 }
 
-type BlobstoreFileSpecified struct {
-	Path                string `json:"path"`
-	*BlobstoreSoftQuota `json:"softQuota,omitempty"`
+type BlobstoreSpecified struct {
+	Path					 string `json:"path,omitempty"`
+	*BlobstoreS3BucketConfiguration `json:"bucketConfiguration,omitempty"`
+	*BlobstoreSoftQuota 			`json:"softQuota,omitempty"`
 }
 
 func (c client) BlobstoreCreate(bs Blobstore) error {
@@ -105,7 +106,7 @@ func (c client) BlobstoreRead(id string) (*Blobstore, error) {
 
 	var blobstores []Blobstore
 	if err := json.Unmarshal(body, &blobstores); err != nil {
-		return nil, fmt.Errorf("could not unmarshal blobstore \"%s\": %v", id, err)
+		return nil, fmt.Errorf("could not unmarshal blobstore %s: %v", id, err)
 	}
 
 	for _, bs := range blobstores {
@@ -148,16 +149,13 @@ func (c client) BlobstoreReadSpecified(id string) (*Blobstore, error) {
 				return nil, innerErr
 			}
 
-			if bs.Type != BlobstoreTypeFile {
-				return nil, fmt.Errorf("blobstore types other than `%s` are not supported yet", BlobstoreTypeFile)
+			var blobstoreSpecified BlobstoreSpecified
+			if err := json.Unmarshal(innerBody, &blobstoreSpecified); err != nil {
+				return nil, fmt.Errorf("could not unmarshal blobstoreSpecified: %v", err)
 			}
 
-			var blobstoreFileSpecified BlobstoreFileSpecified
-			if err := json.Unmarshal(innerBody, &blobstoreFileSpecified); err != nil {
-				return nil, fmt.Errorf("could not unmarshal blobstoreFileSpecified: %v", err)
-			}
-
-			bs.Path = blobstoreFileSpecified.Path
+			bs.Path = blobstoreSpecified.Path
+			bs.BlobstoreS3BucketConfiguration = blobstoreSpecified.BlobstoreS3BucketConfiguration
 			return &bs, nil
 		}
 	}
