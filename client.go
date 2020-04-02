@@ -21,7 +21,6 @@ type Client interface {
 	ContentTypeTextPlain()
 	ContentTypeJSON()
 	BlobstoreCreate(Blobstore) error
-	BlobstoreRead(string) (*Blobstore, error)
 	BlobstoreReadSpecified(string) (*Blobstore, error)
 	BlobstoreUpdate(string, Blobstore) error
 	BlobstoreDelete(string) error
