@@ -257,7 +257,7 @@ func getTestRepositoryDockerProxy(name string) Repository {
 			IndexType: "HUB",
 		},
 		RepositoryHTTPClient: &RepositoryHTTPClient{
-			Authentication: RepositoryHTTPClientAuthentication{
+			Authentication: &RepositoryHTTPClientAuthentication{
 				Type: "username",
 			},
 		},

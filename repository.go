@@ -63,6 +63,7 @@ type Repository struct {
 // RepositoryApt contains the data of an Apt Repository
 type RepositoryApt struct {
 	Distribution string `json:"distribution"`
+	Flat         bool   `json:"flat"`
 }
 
 // RepositoryAptSigning contains values for Apt signing
@@ -91,8 +92,8 @@ type RepositoryDocker struct {
 
 // RepositoryDockerProxy contains data of a Docker Proxy Repository
 type RepositoryDockerProxy struct {
-	IndexType string  `json:"indexType"`
-	IndexURL  *string `json:"indexUrl,omitempty"`
+	IndexType string `json:"indexType"`
+	IndexURL  string `json:"indexUrl,omitempty"`
 }
 
 // RepositoryGroup contains repository group configuration data
@@ -102,10 +103,10 @@ type RepositoryGroup struct {
 
 // RepositoryHTTPClient ...
 type RepositoryHTTPClient struct {
-	Authentication RepositoryHTTPClientAuthentication `json:"authentication"`
-	AutoBlock      bool                               `json:"autoBlock"`
-	Blocked        bool                               `json:"blocked"`
-	Connection     RepositoryHTTPClientConnection     `json:"connection"`
+	Authentication *RepositoryHTTPClientAuthentication `json:"authentication,omitempty"`
+	AutoBlock      bool                                `json:"autoBlock"`
+	Blocked        bool                                `json:"blocked"`
+	Connection     RepositoryHTTPClientConnection      `json:"connection"`
 }
 
 // RepositoryHTTPClientConnection ...
@@ -119,10 +120,10 @@ type RepositoryHTTPClientConnection struct {
 
 // RepositoryHTTPClientAuthentication ...
 type RepositoryHTTPClientAuthentication struct {
-	NTLMDomain string `json:"ntlmDomain"`
-	NTLMHost   string `json:"ntlmHost"`
+	NTLMDomain string `json:"ntlmDomain,omitempty"`
+	NTLMHost   string `json:"ntlmHost,omitempty"`
 	Type       string `json:"type"`
-	Username   string `json:"username"`
+	Username   string `json:"username,omitempty"`
 }
 
 // RepositoryMaven contains additional data of maven repository
