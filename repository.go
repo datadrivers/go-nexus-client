@@ -63,7 +63,7 @@ type Repository struct {
 // RepositoryApt contains the data of an Apt Repository
 type RepositoryApt struct {
 	Distribution string `json:"distribution"`
-	Flat         bool   `json:"flat,omitempty"`
+	Flat         *bool   `json:"flat,omitempty"`
 }
 
 // RepositoryAptSigning contains values for Apt signing
