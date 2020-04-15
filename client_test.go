@@ -8,9 +8,10 @@ import (
 
 func getDefaultConfig() Config {
 	return Config{
-		URL:      getEnv("NEXUS_URL", "http://127.0.0.1:8081"),
-		Username: getEnv("NEXUS_USRNAME", "admin"),
-		Password: getEnv("NEXUS_PASSWORD", "admin123"),
+		Insecure: getEnv("NEXUS_INSECURE_SKIP_VERIFY", true).(bool),
+		Password: getEnv("NEXUS_PASSWORD", "admin123").(string),
+		URL:      getEnv("NEXUS_URL", "http://127.0.0.1:8081").(string),
+		Username: getEnv("NEXUS_USRNAME", "admin").(string),
 	}
 }
 

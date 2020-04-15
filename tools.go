@@ -17,7 +17,7 @@ func jsonMarshalInterfaceToIOReader(data interface{}) (io.Reader, error) {
 	return bytes.NewReader(b), nil
 }
 
-func getEnv(key, fallback string) string {
+func getEnv(key string, fallback interface{}) interface{} {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
 	}

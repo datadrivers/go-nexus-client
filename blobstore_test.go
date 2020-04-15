@@ -74,12 +74,12 @@ func TestBlobstoreS3(t *testing.T) {
 		Type: bsType,
 		BlobstoreS3BucketConfiguration: &BlobstoreS3BucketConfiguration{
 			BlobstoreS3Bucket: &BlobstoreS3Bucket{
-				Name:   getEnv("AWS_BUCKET_NAME", "terraform-provider-nexus-s3-test"),
-				Region: getEnv("AWS_DEFAULT_REGION", "us-central-1"),
+				Name:   getEnv("AWS_BUCKET_NAME", "terraform-provider-nexus-s3-test").(string),
+				Region: getEnv("AWS_DEFAULT_REGION", "us-central-1").(string),
 			},
 			BlobstoreS3BucketSecurity: &BlobstoreS3BucketSecurity{
-				AccessKeyID:     getEnv("AWS_ACCESS_KEY_ID", "AWS_ACCESS_KEY_ID must be set"),
-				SecretAccessKey: getEnv("AWS_SECRET_ACCESS_KEY", "AWS_SECRET_ACCESS_KEY must be set"),
+				AccessKeyID:     getEnv("AWS_ACCESS_KEY_ID", "AWS_ACCESS_KEY_ID must be set").(string),
+				SecretAccessKey: getEnv("AWS_SECRET_ACCESS_KEY", "AWS_SECRET_ACCESS_KEY must be set").(string),
 			},
 		},
 	}
