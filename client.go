@@ -1,6 +1,7 @@
 package client
 
 import (
+	"crypto/tls"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -53,10 +54,15 @@ type client struct {
 
 // NewClient returns an instance of client that implements the Client interface
 func NewClient(config Config) Client {
+	httpTransport := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: config.Insecure},
+	}
+	httpClient := &http.Client{Transport: httpTransport}
+
 	return &client{
 		config:      config,
 		contentType: ContentTypeApplicationJSON,
-		client:      &http.Client{},
+		client:      httpClient,
 	}
 }
 
