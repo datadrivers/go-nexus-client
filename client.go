@@ -49,20 +49,14 @@ type Client interface {
 type client struct {
 	config      Config
 	contentType string
-	client      *http.Client
 }
 
 // NewClient returns an instance of client that implements the Client interface
 func NewClient(config Config) Client {
-	httpTransport := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: config.Insecure},
-	}
-	httpClient := &http.Client{Transport: httpTransport}
-
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: config.Insecure}
 	return &client{
 		config:      config,
 		contentType: ContentTypeApplicationJSON,
-		client:      httpClient,
 	}
 }
 
