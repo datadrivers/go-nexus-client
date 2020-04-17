@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 echo "Starting Nexus container..."
-docker run -d --rm --name nexus -p 127.0.0.1:8081:8081 sonatype/nexus3:3.20.1
+docker run -d --rm --name nexus -p 127.0.0.1:8081:8081 sonatype/nexus3:3.22.1
 
 echo -n "Waiting for Nexus to be ready "
 i=1
