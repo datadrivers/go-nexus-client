@@ -57,14 +57,22 @@ type Client interface {
 type client struct {
 	config      Config
 	contentType string
+	httpClient  *http.Client
 }
 
 // NewClient returns an instance of client that implements the Client interface
 func NewClient(config Config) Client {
-	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: config.Insecure}
 	return &client{
 		config:      config,
 		contentType: ContentTypeApplicationJSON,
+		httpClient: &http.Client{
+			Timeout: 30 * time.Second,
+			Transport: &http.Transport{
+				TLSClientConfig: &tls.Config{
+					InsecureSkipVerify: config.Insecure,
+				},
+			},
+		},
 	}
 }
 
@@ -107,11 +115,7 @@ func (c *client) execute(method string, endpoint string, payload io.Reader) ([]b
 		return nil, nil, err
 	}
 
-	client := &http.Client{
-		Timeout: 30 * time.Second,
-	}
-
-	resp, err := client.Do(req)
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, nil, err
 	}
