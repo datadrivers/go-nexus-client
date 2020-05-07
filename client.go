@@ -25,6 +25,10 @@ type Client interface {
 	BlobstoreRead(string) (*Blobstore, error)
 	BlobstoreUpdate(string, Blobstore) error
 	BlobstoreDelete(string) error
+	PrivilegeCreate(Privilege) error
+	PrivilegeRead(string) (*Privilege, error)
+	PrivilegeUpdate(string, Privilege) error
+	PrivilegeDelete(string) error
 	RepositoryCreate(Repository) error
 	RepositoryRead(string) (*Repository, error)
 	RepositoryUpdate(string, Repository) error
