@@ -18,6 +18,10 @@ const (
 
 // Client represents the Nexus API Client interface
 type Client interface {
+	ContentSelectorCreate(ContentSelector) error
+	ContentSelectorRead(string) (*ContentSelector, error)
+	ContentSelectorUpdate(string, ContentSelector) error
+	ContentSelectorDelete(string) error
 	ContentType() string
 	ContentTypeTextPlain()
 	ContentTypeJSON()
