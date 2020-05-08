@@ -12,8 +12,14 @@ const (
 
 	RepositoryFormatApt    = "apt"
 	RepositoryFormatBower  = "bower"
+	RepositoryFormatConan  = "conan"
 	RepositoryFormatDocker = "docker"
+	RepositoryFormatHelm   = "helm"
 	RepositoryFormatMaven2 = "maven2"
+	RepositoryFormatNPM    = "npm"
+	RepositoryFormatNuget  = "nuget"
+	RepositoryFormatPyPI   = "pypi"
+	RepositoryFormatYum    = "yum"
 
 	RepositoryTypeHosted = "hosted"
 	RepositoryTypeGroup  = "group"
