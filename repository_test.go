@@ -39,7 +39,7 @@ func TestJSONUnmarshalRepositories(t *testing.T) {
 func testJSONUnmarshalRepositories() string {
 	return fmt.Sprintf(`[
 	{
-		"format": "maven",
+		"format": "maven2",
 		"name": "maven-central",
 		"online": true,
 		"type": "proxy",
