@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 const (
@@ -168,13 +169,19 @@ func jsonUnmarshalRepositories(data []byte) ([]Repository, error) {
 	return repositories, nil
 }
 
+// Currently only used to replace repository format 'maven2' to 'maven' as API
+// returns a format of 'maven2' but requires to send to requests using 'maven'.
+func fixRepositoryFormat(s string) string {
+	return strings.Replace(s, RepositoryFormatMaven2, "maven", 1)
+}
+
 func (c client) RepositoryCreate(repo Repository) error {
 	data, err := jsonMarshalInterfaceToIOReader(repo)
 	if err != nil {
 		return err
 	}
 
-	body, resp, err := c.Post(fmt.Sprintf("%s/%s/%s", repositoryAPIEndpoint, repo.Format, repo.Type), data)
+	body, resp, err := c.Post(fmt.Sprintf("%s/%s/%s", repositoryAPIEndpoint, fixRepositoryFormat(repo.Format), repo.Type), data)
 	if err != nil {
 		return err
 	}
@@ -215,7 +222,7 @@ func (c client) RepositoryUpdate(id string, repo Repository) error {
 		return err
 	}
 
-	body, resp, err := c.Put(fmt.Sprintf("%s/%s/%s/%s", repositoryAPIEndpoint, repo.Format, repo.Type, id), data)
+	body, resp, err := c.Put(fmt.Sprintf("%s/%s/%s/%s", repositoryAPIEndpoint, fixRepositoryFormat(repo.Format), repo.Type, id), data)
 	if err != nil {
 		return err
 	}

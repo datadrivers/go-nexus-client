@@ -1,6 +1,7 @@
 package client
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -64,6 +65,9 @@ func TestBlobstoreRead(t *testing.T) {
 }
 
 func TestBlobstoreS3(t *testing.T) {
+	if os.Getenv("SKIP_S3_TESTS") != "" {
+		t.Skip("Skipping S3 tests")
+	}
 	client := NewClient(getDefaultConfig())
 
 	bsName := "test-blobstore-s3"
