@@ -12,7 +12,7 @@ const (
 	RepositoryFormatApt    = "apt"
 	RepositoryFormatBower  = "bower"
 	RepositoryFormatDocker = "docker"
-	RepositoryFormatMaven2 = "maven2"
+	RepositoryFormatMaven2 = "maven"
 
 	RepositoryTypeHosted = "hosted"
 	RepositoryTypeGroup  = "group"
