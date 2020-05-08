@@ -14,15 +14,18 @@ const (
 	RepositoryFormatBower  = "bower"
 	RepositoryFormatConan  = "conan"
 	RepositoryFormatDocker = "docker"
+	RepositoryFormatGitLFS = "gitlfs"
+	RepositoryFormatGo     = "go"
 	RepositoryFormatHelm   = "helm"
 	RepositoryFormatMaven2 = "maven2"
 	RepositoryFormatNPM    = "npm"
 	RepositoryFormatNuget  = "nuget"
-	RepositoryFormatPyPI   = "pypi"
+	RepositoryFormatP2     = "p2"
+	RepositoryFormatPyPi   = "pypi"
 	RepositoryFormatYum    = "yum"
 
-	RepositoryTypeHosted = "hosted"
 	RepositoryTypeGroup  = "group"
+	RepositoryTypeHosted = "hosted"
 	RepositoryTypeProxy  = "proxy"
 )
 
@@ -64,7 +67,7 @@ type Repository struct {
 	*RepositoryProxy `json:"proxy,omitempty"`
 
 	// Repository storage data
-	*RepositoryStorage `json:"storage"`
+	*RepositoryStorage `json:"storage,omitempty"`
 }
 
 // RepositoryApt contains the data of an Apt Repository

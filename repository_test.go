@@ -123,6 +123,96 @@ func TestRepositoryAptHosted(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestRepositoryFormatBower(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+
+	// Create hosted bower repo
+	hostedRepo := getTestRepositoryBowerHosted("test-repo-bower-hosted")
+	err := client.RepositoryCreate(hostedRepo)
+	assert.Nil(t, err)
+
+	if err == nil {
+		proxyRepo := getTestRepositoryBowerProxy("test-repo-bower-proxy")
+		err = client.RepositoryCreate(proxyRepo)
+		assert.Nil(t, err)
+
+		if err == nil {
+			// Create bower group repo
+			groupRepo := getTestRepositoryBowerGroup("test-repo-bower-group", []string{hostedRepo.Name, proxyRepo.Name})
+			err = client.RepositoryCreate(groupRepo)
+			assert.Nil(t, err)
+
+			if err == nil {
+				updatedGroupRepo := groupRepo
+				updatedGroupRepo.Online = false
+
+				err = client.RepositoryUpdate(groupRepo.Name, updatedGroupRepo)
+				assert.Nil(t, err)
+
+				err = client.RepositoryDelete(groupRepo.Name)
+				assert.Nil(t, err)
+			}
+
+			err = client.RepositoryDelete(proxyRepo.Name)
+			assert.Nil(t, err)
+		}
+
+		err = client.RepositoryDelete(hostedRepo.Name)
+	}
+}
+
+func getTestRepositoryBowerHosted(name string) Repository {
+	return Repository{
+		Name:   name,
+		Type:   RepositoryTypeHosted,
+		Format: RepositoryFormatBower,
+		RepositoryStorage: &RepositoryStorage{
+			BlobStoreName: "default",
+			WritePolicy:   "ALLOW_ONCE",
+		},
+	}
+}
+
+func getTestRepositoryBowerGroup(name string, memberNames []string) Repository {
+	return Repository{
+		Name:   name,
+		Format: RepositoryFormatBower,
+		Type:   RepositoryTypeGroup,
+		Online: true,
+		RepositoryStorage: &RepositoryStorage{
+			BlobStoreName: "default",
+		},
+		RepositoryGroup: &RepositoryGroup{
+			MemberNames: memberNames,
+		},
+	}
+}
+
+func getTestRepositoryBowerProxy(name string) Repository {
+	return Repository{
+		Name:   name,
+		Format: RepositoryFormatBower,
+		Type:   RepositoryTypeProxy,
+		RepositoryCleanup: &RepositoryCleanup{
+			PolicyNames: []string{"weekly-cleanup"},
+		},
+		RepositoryHTTPClient: &RepositoryHTTPClient{
+			Authentication: RepositoryHTTPClientAuthentication{
+				Type: "username",
+			},
+		},
+		RepositoryNegativeCache: &RepositoryNegativeCache{
+			Enabled: true,
+		},
+		RepositoryProxy: &RepositoryProxy{
+			RemoteURL: "https://registry.bower.io",
+		},
+		RepositoryStorage: &RepositoryStorage{
+			BlobStoreName: "default",
+		},
+	}
+}
+
 func getTestRepositoryDockerHostedWithPorts(name string) Repository {
 	httpPort := new(int)
 	httpsPort := new(int)
@@ -267,6 +357,90 @@ func getTestRepositoryDockerProxy(name string) Repository {
 		},
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName: "default",
+		},
+	}
+}
+
+func TestRepositoryFormatPyPi(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+
+	hostedRepo := getTestRepositoryPyPiHosted("test-repo-pypi-hosted")
+	err := client.RepositoryCreate(hostedRepo)
+	assert.Nil(t, err)
+
+	if err == nil {
+		proxyRepo := getTestRepositoryPyPiProxy("test-repo-pypi-proxy")
+		err = client.RepositoryCreate(proxyRepo)
+		assert.Nil(t, err)
+
+		if err == nil {
+			groupRepo := getTestRepositoryPyPiGroup("test-repo-pypi-group", []string{hostedRepo.Name, proxyRepo.Name})
+			err = client.RepositoryCreate(groupRepo)
+			assert.Nil(t, err)
+
+			if err == nil {
+				err = client.RepositoryDelete(groupRepo.Name)
+				assert.Nil(t, err)
+			}
+
+			err = client.RepositoryDelete(proxyRepo.Name)
+			assert.Nil(t, err)
+		}
+
+		err = client.RepositoryDelete(hostedRepo.Name)
+		assert.Nil(t, err)
+	}
+}
+
+func getTestRepositoryPyPiHosted(name string) Repository {
+	return Repository{
+		Name:   name,
+		Format: RepositoryFormatPyPi,
+		Type:   RepositoryTypeHosted,
+		RepositoryStorage: &RepositoryStorage{
+			BlobStoreName: "default",
+			WritePolicy:   "ALLOW_ONCE",
+		},
+		RepositoryCleanup: &RepositoryCleanup{
+			PolicyNames: []string{"weekly-cleanup"},
+		},
+	}
+}
+
+func getTestRepositoryPyPiProxy(name string) Repository {
+	return Repository{
+		Name:   name,
+		Format: RepositoryFormatPyPi,
+		Type:   RepositoryTypeProxy,
+		RepositoryHTTPClient: &RepositoryHTTPClient{
+			Authentication: RepositoryHTTPClientAuthentication{
+				Type: "username",
+			},
+		},
+		RepositoryNegativeCache: &RepositoryNegativeCache{
+			Enabled: true,
+		},
+		RepositoryProxy: &RepositoryProxy{
+			RemoteURL: "https://pypi.org/",
+		},
+		RepositoryStorage: &RepositoryStorage{
+			BlobStoreName: "default",
+			WritePolicy:   "ALLOW_ONCE",
+		},
+	}
+}
+
+func getTestRepositoryPyPiGroup(name string, memberNames []string) Repository {
+	return Repository{
+		Name:   name,
+		Format: RepositoryFormatPyPi,
+		Type:   RepositoryTypeGroup,
+		RepositoryGroup: &RepositoryGroup{
+			MemberNames: memberNames,
+		},
+		RepositoryStorage: &RepositoryStorage{
+			BlobStoreName: "default",
+			WritePolicy:   "ALLOW_ONCE",
 		},
 	}
 }
