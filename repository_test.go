@@ -81,6 +81,16 @@ func testJSONUnmarshalRepositories() string {
 	}]`)
 }
 
+func TestRepositoryFixFormat(t *testing.T) {
+	for _, format := range RepositoryFormats {
+		if format == RepositoryFormatMaven2 {
+			assert.Equal(t, fixRepositoryFormat(RepositoryFormatMaven2), "maven")
+		} else {
+			assert.Equal(t, fixRepositoryFormat(format), format)
+		}
+	}
+}
+
 func getTestRepositoryAptHosted(name string) Repository {
 	return Repository{
 		Name:   name,
