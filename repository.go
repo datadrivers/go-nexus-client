@@ -29,6 +29,25 @@ const (
 	RepositoryTypeProxy  = "proxy"
 )
 
+var (
+	// RepositoryFormats contains a list of all supported repository formats
+	RepositoryFormats = []string{
+		RepositoryFormatApt,
+		RepositoryFormatBower,
+		RepositoryFormatConan,
+		RepositoryFormatDocker,
+		RepositoryFormatGitLFS,
+		RepositoryFormatGo,
+		RepositoryFormatHelm,
+		RepositoryFormatMaven2,
+		RepositoryFormatNPM,
+		RepositoryFormatNuget,
+		RepositoryFormatP2,
+		RepositoryFormatPyPi,
+		RepositoryFormatYum,
+	}
+)
+
 // Repository ...
 type Repository struct {
 	Format          string  `json:"format"`
