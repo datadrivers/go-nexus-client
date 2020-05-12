@@ -309,6 +309,48 @@ func TestRepositoryMavenRead(t *testing.T) {
 	assert.Greater(t, len(repo.RepositoryGroup.MemberNames), 0)
 }
 
+func TestRepositoryMavenHosted(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+
+	repo := getTestRepositoryMavenHosted("test-maven-repo-hosted", "STRICT", "RELEASE")
+
+	err := client.RepositoryCreate(repo)
+	assert.Nil(t, err)
+
+	createdRepo, err := client.RepositoryRead(repo.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, createdRepo)
+
+	if createdRepo != nil {
+
+		createdRepo.RepositoryMaven.LayoutPolicy = "PERMISSIVE"
+		err := client.RepositoryUpdate(createdRepo.Name, *createdRepo)
+		assert.Nil(t, err)
+
+		err = client.RepositoryDelete(createdRepo.Name)
+		assert.Nil(t, err)
+	}
+}
+
+func getTestRepositoryMavenHosted(name, layoutPolicy, versionPoliy string) Repository {
+	return Repository{
+		Name:   name,
+		Format: RepositoryFormatMaven2,
+		Type:   RepositoryTypeHosted,
+		Online: true,
+
+		RepositoryMaven: &RepositoryMaven{
+			LayoutPolicy:  layoutPolicy,
+			VersionPolicy: versionPoliy,
+		},
+
+		RepositoryStorage: &RepositoryStorage{
+			BlobStoreName: "default",
+			WritePolicy:   "ALLOW_ONCE",
+		},
+	}
+}
+
 func TestRepositoryDockerProxy(t *testing.T) {
 	client := NewClient(getDefaultConfig())
 	repo := getTestRepositoryDockerProxy("test-docker-repo-proxy")
