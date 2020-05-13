@@ -82,6 +82,9 @@ type Repository struct {
 	// Cache data for proxy Repository
 	*RepositoryNegativeCache `json:"negativeCache,omitempty"`
 
+	// Nuget Proxy Repository data
+	*RepositoryNugetProxy `json:"nugetProxy,omitempty"`
+
 	// Proxy Repository data
 	*RepositoryProxy `json:"proxy,omitempty"`
 
