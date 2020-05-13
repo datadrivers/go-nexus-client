@@ -46,6 +46,13 @@ var (
 		RepositoryFormatPyPi,
 		RepositoryFormatYum,
 	}
+
+	// RepositoryTypes contains a list of all supported repository types
+	RepositoryTypes = []string{
+		RepositoryTypeGroup,
+		RepositoryTypeHosted,
+		RepositoryTypeProxy,
+	}
 )
 
 // Repository ...
