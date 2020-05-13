@@ -89,39 +89,9 @@ type Repository struct {
 	*RepositoryStorage `json:"storage,omitempty"`
 }
 
-// RepositoryApt contains the data of an Apt Repository
-type RepositoryApt struct {
-	Distribution string `json:"distribution"`
-}
-
-// RepositoryAptSigning contains values for Apt signing
-type RepositoryAptSigning struct {
-	Keypair    string `json:"keypair"`
-	Passphrase string `json:"passphrase"`
-}
-
-// RepositoryBower contains data of bower repositories
-type RepositoryBower struct {
-	RewritePackageUrls bool `json:"rewritePackageUrls"`
-}
-
 // RepositoryCleanup ...
 type RepositoryCleanup struct {
 	PolicyNames []string `json:"policyNames"`
-}
-
-// RepositoryDocker contains data of a Docker Repositoriy
-type RepositoryDocker struct {
-	ForceBasicAuth bool `json:"forceBasicAuth"`
-	HTTPPort       *int `json:"httpPort"`
-	HTTPSPort      *int `json:"httpsPort"`
-	V1Enabled      bool `json:"v1Enabled"`
-}
-
-// RepositoryDockerProxy contains data of a Docker Proxy Repository
-type RepositoryDockerProxy struct {
-	IndexType string  `json:"indexType"`
-	IndexURL  *string `json:"indexUrl,omitempty"`
 }
 
 // RepositoryGroup contains repository group configuration data
@@ -152,12 +122,6 @@ type RepositoryHTTPClientAuthentication struct {
 	NTLMHost   string `json:"ntlmHost"`
 	Type       string `json:"type"`
 	Username   string `json:"username"`
-}
-
-// RepositoryMaven contains additional data of maven repository
-type RepositoryMaven struct {
-	VersionPolicy string `json:"versionPolicy"`
-	LayoutPolicy  string `json:"layoutPolicy"`
 }
 
 // RepositoryNegativeCache ...
@@ -246,7 +210,7 @@ func (c client) RepositoryUpdate(id string, repo Repository) error {
 		return err
 	}
 
-	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
+	if resp.StatusCode != http.StatusNoContent {
 		return fmt.Errorf("could not update repository '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
 	}
 
