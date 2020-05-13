@@ -334,8 +334,15 @@ func TestRepositoryMavenHosted(t *testing.T) {
 	if createdRepo != nil {
 
 		createdRepo.RepositoryMaven.LayoutPolicy = "PERMISSIVE"
+		createdRepo.RepositoryStorage.WritePolicy = "ALLOW"
 		err := client.RepositoryUpdate(createdRepo.Name, *createdRepo)
 		assert.Nil(t, err)
+
+		updatedRepo, err := client.RepositoryRead(createdRepo.Name)
+		assert.Nil(t, err)
+		assert.NotNil(t, updatedRepo)
+		assert.Equal(t, updatedRepo.RepositoryMaven.LayoutPolicy, "PERMISSIVE")
+		assert.Equal(t, updatedRepo.RepositoryStorage.WritePolicy, "ALLOW")
 
 		err = client.RepositoryDelete(createdRepo.Name)
 		assert.Nil(t, err)
