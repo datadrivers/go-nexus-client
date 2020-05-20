@@ -67,6 +67,9 @@ type Repository struct {
 	*RepositoryApt        `json:"apt,omitempty"`
 	*RepositoryAptSigning `json:"aptSigning,omitempty"`
 
+	// Yum Repository data
+	*RepositoryYum `json:"yum,omitempty"`
+
 	// RepositoryCleanup data
 	*RepositoryCleanup `json:"cleanup,omitempty"`
 
