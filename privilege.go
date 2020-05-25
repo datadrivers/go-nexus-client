@@ -14,13 +14,13 @@ const (
 // Privilege data
 type Privilege struct {
 	Actions         []string `json:"actions"`
-	ContentSelector string   `json:"contentSelector"`
+	ContentSelector string   `json:"contentSelector,omitempty"`
 	Description     string   `json:"description"`
-	Domain          string   `json:"domain"`
-	Format          string   `json:"string"`
+	Domain          string   `json:"domain,omitempty"`
+	Format          string   `json:"format,omitempty"`
 	Name            string   `json:"name"`
-	ReadOnly        bool     `json:"readOnly"`
-	Repository      string   `json:"repository"`
+	ReadOnly        bool     `json:"readOnly,omitempty"`
+	Repository      string   `json:"repository,omitempty"`
 	Type            string   `json:"type"`
 }
 
