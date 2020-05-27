@@ -127,11 +127,7 @@ func getTestRepositoryDockerProxy(name string) Repository {
 		RepositoryDockerProxy: &RepositoryDockerProxy{
 			IndexType: "HUB",
 		},
-		RepositoryHTTPClient: &RepositoryHTTPClient{
-			Authentication: RepositoryHTTPClientAuthentication{
-				Type: "username",
-			},
-		},
+		RepositoryHTTPClient:    &RepositoryHTTPClient{},
 		RepositoryNegativeCache: &RepositoryNegativeCache{},
 		RepositoryProxy: &RepositoryProxy{
 			RemoteURL: "https://registry-1.docker.io",

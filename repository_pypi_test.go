@@ -54,14 +54,10 @@ func getTestRepositoryPyPiHosted(name string) Repository {
 
 func getTestRepositoryPyPiProxy(name string) Repository {
 	return Repository{
-		Name:   name,
-		Format: RepositoryFormatPyPi,
-		Type:   RepositoryTypeProxy,
-		RepositoryHTTPClient: &RepositoryHTTPClient{
-			Authentication: RepositoryHTTPClientAuthentication{
-				Type: "username",
-			},
-		},
+		Name:                 name,
+		Format:               RepositoryFormatPyPi,
+		Type:                 RepositoryTypeProxy,
+		RepositoryHTTPClient: &RepositoryHTTPClient{},
 		RepositoryNegativeCache: &RepositoryNegativeCache{
 			Enabled: true,
 		},
