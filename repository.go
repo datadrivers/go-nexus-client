@@ -119,19 +119,19 @@ type RepositoryHTTPClient struct {
 
 // RepositoryHTTPClientConnection ...
 type RepositoryHTTPClientConnection struct {
-	EnableCircularRedirects bool    `json:"enableCircularRedirects"`
-	EnableCookies           bool    `json:"enableCookies"`
-	Retries                 *int    `json:"retries"`
-	Timeout                 *int    `json:"timeout"`
-	UserAgentSuffic         *string `json:"userAgentSuffix"`
+	EnableCircularRedirects bool    `json:"enableCircularRedirects,omitempty"`
+	EnableCookies           bool    `json:"enableCookies,omitempty"`
+	Retries                 *int    `json:"retries,omitempty"`
+	Timeout                 *int    `json:"timeout,omitempty"`
+	UserAgentSuffix         *string `json:"userAgentSuffix,omitempty"`
 }
 
 // RepositoryHTTPClientAuthentication ...
 type RepositoryHTTPClientAuthentication struct {
-	NTLMDomain string `json:"ntlmDomain"`
-	NTLMHost   string `json:"ntlmHost"`
-	Type       string `json:"type"`
-	Username   string `json:"username"`
+	NTLMDomain string `json:"ntlmDomain,omitempty"`
+	NTLMHost   string `json:"ntlmHost,omitempty"`
+	Type       string `json:"type,omitempty"`
+	Username   string `json:"username,omitempty"`
 }
 
 // RepositoryNegativeCache ...
@@ -144,12 +144,12 @@ type RepositoryNegativeCache struct {
 type RepositoryProxy struct {
 	ContentMaxAge  int    `json:"contentMaxAge"`
 	MetadataMaxAge int    `json:"metadataMaxAge"`
-	RemoteURL      string `json:"remoteUrl"`
+	RemoteURL      string `json:"remoteUrl,omitempty"`
 }
 
 // RepositoryStorage contains repository storage
 type RepositoryStorage struct {
-	BlobStoreName               string `json:"blobStoreName"`
+	BlobStoreName               string `json:"blobStoreName,omitempty"`
 	StrictContentTypeValidation bool   `json:"strictContentTypeValidation"`
 	WritePolicy                 string `json:"writePolicy,omitempty"`
 }
