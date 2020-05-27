@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRepositoryMavenRead(t *testing.T) {
+func TestRepositoryMavenGroupRead(t *testing.T) {
 	client := NewClient(getDefaultConfig())
 
 	repoName := "maven-public"
@@ -14,8 +14,13 @@ func TestRepositoryMavenRead(t *testing.T) {
 	repo, err := client.RepositoryRead(repoName)
 	assert.Nil(t, err)
 	assert.NotNil(t, repo)
+	assert.Equal(t, repoName, repo.Name)
+	assert.Equal(t, RepositoryFormatMaven2, repo.Format)
+	assert.Equal(t, RepositoryTypeGroup, repo.Type)
 	assert.NotNil(t, repo.RepositoryGroup)
 	assert.Greater(t, len(repo.RepositoryGroup.MemberNames), 0)
+	assert.NotNil(t, repo.RepositoryStorage)
+	assert.Equal(t, "default", repo.RepositoryStorage.BlobStoreName)
 }
 
 func TestRepositoryMavenHosted(t *testing.T) {

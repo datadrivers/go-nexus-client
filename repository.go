@@ -111,10 +111,10 @@ type RepositoryGroup struct {
 
 // RepositoryHTTPClient ...
 type RepositoryHTTPClient struct {
-	Authentication RepositoryHTTPClientAuthentication `json:"authentication"`
-	AutoBlock      bool                               `json:"autoBlock"`
-	Blocked        bool                               `json:"blocked"`
-	Connection     RepositoryHTTPClientConnection     `json:"connection"`
+	Authentication *RepositoryHTTPClientAuthentication `json:"authentication,omitempty"`
+	AutoBlock      bool                                `json:"autoBlock"`
+	Blocked        bool                                `json:"blocked"`
+	Connection     *RepositoryHTTPClientConnection     `json:"connection,omitempty"`
 }
 
 // RepositoryHTTPClientConnection ...
