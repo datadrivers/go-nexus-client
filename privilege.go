@@ -11,14 +11,32 @@ const (
 	privilegeAPIEndpoint = "service/rest/beta/security/privileges"
 
 	// PrivilegeDomains
-	PrivilegeDomainAPIKey       = "apikey"
-	PrivilegeDomainAnalytics    = "analytics"
-	PrivilegeDomainAtlas        = "atlas"
-	PrivilegeDomainBlobstores   = "blobstores"
-	PrivilegeDomainBundles      = "bundles"
-	PrivilegeDomainCapabilities = "capabilities"
-	PrivilegeDomainComponent    = "component"
-	PrivilegeDomainDatastores   = "datastores"
+	PrivilegeDomainAll                = "*"
+	PrivilegeDomainAPIKey             = "apikey"
+	PrivilegeDomainAnalytics          = "analytics"
+	PrivilegeDomainAtlas              = "atlas"
+	PrivilegeDomainBlobstores         = "blobstores"
+	PrivilegeDomainBundles            = "bundles"
+	PrivilegeDomainCapabilities       = "capabilities"
+	PrivilegeDomainComponent          = "component"
+	PrivilegeDomainDatastores         = "datastores"
+	PrivilegeDomainHealthcheck        = "healthcheck"
+	PrivilegeDomainHealthcheckSummary = "healthchecksummary"
+	PrivilegeDomainIQViolationSummery = "iq-violation-summary"
+	PrivilegeDomainLDAP               = "ldap"
+	PrivilegeDomainLicensing          = "licensing"
+	PrivilegeDomainLogging            = "logging"
+	PrivilegeDomainMetrics            = "metrics"
+	PrivilegeDomainPrivileges         = "privileges"
+	PrivilegeDomainRoles              = "roles"
+	PrivilegeDomainSearch             = "search"
+	PrivilegeDomainSelectors          = "selectors"
+	PrivilegeDomainSettings           = "settings"
+	PrivilegeDomainSSLTruststore      = "ssl-truststore"
+	PrivilegeDomainTasks              = "tasks"
+	PrivilegeDomainUsers              = "users"
+	PrivilegeDomainUsersChangePW      = "userschangepw"
+	PrivilegeDomainWonderland         = "wonderland"
 
 	// PrivilegeTypes
 	PrivilegeTypeApplication     = "application"
@@ -32,6 +50,7 @@ const (
 var (
 	// PrivilegeDomains represents a string slice of supported privilege domains
 	PrivilegeDomains []string = []string{
+		PrivilegeDomainAll,
 		PrivilegeDomainAPIKey,
 		PrivilegeDomainAnalytics,
 		PrivilegeDomainAtlas,
@@ -40,6 +59,23 @@ var (
 		PrivilegeDomainCapabilities,
 		PrivilegeDomainComponent,
 		PrivilegeDomainDatastores,
+		PrivilegeDomainHealthcheck,
+		PrivilegeDomainHealthcheckSummary,
+		PrivilegeDomainIQViolationSummery,
+		PrivilegeDomainLDAP,
+		PrivilegeDomainLicensing,
+		PrivilegeDomainLogging,
+		PrivilegeDomainMetrics,
+		PrivilegeDomainPrivileges,
+		PrivilegeDomainRoles,
+		PrivilegeDomainSearch,
+		PrivilegeDomainSelectors,
+		PrivilegeDomainSettings,
+		PrivilegeDomainSSLTruststore,
+		PrivilegeDomainTasks,
+		PrivilegeDomainUsers,
+		PrivilegeDomainUsersChangePW,
+		PrivilegeDomainWonderland,
 	}
 	// PrivilegeTypes represents a string slice of possible privilege types
 	PrivilegeTypes []string = []string{
