@@ -9,19 +9,115 @@ import (
 
 const (
 	privilegeAPIEndpoint = "service/rest/beta/security/privileges"
+
+	// PrivilegeDomains
+	PrivilegeDomainAll                = "*"
+	PrivilegeDomainAPIKey             = "apikey"
+	PrivilegeDomainAnalytics          = "analytics"
+	PrivilegeDomainAtlas              = "atlas"
+	PrivilegeDomainBlobstores         = "blobstores"
+	PrivilegeDomainBundles            = "bundles"
+	PrivilegeDomainCapabilities       = "capabilities"
+	PrivilegeDomainComponent          = "component"
+	PrivilegeDomainDatastores         = "datastores"
+	PrivilegeDomainHealthcheck        = "healthcheck"
+	PrivilegeDomainHealthcheckSummary = "healthchecksummary"
+	PrivilegeDomainIQViolationSummery = "iq-violation-summary"
+	PrivilegeDomainLDAP               = "ldap"
+	PrivilegeDomainLicensing          = "licensing"
+	PrivilegeDomainLogging            = "logging"
+	PrivilegeDomainMetrics            = "metrics"
+	PrivilegeDomainPrivileges         = "privileges"
+	PrivilegeDomainRoles              = "roles"
+	PrivilegeDomainSearch             = "search"
+	PrivilegeDomainSelectors          = "selectors"
+	PrivilegeDomainSettings           = "settings"
+	PrivilegeDomainSSLTruststore      = "ssl-truststore"
+	PrivilegeDomainTasks              = "tasks"
+	PrivilegeDomainUsers              = "users"
+	PrivilegeDomainUsersChangePW      = "userschangepw"
+	PrivilegeDomainWonderland         = "wonderland"
+
+	// PrivilegeTypes
+	PrivilegeTypeApplication     = "application"
+	PrivilegeTypeContentSelector = "repository-content-selector"
+	PrivilegeTypeRepositoryAdmin = "repository-admin"
+	PrivilegeTypeRepositoryView  = "repository-view"
+	PrivilegeTypeScript          = "script"
+	PrivilegeTypeWildcard        = "wildcard"
+)
+
+var (
+	// PrivilegeDomains represents a string slice of supported privilege domains
+	PrivilegeDomains []string = []string{
+		PrivilegeDomainAll,
+		PrivilegeDomainAPIKey,
+		PrivilegeDomainAnalytics,
+		PrivilegeDomainAtlas,
+		PrivilegeDomainBlobstores,
+		PrivilegeDomainBundles,
+		PrivilegeDomainCapabilities,
+		PrivilegeDomainComponent,
+		PrivilegeDomainDatastores,
+		PrivilegeDomainHealthcheck,
+		PrivilegeDomainHealthcheckSummary,
+		PrivilegeDomainIQViolationSummery,
+		PrivilegeDomainLDAP,
+		PrivilegeDomainLicensing,
+		PrivilegeDomainLogging,
+		PrivilegeDomainMetrics,
+		PrivilegeDomainPrivileges,
+		PrivilegeDomainRoles,
+		PrivilegeDomainSearch,
+		PrivilegeDomainSelectors,
+		PrivilegeDomainSettings,
+		PrivilegeDomainSSLTruststore,
+		PrivilegeDomainTasks,
+		PrivilegeDomainUsers,
+		PrivilegeDomainUsersChangePW,
+		PrivilegeDomainWonderland,
+	}
+	// PrivilegeTypes represents a string slice of possible privilege types
+	PrivilegeTypes []string = []string{
+		PrivilegeTypeApplication,
+		PrivilegeTypeContentSelector,
+		PrivilegeTypeRepositoryAdmin,
+		PrivilegeTypeRepositoryView,
+		PrivilegeTypeScript,
+		PrivilegeTypeWildcard,
+	}
 )
 
 // Privilege data
 type Privilege struct {
-	Actions         []string `json:"actions"`
+	Actions         []string `json:"actions,omitempty"`
 	ContentSelector string   `json:"contentSelector,omitempty"`
 	Description     string   `json:"description"`
 	Domain          string   `json:"domain,omitempty"`
 	Format          string   `json:"format,omitempty"`
 	Name            string   `json:"name"`
-	ReadOnly        bool     `json:"readOnly,omitempty"`
+	Pattern         string   `json:"pattern,omitempty"`
+	ReadOnly        bool     `json:"readOnly"`
 	Repository      string   `json:"repository,omitempty"`
 	Type            string   `json:"type"`
+}
+
+func (c client) Privileges() ([]Privilege, error) {
+	body, resp, err := c.Get(privilegeAPIEndpoint, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("could not read privileges: HTTP: %d, %s", resp.StatusCode, string(body))
+	}
+
+	var privileges []Privilege
+	if err := json.Unmarshal(body, &privileges); err != nil {
+		return nil, fmt.Errorf("could not unmarshal privileges: %v", err)
+	}
+
+	return privileges, nil
 }
 
 func (c client) PrivilegeCreate(p Privilege) error {
@@ -43,18 +139,9 @@ func (c client) PrivilegeCreate(p Privilege) error {
 }
 
 func (c client) PrivilegeRead(name string) (*Privilege, error) {
-	body, resp, err := c.Get(privilegeAPIEndpoint, nil)
+	privileges, err := c.Privileges()
 	if err != nil {
 		return nil, err
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("could not read privileges: HTTP: %d, %s", resp.StatusCode, string(body))
-	}
-
-	var privileges []Privilege
-	if err := json.Unmarshal(body, &privileges); err != nil {
-		return nil, fmt.Errorf("could not unmarshal privileges \"%s\": %v", name, err)
 	}
 
 	for _, p := range privileges {
