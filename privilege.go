@@ -22,8 +22,10 @@ const (
 
 	// PrivilegeTypes
 	PrivilegeTypeApplication     = "application"
+	PrivilegeTypeContentSelector = "repository-content-selector"
 	PrivilegeTypeRepositoryAdmin = "repository-admin"
 	PrivilegeTypeRepositoryView  = "repository-view"
+	PrivilegeTypeScript          = "script"
 	PrivilegeTypeWildcard        = "wildcard"
 )
 
@@ -42,8 +44,10 @@ var (
 	// PrivilegeTypes represents a string slice of possible privilege types
 	PrivilegeTypes []string = []string{
 		PrivilegeTypeApplication,
+		PrivilegeTypeContentSelector,
 		PrivilegeTypeRepositoryAdmin,
 		PrivilegeTypeRepositoryView,
+		PrivilegeTypeScript,
 		PrivilegeTypeWildcard,
 	}
 )
