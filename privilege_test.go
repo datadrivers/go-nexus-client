@@ -8,6 +8,110 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestPrivileges(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+
+	privs, err := client.Privileges()
+	assert.Nil(t, err)
+	assert.NotNil(t, privs)
+	assert.Greater(t, len(privs), 0)
+}
+
+func TestPrivilegeTypeWildcardRead(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+	privName := "nx-all"
+
+	priv, err := client.PrivilegeRead(privName)
+	assert.Nil(t, err)
+	assert.NotNil(t, priv)
+	if priv != nil {
+		assert.Equal(t, privName, priv.Name)
+		assert.Equal(t, true, priv.ReadOnly)
+		assert.Equal(t, "nexus:*", priv.Pattern)
+		assert.Equal(t, "All permissions", priv.Description)
+		assert.Equal(t, PrivilegeTypeWildcard, priv.Type)
+		assert.Equal(t, 0, len(priv.Actions))
+	}
+}
+
+func TestPrivilegeTypeAnalyticsRead(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+	privName := "nx-analytics-all"
+
+	priv, err := client.PrivilegeRead(privName)
+	assert.Nil(t, err)
+	assert.NotNil(t, priv)
+	if priv != nil {
+		assert.Equal(t, privName, priv.Name)
+		assert.Equal(t, true, priv.ReadOnly)
+		assert.Equal(t, "All permissions for Analytics", priv.Description)
+		assert.Equal(t, PrivilegeTypeApplication, priv.Type)
+		assert.Equal(t, 1, len(priv.Actions))
+		assert.Equal(t, "ALL", priv.Actions[0])
+		// Attributes of other types
+		assert.Equal(t, "", priv.Format)
+		assert.Equal(t, "", priv.Repository)
+	}
+}
+
+func TestPrivilegeTypeApplicationRead(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+	privName := "nx-apikey-all"
+
+	priv, err := client.PrivilegeRead(privName)
+	assert.Nil(t, err)
+	assert.NotNil(t, priv)
+	if priv != nil {
+		assert.Equal(t, privName, priv.Name)
+		assert.Equal(t, true, priv.ReadOnly)
+		assert.Equal(t, "All permissions for APIKey", priv.Description)
+		assert.Equal(t, PrivilegeTypeApplication, priv.Type)
+		assert.Equal(t, 1, len(priv.Actions))
+		assert.Equal(t, "ALL", priv.Actions[0])
+		// Attributes of other types
+		assert.Equal(t, "", priv.Format)
+		assert.Equal(t, "", priv.Repository)
+	}
+}
+
+func TestPrivilegeTypeRepositoryAdminRead(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+	privName := "nx-repository-admin-*-*-*"
+
+	priv, err := client.PrivilegeRead(privName)
+	assert.Nil(t, err)
+	assert.NotNil(t, priv)
+	if priv != nil {
+		assert.Equal(t, privName, priv.Name)
+		assert.Equal(t, true, priv.ReadOnly)
+		assert.Equal(t, "All privileges for all repository administration", priv.Description)
+		assert.Equal(t, PrivilegeTypeRepositoryAdmin, priv.Type)
+		assert.Equal(t, 1, len(priv.Actions))
+		assert.Equal(t, "ALL", priv.Actions[0])
+		assert.Equal(t, "*", priv.Format)
+		assert.Equal(t, "*", priv.Repository)
+	}
+}
+
+func TestPrivilegeTypeRepositoryViewRead(t *testing.T) {
+	client := NewClient(getDefaultConfig())
+	privName := "nx-repository-view-*-*-*"
+
+	priv, err := client.PrivilegeRead(privName)
+	assert.Nil(t, err)
+	assert.NotNil(t, priv)
+	if priv != nil {
+		assert.Equal(t, privName, priv.Name)
+		assert.Equal(t, true, priv.ReadOnly)
+		assert.Equal(t, "All permissions for all repository views", priv.Description)
+		assert.Equal(t, PrivilegeTypeRepositoryView, priv.Type)
+		assert.Equal(t, 1, len(priv.Actions))
+		assert.Equal(t, "ALL", priv.Actions[0])
+		assert.Equal(t, "*", priv.Format)
+		assert.Equal(t, "*", priv.Repository)
+	}
+}
+
 func TestPrivilegeCreateReadUpdateDelete(t *testing.T) {
 	client := NewClient(getDefaultConfig())
 	privilege := testPrivilege("test-privilege")
