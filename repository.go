@@ -22,6 +22,7 @@ const (
 	RepositoryFormatNuget  = "nuget"
 	RepositoryFormatP2     = "p2"
 	RepositoryFormatPyPi   = "pypi"
+	RepositoryFormatRAW    = "raw"
 	RepositoryFormatYum    = "yum"
 
 	RepositoryTypeGroup  = "group"
@@ -44,6 +45,7 @@ var (
 		RepositoryFormatNuget,
 		RepositoryFormatP2,
 		RepositoryFormatPyPi,
+		RepositoryFormatRAW,
 		RepositoryFormatYum,
 	}
 
