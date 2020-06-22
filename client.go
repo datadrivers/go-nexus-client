@@ -18,6 +18,10 @@ const (
 
 // Client represents the Nexus API Client interface
 type Client interface {
+	CertificateList() (*[]Certificate, error)
+	CertificateGet(*CertificateRequest) (*Certificate, error)
+	CertificateCreate(*Certificate) error
+	CertificateDelete(string) error
 	ContentSelectorCreate(ContentSelector) error
 	ContentSelectorRead(string) (*ContentSelector, error)
 	ContentSelectorUpdate(string, ContentSelector) error
