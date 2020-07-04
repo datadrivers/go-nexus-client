@@ -7,11 +7,11 @@ import (
 )
 
 func TestRepositoryBowerHosted(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	// Create hosted bower repo
-	hostedRepo := getTestRepositoryBowerHosted("test-repo-bower-hosted")
-	err := client.RepositoryCreate(hostedRepo)
+	repo := getTestRepositoryBowerHosted("test-repo-bower-hosted")
+	err := client.RepositoryCreate(repo)
 	assert.Nil(t, err)
 
 	if err == nil {
@@ -21,7 +21,7 @@ func TestRepositoryBowerHosted(t *testing.T) {
 
 		if err == nil {
 			// Create bower group repo
-			groupRepo := getTestRepositoryBowerGroup("test-repo-bower-group", []string{hostedRepo.Name, proxyRepo.Name})
+			groupRepo := getTestRepositoryBowerGroup("test-repo-bower-group", []string{repo.Name, proxyRepo.Name})
 			err = client.RepositoryCreate(groupRepo)
 			assert.Nil(t, err)
 
@@ -40,7 +40,7 @@ func TestRepositoryBowerHosted(t *testing.T) {
 			assert.Nil(t, err)
 		}
 
-		err = client.RepositoryDelete(hostedRepo.Name)
+		err = client.RepositoryDelete(repo.Name)
 	}
 }
 
@@ -76,6 +76,9 @@ func getTestRepositoryBowerProxy(name string) Repository {
 		Name:   name,
 		Format: RepositoryFormatBower,
 		Type:   RepositoryTypeProxy,
+		RepositoryBower: &RepositoryBower{
+			RewritePackageUrls: true,
+		},
 		RepositoryCleanup: &RepositoryCleanup{
 			PolicyNames: []string{"weekly-cleanup"},
 		},

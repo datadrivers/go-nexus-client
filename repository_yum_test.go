@@ -7,7 +7,7 @@ import (
 )
 
 func TestRepositoryYumHosted(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	repoName := "tst-yum-repo-hosted"
 

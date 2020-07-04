@@ -36,7 +36,7 @@ func getTestRepositoryDockerHostedWithPorts(name string) Repository {
 }
 
 func TestRepositoryDockerHostedWithPorts(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	repo := getTestRepositoryDockerHostedWithPorts("test-docker-repo-hosted-with-ports")
 
 	err := client.RepositoryCreate(repo)
@@ -74,7 +74,7 @@ func getTestRepositoryDockerHostedWithoutPorts(name string) Repository {
 }
 
 func TestRepositoryDockerHostedWithoutPorts(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	repo := getTestRepositoryDockerHostedWithoutPorts("test-docker-repo-hosted-with-ports")
 
 	err := client.RepositoryCreate(repo)
@@ -91,7 +91,7 @@ func TestRepositoryDockerHostedWithoutPorts(t *testing.T) {
 }
 
 func TestRepositoryDockerProxy(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	repo := getTestRepositoryDockerProxy("test-docker-repo-proxy")
 
 	err := client.RepositoryCreate(repo)

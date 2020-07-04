@@ -9,7 +9,7 @@ import (
 )
 
 func TestContentSelectorCreateReadUpdateDelete(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	name := "test-content-selector"
 	createdContentSelector := testContentSelector(name)
 

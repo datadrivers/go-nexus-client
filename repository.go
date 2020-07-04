@@ -69,14 +69,11 @@ type Repository struct {
 	*RepositoryApt        `json:"apt,omitempty"`
 	*RepositoryAptSigning `json:"aptSigning,omitempty"`
 
-	// Yum Repository data
-	*RepositoryYum `json:"yum,omitempty"`
+	// RepositoryBower data
+	*RepositoryBower `json:"bower,omitempty"`
 
 	// RepositoryCleanup data
 	*RepositoryCleanup `json:"cleanup,omitempty"`
-
-	// RepositoryBower data
-	*RepositoryBower `json:"bower,omitempty"`
 
 	// Docker Repository data
 	*RepositoryDocker      `json:"docker,omitempty"`
@@ -102,6 +99,9 @@ type Repository struct {
 
 	// Repository storage data
 	*RepositoryStorage `json:"storage,omitempty"`
+
+	// Yum Repository data
+	*RepositoryYum `json:"yum,omitempty"`
 }
 
 // RepositoryCleanup ...

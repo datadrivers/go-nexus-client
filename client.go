@@ -18,45 +18,48 @@ const (
 
 // Client represents the Nexus API Client interface
 type Client interface {
+	BlobstoreCreate(Blobstore) error
+	BlobstoreDelete(string) error
+	BlobstoreRead(string) (*Blobstore, error)
+	BlobstoreUpdate(string, Blobstore) error
 	CertificateList() (*[]Certificate, error)
 	CertificateGet(*CertificateRequest) (*Certificate, error)
 	CertificateCreate(*Certificate) error
 	CertificateDelete(string) error
 	ContentSelectorCreate(ContentSelector) error
+	ContentSelectorDelete(string) error
 	ContentSelectorRead(string) (*ContentSelector, error)
 	ContentSelectorUpdate(string, ContentSelector) error
-	ContentSelectorDelete(string) error
 	ContentType() string
-	ContentTypeTextPlain()
 	ContentTypeJSON()
-	BlobstoreCreate(Blobstore) error
-	BlobstoreRead(string) (*Blobstore, error)
-	BlobstoreUpdate(string, Blobstore) error
-	BlobstoreDelete(string) error
-	Privileges() ([]Privilege, error)
+	ContentTypeTextPlain()
 	PrivilegeCreate(Privilege) error
+	PrivilegeDelete(string) error
 	PrivilegeRead(string) (*Privilege, error)
 	PrivilegeUpdate(string, Privilege) error
-	PrivilegeDelete(string) error
+	Privileges() ([]Privilege, error)
+	RealmsActivate([]string) error
+	RealmsActive() ([]string, error)
+	RealmsAvailable() ([]Realm, error)
 	RepositoryCreate(Repository) error
+	RepositoryDelete(string) error
 	RepositoryRead(string) (*Repository, error)
 	RepositoryUpdate(string, Repository) error
-	RepositoryDelete(string) error
 	RoleCreate(Role) error
+	RoleDelete(string) error
 	RoleRead(string) (*Role, error)
 	RoleUpdate(string, Role) error
-	RoleDelete(string) error
-	UserCreate(User) error
-	UserRead(string) (*User, error)
-	UserUpdate(string, User) error
-	UserDelete(string) error
-	UserChangePassword(string, string) error
+	ScriptCreate(*Script) error
+	ScriptDelete(string) error
 	ScriptLists() ([]Script, error)
 	ScriptRead(string) (*Script, error)
-	ScriptCreate(*Script) error
-	ScriptUpdate(*Script) error
-	ScriptDelete(string) error
 	ScriptRun(string) error
+	ScriptUpdate(*Script) error
+	UserChangePassword(string, string) error
+	UserCreate(User) error
+	UserDelete(string) error
+	UserRead(string) (*User, error)
+	UserUpdate(string, User) error
 }
 
 type client struct {

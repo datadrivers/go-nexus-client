@@ -7,7 +7,7 @@ import (
 )
 
 func TestRepositoryPyPiHosted(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	hostedRepo := getTestRepositoryPyPiHosted("test-repo-pypi-hosted")
 	err := client.RepositoryCreate(hostedRepo)

@@ -33,7 +33,7 @@ func testUser(id string) *User {
 }
 
 func TestUserCreateReadUpdateDelete(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	testUser := testUser("test-user-create-read-update-delete")
 
 	err := client.UserCreate(*testUser)
@@ -61,7 +61,7 @@ func TestUserCreateReadUpdateDelete(t *testing.T) {
 }
 
 func TestUserCreate(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	testUser := testUser("test-user-create")
 
 	err := client.UserCreate(*testUser)
@@ -72,7 +72,7 @@ func TestUserCreate(t *testing.T) {
 }
 
 func TestUserRead(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	user, err := client.UserRead("admin")
 	assert.Nil(t, err)
@@ -84,7 +84,7 @@ func TestUserRead(t *testing.T) {
 }
 
 func TestUserDeleteCurrentlySignedInUser(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	err := client.UserDelete(getDefaultConfig().Username)
 	assert.NotNil(t, err)
@@ -92,7 +92,7 @@ func TestUserDeleteCurrentlySignedInUser(t *testing.T) {
 }
 
 func TestUserDeleteAnonymous(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	anonymous, err := client.UserRead("anonymous")
 	assert.Nil(t, err)

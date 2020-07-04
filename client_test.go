@@ -6,6 +6,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var (
+	testClient Client = nil
+)
+
+func getTestClient() Client {
+	if testClient != nil {
+		return testClient
+	}
+	return NewClient(getDefaultConfig())
+}
+
 func getDefaultConfig() Config {
 	return Config{
 		Insecure: getEnv("NEXUS_INSECURE_SKIP_VERIFY", true).(bool),
@@ -22,7 +33,7 @@ func TestNewClient(t *testing.T) {
 }
 
 func TestContentType(t *testing.T) {
-	c := NewClient(getDefaultConfig())
+	c := getTestClient()
 
 	c.ContentTypeJSON()
 	assert.Equal(t, c.ContentType(), ContentTypeApplicationJSON)

@@ -7,7 +7,7 @@ import (
 )
 
 func TestRepositoryNugetProxy(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	repo := getTestRepositoryNugetProxy("test-nuget-proxy-repo")
 
 	err := client.RepositoryCreate(repo)
