@@ -22,6 +22,10 @@ type Client interface {
 	BlobstoreDelete(string) error
 	BlobstoreRead(string) (*Blobstore, error)
 	BlobstoreUpdate(string, Blobstore) error
+	CertificateList() (*[]Certificate, error)
+	CertificateGet(*CertificateRequest) (*Certificate, error)
+	CertificateCreate(*Certificate) error
+	CertificateDelete(string) error
 	ContentSelectorCreate(ContentSelector) error
 	ContentSelectorDelete(string) error
 	ContentSelectorRead(string) (*ContentSelector, error)
