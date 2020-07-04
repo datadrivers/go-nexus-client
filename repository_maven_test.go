@@ -7,7 +7,7 @@ import (
 )
 
 func TestRepositoryMavenGroupRead(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	repoName := "maven-public"
 
@@ -24,7 +24,7 @@ func TestRepositoryMavenGroupRead(t *testing.T) {
 }
 
 func TestRepositoryMavenHosted(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	repo := getTestRepositoryMavenHosted("test-maven-repo-hosted", "STRICT", "RELEASE")
 

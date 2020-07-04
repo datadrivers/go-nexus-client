@@ -8,7 +8,7 @@ import (
 )
 
 func TestBlobstoreFile(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	bsName := "test-blobstore-name"
 	bsPath := "test-blobstore-path"
@@ -20,37 +20,46 @@ func TestBlobstoreFile(t *testing.T) {
 		Type: bsType,
 	}
 
-	createErr := client.BlobstoreCreate(bs)
-	assert.Nil(t, createErr)
-
-	bsCreated, err := client.BlobstoreRead(bs.Name)
-	assert.Nil(t, err)
-	assert.NotNil(t, bsCreated)
-	assert.Equal(t, bsPath, bsCreated.Path)
-	assert.Equal(t, bsType, bsCreated.Type)
-	assert.Equal(t, 0, bsCreated.BlobCount)
-	assert.Nil(t, bsCreated.BlobstoreSoftQuota)
-
-	bsCreated.BlobstoreSoftQuota = &BlobstoreSoftQuota{
-		Type:  "spaceRemainingQuota",
-		Limit: 100000000,
-	}
-	err = client.BlobstoreUpdate(bsCreated.Name, *bsCreated)
+	err := client.BlobstoreCreate(bs)
 	assert.Nil(t, err)
 
-	bsUpdated, err := client.BlobstoreRead(bsCreated.Name)
+	createdBlobstore, err := client.BlobstoreRead(bs.Name)
 	assert.Nil(t, err)
-	assert.NotNil(t, bsUpdated)
-	assert.NotNil(t, bsUpdated.BlobstoreSoftQuota)
+	assert.NotNil(t, createdBlobstore)
 
-	if createErr == nil {
-		err := client.BlobstoreDelete(bs.Name)
+	if createdBlobstore != nil {
+		assert.Equal(t, bsPath, createdBlobstore.Path)
+		assert.Equal(t, bsType, createdBlobstore.Type)
+		assert.Equal(t, 0, createdBlobstore.BlobCount)
+		assert.Nil(t, createdBlobstore.BlobstoreSoftQuota)
+
+		createdBlobstore.BlobstoreSoftQuota = &BlobstoreSoftQuota{
+			Type:  "spaceRemainingQuota",
+			Limit: 100000000,
+		}
+
+		err = client.BlobstoreUpdate(createdBlobstore.Name, *createdBlobstore)
 		assert.Nil(t, err)
+
+		updatedBlobstore, err := client.BlobstoreRead(createdBlobstore.Name)
+		assert.Nil(t, err)
+		assert.NotNil(t, updatedBlobstore)
+
+		if updatedBlobstore != nil {
+			assert.NotNil(t, updatedBlobstore.BlobstoreSoftQuota)
+		}
+
+		err = client.BlobstoreDelete(bs.Name)
+		assert.Nil(t, err)
+
+		deletedBlobstore, err := client.BlobstoreRead(bs.Name)
+		assert.Nil(t, err)
+		assert.Nil(t, deletedBlobstore)
 	}
 }
 
 func TestBlobstoreRead(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	bsName := "default"
 
@@ -68,7 +77,7 @@ func TestBlobstoreS3(t *testing.T) {
 	if os.Getenv("SKIP_S3_TESTS") != "" {
 		t.Skip("Skipping S3 tests")
 	}
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	bsName := "test-blobstore-s3"
 	bsType := BlobstoreTypeS3
