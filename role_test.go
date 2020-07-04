@@ -39,28 +39,30 @@ func TestRoleCreateReadUpdateDelete(t *testing.T) {
 		assert.Equal(t, len(testRole.Privileges), len(createdRole.Privileges))
 		assert.Equal(t, len(testRole.Roles), len(createdRole.Roles))
 
-		createdRole.Description = "changed"
-		createdRole.Name = "changed"
-		createdRole.Privileges = []string{"nx-repository-view-*-*-*"}
-		createdRole.Roles = []string{"nx-anonymous"}
+		if createdRole != nil {
+			createdRole.Description = "changed"
+			createdRole.Name = "changed"
+			createdRole.Privileges = []string{"nx-repository-view-*-*-*"}
+			createdRole.Roles = []string{"nx-anonymous"}
 
-		// Update
-		err = client.RoleUpdate(createdRole.ID, *createdRole)
-		assert.Nil(t, err)
+			// Update
+			err = client.RoleUpdate(createdRole.ID, *createdRole)
+			assert.Nil(t, err)
 
-		updatedRole, err := client.RoleRead(createdRole.ID)
-		assert.Nil(t, err)
-		assert.NotNil(t, updatedRole)
-		assert.Equal(t, "changed", updatedRole.Description)
-		assert.Equal(t, "changed", updatedRole.Name)
-		assert.Equal(t, []string{"nx-repository-view-*-*-*"}, updatedRole.Privileges)
-		assert.Equal(t, []string{"nx-anonymous"}, updatedRole.Roles)
+			updatedRole, err := client.RoleRead(createdRole.ID)
+			assert.Nil(t, err)
+			assert.NotNil(t, updatedRole)
+			assert.Equal(t, "changed", updatedRole.Description)
+			assert.Equal(t, "changed", updatedRole.Name)
+			assert.Equal(t, []string{"nx-repository-view-*-*-*"}, updatedRole.Privileges)
+			assert.Equal(t, []string{"nx-anonymous"}, updatedRole.Roles)
+		}
 
 		// Delete
-		err = client.RoleDelete(updatedRole.ID)
+		err = client.RoleDelete(createdRole.ID)
 		assert.Nil(t, err)
 
-		role, err := client.RoleRead(updatedRole.ID)
+		role, err := client.RoleRead(createdRole.ID)
 		assert.Nil(t, err)
 		assert.Nil(t, role)
 	}
