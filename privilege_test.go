@@ -122,21 +122,27 @@ func TestPrivilegeCreateReadUpdateDelete(t *testing.T) {
 	if err != nil {
 		createdPrivilege, err := client.PrivilegeRead(privilege.Name)
 		assert.Nil(t, err)
-		assert.Equal(t, privilege.Name, createdPrivilege.Name)
-		assert.Equal(t, privilege.Description, createdPrivilege.Description)
-		assert.Equal(t, privilege.Domain, createdPrivilege.Domain)
-		assert.Equal(t, privilege.Type, createdPrivilege.Type)
+		assert.NotNil(t, createdPrivilege)
 
-		// Update
-		createdPrivilege.Description = "updated"
-		createdPrivilege.Domain = "datastores"
+		if createdPrivilege != nil {
+			assert.Equal(t, privilege.Name, createdPrivilege.Name)
+			assert.Equal(t, privilege.Description, createdPrivilege.Description)
+			assert.Equal(t, privilege.Domain, createdPrivilege.Domain)
+			assert.Equal(t, privilege.Type, createdPrivilege.Type)
 
-		err = client.PrivilegeUpdate(privilege.Name, *createdPrivilege)
-		assert.Nil(t, err)
-		updatedPrivilege, err := client.PrivilegeRead(privilege.Name)
-		assert.Nil(t, err)
-		assert.Equal(t, createdPrivilege.Description, updatedPrivilege.Description)
-		assert.Equal(t, createdPrivilege.Domain, updatedPrivilege.Domain)
+			// Update
+			createdPrivilege.Description = "updated"
+			createdPrivilege.Domain = "datastores"
+
+			err = client.PrivilegeUpdate(privilege.Name, *createdPrivilege)
+			assert.Nil(t, err)
+
+			updatedPrivilege, err := client.PrivilegeRead(privilege.Name)
+			assert.Nil(t, err)
+			assert.NotNil(t, updatedPrivilege)
+			assert.Equal(t, createdPrivilege.Description, updatedPrivilege.Description)
+			assert.Equal(t, createdPrivilege.Domain, updatedPrivilege.Domain)
+		}
 
 		err = client.PrivilegeDelete(privilege.Name)
 		assert.Nil(t, err)
