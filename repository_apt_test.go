@@ -32,7 +32,7 @@ func getTestRepositoryAptHosted(name string) Repository {
 }
 
 func TestRepositoryAptHosted(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	repo := getTestRepositoryAptHosted("test-apt-repo-hosted")
 
 	err := client.RepositoryCreate(repo)
@@ -49,7 +49,7 @@ func TestRepositoryAptHosted(t *testing.T) {
 }
 
 func TestRepositoryAptProxy(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	repo := getTestRepositoryAptProxy("test-repo-apt-proxy")
 
 	err := client.RepositoryCreate(repo)

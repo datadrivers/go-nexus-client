@@ -8,7 +8,7 @@ import (
 )
 
 func TestRepositoryRead(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	name := "maven-central"
 

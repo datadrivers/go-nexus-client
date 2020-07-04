@@ -7,7 +7,7 @@ import (
 )
 
 func TestRealmsActivate(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	activeRealms, err := client.RealmsActive()
 	assert.Nil(t, err)
 	assert.NotNil(t, activeRealms)
@@ -17,7 +17,7 @@ func TestRealmsActivate(t *testing.T) {
 }
 
 func TestRealmsActive(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	activeRealms, err := client.RealmsActive()
 	assert.Nil(t, err)
 	assert.NotNil(t, activeRealms)
@@ -27,7 +27,7 @@ func TestRealmsActive(t *testing.T) {
 }
 
 func TestRealmsAvailable(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	availableRealms, err := client.RealmsAvailable()
 	assert.Nil(t, err)
 	assert.NotNil(t, availableRealms)

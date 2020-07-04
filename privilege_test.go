@@ -9,7 +9,7 @@ import (
 )
 
 func TestPrivileges(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	privs, err := client.Privileges()
 	assert.Nil(t, err)
@@ -18,7 +18,7 @@ func TestPrivileges(t *testing.T) {
 }
 
 func TestPrivilegeTypeWildcardRead(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	privName := "nx-all"
 
 	priv, err := client.PrivilegeRead(privName)
@@ -35,7 +35,7 @@ func TestPrivilegeTypeWildcardRead(t *testing.T) {
 }
 
 func TestPrivilegeTypeAnalyticsRead(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	privName := "nx-analytics-all"
 
 	priv, err := client.PrivilegeRead(privName)
@@ -55,7 +55,7 @@ func TestPrivilegeTypeAnalyticsRead(t *testing.T) {
 }
 
 func TestPrivilegeTypeApplicationRead(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	privName := "nx-apikey-all"
 
 	priv, err := client.PrivilegeRead(privName)
@@ -75,7 +75,7 @@ func TestPrivilegeTypeApplicationRead(t *testing.T) {
 }
 
 func TestPrivilegeTypeRepositoryAdminRead(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	privName := "nx-repository-admin-*-*-*"
 
 	priv, err := client.PrivilegeRead(privName)
@@ -94,7 +94,7 @@ func TestPrivilegeTypeRepositoryAdminRead(t *testing.T) {
 }
 
 func TestPrivilegeTypeRepositoryViewRead(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	privName := "nx-repository-view-*-*-*"
 
 	priv, err := client.PrivilegeRead(privName)
@@ -113,7 +113,7 @@ func TestPrivilegeTypeRepositoryViewRead(t *testing.T) {
 }
 
 func TestPrivilegeCreateReadUpdateDelete(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	privilege := testPrivilege("test-privilege")
 
 	err := client.PrivilegeCreate(privilege)

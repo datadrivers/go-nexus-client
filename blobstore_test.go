@@ -8,7 +8,7 @@ import (
 )
 
 func TestBlobstoreFile(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	bsName := "test-blobstore-name"
 	bsPath := "test-blobstore-path"
@@ -59,7 +59,7 @@ func TestBlobstoreFile(t *testing.T) {
 }
 
 func TestBlobstoreRead(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	bsName := "default"
 
@@ -77,7 +77,7 @@ func TestBlobstoreS3(t *testing.T) {
 	if os.Getenv("SKIP_S3_TESTS") != "" {
 		t.Skip("Skipping S3 tests")
 	}
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	bsName := "test-blobstore-s3"
 	bsType := BlobstoreTypeS3

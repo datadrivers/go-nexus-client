@@ -7,7 +7,7 @@ import (
 )
 
 func TestRepositoryBowerHosted(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 
 	// Create hosted bower repo
 	repo := getTestRepositoryBowerHosted("test-repo-bower-hosted")

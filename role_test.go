@@ -7,7 +7,7 @@ import (
 )
 
 func TestRoleRead(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	role, err := client.RoleRead("nx-admin")
 
 	assert.Nil(t, err)
@@ -21,7 +21,7 @@ func TestRoleRead(t *testing.T) {
 }
 
 func TestRoleCreateReadUpdateDelete(t *testing.T) {
-	client := NewClient(getDefaultConfig())
+	client := getTestClient()
 	testRole := testRole("test-role", "test-role-name", "test-role-description", []string{"nx-all"}, []string{"nx-admin"})
 
 	// Create
