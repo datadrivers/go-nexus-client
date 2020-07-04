@@ -69,6 +69,10 @@ func TestRepositoryAptProxy(t *testing.T) {
 
 		err = client.RepositoryDelete(repo.Name)
 		assert.Nil(t, err)
+
+		deletedRepo, err := client.RepositoryRead(repo.Name)
+		assert.Nil(t, err)
+		assert.Nil(t, deletedRepo)
 	}
 }
 
