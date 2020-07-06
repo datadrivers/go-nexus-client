@@ -22,10 +22,10 @@ type Client interface {
 	BlobstoreDelete(string) error
 	BlobstoreRead(string) (*Blobstore, error)
 	BlobstoreUpdate(string, Blobstore) error
-	CertificateList() (*[]Certificate, error)
-	CertificateGet(*CertificateRequest) (*Certificate, error)
 	CertificateCreate(*Certificate) error
 	CertificateDelete(string) error
+	CertificateGet(*CertificateRequest) (*Certificate, error)
+	CertificateList() (*[]Certificate, error)
 	ContentSelectorCreate(ContentSelector) error
 	ContentSelectorDelete(string) error
 	ContentSelectorRead(string) (*ContentSelector, error)
@@ -33,6 +33,11 @@ type Client interface {
 	ContentType() string
 	ContentTypeJSON()
 	ContentTypeTextPlain()
+	LDAPList() ([]LDAP, error)
+	LDAPCreate(LDAP) error
+	LDAPDelete(string) error
+	LDAPRead(string) (*LDAP, error)
+	LDAPUpdate(string, LDAP) error
 	PrivilegeCreate(Privilege) error
 	PrivilegeDelete(string) error
 	PrivilegeRead(string) (*Privilege, error)
