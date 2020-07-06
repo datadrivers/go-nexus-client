@@ -33,7 +33,6 @@ type LDAP struct {
 	Port                        uint   `json:"port"`
 	Protocol                    string `json:"protocol"`
 	SearchBase                  string `json:"searchBase"`
-	UseSubtree                  bool   `json:"userSubtree,omitempty"`
 	UseTrustStore               bool   `json:"useTrustStore,omitempty"`
 	UserBaseDN                  string `json:"userBaseDn,omitempty"`
 	UserEmailAddressAttribute   string `json:"userEmailAddressAttribute,omitempty"`
@@ -43,6 +42,7 @@ type LDAP struct {
 	UserObjectClass             string `json:"userObjectClass,omitempty"`
 	UserPasswordAttribute       string `json:"userPasswordAttribute,omitempty"`
 	UserRealNameAttribute       string `json:"userRealNameAttribute,omitempty"`
+	UserSubtree                 bool   `json:"userSubtree,omitempty"`
 }
 
 func (c *client) LDAPList() ([]LDAP, error) {
