@@ -33,9 +33,9 @@ type LDAP struct {
 	Port                        uint   `json:"port"`
 	Protocol                    string `json:"protocol"`
 	SearchBase                  string `json:"searchBase"`
-	UseBaseCon                  string `json:"userBaseDn,omitempty"`
 	UseSubtree                  bool   `json:"userSubtree,omitempty"`
 	UseTrustStore               bool   `json:"useTrustStore,omitempty"`
+	UserBaseDN                  string `json:"userBaseDn,omitempty"`
 	UserEmailAddressAttribute   string `json:"userEmailAddressAttribute,omitempty"`
 	UserIDAttribute             string `json:"userIdAttribute,omitempty"`
 	UserLDAPFilter              string `json:"userLdapFilter,omitempty"`
