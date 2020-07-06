@@ -39,7 +39,7 @@ type LDAP struct {
 	UserEmailAddressAttribute   string `json:"userEmailAddressAttribute,omitempty"`
 	UserIDAttribute             string `json:"userIdAttribute,omitempty"`
 	UserLDAPFilter              string `json:"userLdapFilter,omitempty"`
-	UserMemberOffAttribute      string `json:"userMemberOfAttribute,omitempty"`
+	UserMemberOfAttribute       string `json:"userMemberOfAttribute,omitempty"`
 	UserObjectClass             string `json:"userObjectClass,omitempty"`
 	UserPasswordAttribute       string `json:"userPasswordAttribute,omitempty"`
 	UserRealNameAttribute       string `json:"userRealNameAttribute,omitempty"`
