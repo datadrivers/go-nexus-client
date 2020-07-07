@@ -33,9 +33,10 @@ type Client interface {
 	ContentType() string
 	ContentTypeJSON()
 	ContentTypeTextPlain()
-	LDAPList() ([]LDAP, error)
+	LDAPChangeOrder([]string) error
 	LDAPCreate(LDAP) error
 	LDAPDelete(string) error
+	LDAPList() ([]LDAP, error)
 	LDAPRead(string) (*LDAP, error)
 	LDAPUpdate(string, LDAP) error
 	PrivilegeCreate(Privilege) error

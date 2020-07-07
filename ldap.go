@@ -45,6 +45,24 @@ type LDAP struct {
 	UserSubtree                 bool   `json:"userSubtree,omitempty"`
 }
 
+func (c *client) LDAPChangeOrder(order []string) error {
+	ioReader, err := jsonMarshalInterfaceToIOReader(order)
+	if err != nil {
+		return err
+	}
+
+	body, resp, err := c.Post(fmt.Sprintf("%s/change-order", ldapAPIEndpoint), ioReader)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusNoContent {
+		return fmt.Errorf("could not change LDAP order: HTTP: %d, %v", resp.StatusCode, string(body))
+	}
+
+	return nil
+}
+
 func (c *client) LDAPList() ([]LDAP, error) {
 	body, resp, err := c.Get(ldapAPIEndpoint, nil)
 	if err != nil {
