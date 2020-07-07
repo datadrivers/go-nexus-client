@@ -33,7 +33,7 @@ type Client interface {
 	ContentType() string
 	ContentTypeJSON()
 	ContentTypeTextPlain()
-	LDAPChangeOrder([]string, error)
+	LDAPChangeOrder([]string) error
 	LDAPCreate(LDAP) error
 	LDAPDelete(string) error
 	LDAPList() ([]LDAP, error)
