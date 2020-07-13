@@ -4,15 +4,17 @@ services:
   - docker
 language: go
 go:
-  - 1.13.x
+  - 1.14.x
 
 install:
   # This script is used by the Travis build to install a cookie for
   # go.googlesource.com so rate limits are higher when using `go get` to fetch
   # packages that live there.
   # See: https://github.com/golang/go/issues/12933
-  - bash scripts/gogetcookie.sh
-  - bash scripts/start-nexus.sh
+  - cd scripts
+  - bash gogetcookie.sh
+  - bash start-nexus.sh
+  - cd -
 
 script:
   - make test

@@ -97,6 +97,7 @@ type Privilege struct {
 	Format          string   `json:"format,omitempty"`
 	Name            string   `json:"name"`
 	Pattern         string   `json:"pattern,omitempty"`
+	ScriptName      string   `json:"scriptName,omitempty"`
 	ReadOnly        bool     `json:"readOnly"`
 	Repository      string   `json:"repository,omitempty"`
 	Type            string   `json:"type"`
