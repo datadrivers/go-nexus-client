@@ -124,11 +124,11 @@ type RepositoryHTTPClient struct {
 
 // RepositoryHTTPClientConnection ...
 type RepositoryHTTPClientConnection struct {
-	EnableCircularRedirects bool    `json:"enableCircularRedirects,omitempty"`
-	EnableCookies           bool    `json:"enableCookies,omitempty"`
-	Retries                 *int    `json:"retries,omitempty"`
-	Timeout                 *int    `json:"timeout,omitempty"`
-	UserAgentSuffix         *string `json:"userAgentSuffix,omitempty"`
+	EnableCircularRedirects *bool  `json:"enableCircularRedirects,omitempty"`
+	EnableCookies           *bool  `json:"enableCookies,omitempty"`
+	Retries                 *int   `json:"retries,omitempty"`
+	Timeout                 *int   `json:"timeout,omitempty"`
+	UserAgentSuffix         string `json:"userAgentSuffix,omitempty"`
 }
 
 // RepositoryHTTPClientAuthentication ...

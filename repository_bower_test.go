@@ -82,7 +82,11 @@ func getTestRepositoryBowerProxy(name string) Repository {
 		RepositoryCleanup: &RepositoryCleanup{
 			PolicyNames: []string{"weekly-cleanup"},
 		},
-		RepositoryHTTPClient: &RepositoryHTTPClient{},
+		RepositoryHTTPClient: &RepositoryHTTPClient{
+			Connection: &RepositoryHTTPClientConnection{
+				Timeout: makeIntAddressable(20),
+			},
+		},
 		RepositoryNegativeCache: &RepositoryNegativeCache{
 			Enabled: true,
 		},
