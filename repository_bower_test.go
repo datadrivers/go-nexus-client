@@ -45,14 +45,13 @@ func TestRepositoryBowerHosted(t *testing.T) {
 }
 
 func getTestRepositoryBowerHosted(name string) Repository {
-	writePolicy := "ALLOW_ONCE"
 	return Repository{
 		Name:   name,
 		Type:   RepositoryTypeHosted,
 		Format: RepositoryFormatBower,
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName: "default",
-			WritePolicy:   &writePolicy,
+			WritePolicy:   makeStringAddressable("ALLOW_ONCE"),
 		},
 	}
 }

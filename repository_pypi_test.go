@@ -38,14 +38,13 @@ func TestRepositoryPyPiHosted(t *testing.T) {
 }
 
 func getTestRepositoryPyPiHosted(name string) Repository {
-	writePolicy := "ALLOW_ONCE"
 	return Repository{
 		Name:   name,
 		Format: RepositoryFormatPyPi,
 		Type:   RepositoryTypeHosted,
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName: "default",
-			WritePolicy:   &writePolicy,
+			WritePolicy:   makeStringAddressable("ALLOW_ONCE"),
 		},
 		RepositoryCleanup: &RepositoryCleanup{
 			PolicyNames: []string{"weekly-cleanup"},
@@ -54,12 +53,11 @@ func getTestRepositoryPyPiHosted(name string) Repository {
 }
 
 func getTestRepositoryPyPiProxy(name string) Repository {
-	writePolicy := "ALLOW_ONCE"
 	return Repository{
-		Name:                 name,
-		Format:               RepositoryFormatPyPi,
-		Type:                 RepositoryTypeProxy,
-		RepositoryHTTPClient:    &RepositoryHTTPClient{
+		Name:   name,
+		Format: RepositoryFormatPyPi,
+		Type:   RepositoryTypeProxy,
+		RepositoryHTTPClient: &RepositoryHTTPClient{
 			Connection: &RepositoryHTTPClientConnection{
 				Timeout: makeIntAddressable(20),
 			},
@@ -72,13 +70,12 @@ func getTestRepositoryPyPiProxy(name string) Repository {
 		},
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName: "default",
-			WritePolicy:   &writePolicy,
+			WritePolicy:   makeStringAddressable("ALLOW_ONCE"),
 		},
 	}
 }
 
 func getTestRepositoryPyPiGroup(name string, memberNames []string) Repository {
-	writePolicy := "ALLOW_ONCE"
 	return Repository{
 		Name:   name,
 		Format: RepositoryFormatPyPi,
@@ -88,7 +85,7 @@ func getTestRepositoryPyPiGroup(name string, memberNames []string) Repository {
 		},
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName: "default",
-			WritePolicy:   &writePolicy,
+			WritePolicy:   makeStringAddressable("ALLOW_ONCE"),
 		},
 	}
 }

@@ -52,14 +52,16 @@ func TestPrivilegeTypeScriptCreateAndRead(t *testing.T) {
 
 	readPrivilege, readPrivilegeErr := client.PrivilegeRead(testPrivilegeName)
 	assert.Nil(t, readPrivilegeErr)
-	assert.Equal(t, testScriptPrivilege.Name, readPrivilege.Name)
-	assert.Equal(t, testScriptPrivilege.Type, readPrivilege.Type)
-	assert.Equal(t, testScriptPrivilege.ScriptName, readPrivilege.ScriptName)
+	if readPrivilegeErr != nil {
+		assert.Equal(t, testScriptPrivilege.Name, readPrivilege.Name)
+		assert.Equal(t, testScriptPrivilege.Type, readPrivilege.Type)
+		assert.Equal(t, testScriptPrivilege.ScriptName, readPrivilege.ScriptName)
 
-	deletePrivilegeErr := client.PrivilegeDelete(testPrivilegeName)
-	assert.Nil(t, deletePrivilegeErr)
-	deleteScriptErr := client.ScriptDelete(testScriptName)
-	assert.Nil(t, deleteScriptErr)
+		deletePrivilegeErr := client.PrivilegeDelete(testPrivilegeName)
+		assert.Nil(t, deletePrivilegeErr)
+		deleteScriptErr := client.ScriptDelete(testScriptName)
+		assert.Nil(t, deleteScriptErr)
+	}
 }
 
 func TestPrivilegeTypeAnalyticsRead(t *testing.T) {

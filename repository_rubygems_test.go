@@ -43,7 +43,7 @@ func getTestRepositoryRubyHosted(name string) Repository {
 		Type:   RepositoryTypeHosted,
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName: "default",
-			WritePolicy:   "ALLOW_ONCE",
+			WritePolicy:   makeStringAddressable("ALLOW_ONCE"),
 		},
 		RepositoryCleanup: &RepositoryCleanup{
 			PolicyNames: []string{"weekly-cleanup"},

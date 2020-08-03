@@ -54,7 +54,6 @@ func TestRepositoryMavenHosted(t *testing.T) {
 }
 
 func getTestRepositoryMavenHosted(name, layoutPolicy, versionPoliy string) Repository {
-	writePolicy := "ALLOW_ONCE"
 	return Repository{
 		Name:   name,
 		Format: RepositoryFormatMaven2,
@@ -68,7 +67,7 @@ func getTestRepositoryMavenHosted(name, layoutPolicy, versionPoliy string) Repos
 
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName: "default",
-			WritePolicy:   &writePolicy,
+			WritePolicy:   makeStringAddressable("ALLOW_ONCE"),
 		},
 	}
 }

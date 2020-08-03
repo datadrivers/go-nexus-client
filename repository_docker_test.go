@@ -7,12 +7,6 @@ import (
 )
 
 func getTestRepositoryDockerHostedWithPorts(name string) Repository {
-	httpPort := new(int)
-	httpsPort := new(int)
-	*httpPort = 8082
-	*httpsPort = 8083
-	writePolicy := "ALLOW"
-
 	return Repository{
 		Name:   name,
 		Online: true,
@@ -24,13 +18,13 @@ func getTestRepositoryDockerHostedWithPorts(name string) Repository {
 		RepositoryDocker: &RepositoryDocker{
 			V1Enabled:      false,
 			ForceBasicAuth: true,
-			HTTPPort:       httpPort,
-			HTTPSPort:      httpsPort,
+			HTTPPort:       makeIntAddressable(8082),
+			HTTPSPort:      makeIntAddressable(8083),
 		},
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 &writePolicy,
+			WritePolicy:                 makeStringAddressable("ALLOW"),
 		},
 	}
 }
@@ -53,7 +47,6 @@ func TestRepositoryDockerHostedWithPorts(t *testing.T) {
 }
 
 func getTestRepositoryDockerHostedWithoutPorts(name string) Repository {
-	writePolicy := "ALLOW_ONCE"
 	return Repository{
 		Name:   name,
 		Online: true,
@@ -69,7 +62,7 @@ func getTestRepositoryDockerHostedWithoutPorts(name string) Repository {
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 &writePolicy,
+			WritePolicy:                 makeStringAddressable("ALLOW_ONCE"),
 		},
 	}
 }
@@ -128,7 +121,7 @@ func getTestRepositoryDockerProxy(name string) Repository {
 		RepositoryDockerProxy: &RepositoryDockerProxy{
 			IndexType: "HUB",
 		},
-		RepositoryHTTPClient:    &RepositoryHTTPClient{
+		RepositoryHTTPClient: &RepositoryHTTPClient{
 			Connection: &RepositoryHTTPClientConnection{
 				Timeout: makeIntAddressable(20),
 			},
