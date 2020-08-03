@@ -36,9 +36,9 @@ func TestRepositoryMavenHosted(t *testing.T) {
 	assert.NotNil(t, createdRepo)
 
 	if createdRepo != nil {
-
+		writePolicy := "ALLOW"
 		createdRepo.RepositoryMaven.LayoutPolicy = "PERMISSIVE"
-		createdRepo.RepositoryStorage.WritePolicy = "ALLOW"
+		createdRepo.RepositoryStorage.WritePolicy = &writePolicy
 		err := client.RepositoryUpdate(createdRepo.Name, *createdRepo)
 		assert.Nil(t, err)
 
@@ -46,7 +46,7 @@ func TestRepositoryMavenHosted(t *testing.T) {
 		assert.Nil(t, err)
 		assert.NotNil(t, updatedRepo)
 		assert.Equal(t, updatedRepo.RepositoryMaven.LayoutPolicy, "PERMISSIVE")
-		assert.Equal(t, updatedRepo.RepositoryStorage.WritePolicy, "ALLOW")
+		assert.Equal(t, *updatedRepo.RepositoryStorage.WritePolicy, "ALLOW")
 
 		err = client.RepositoryDelete(createdRepo.Name)
 		assert.Nil(t, err)
@@ -54,6 +54,7 @@ func TestRepositoryMavenHosted(t *testing.T) {
 }
 
 func getTestRepositoryMavenHosted(name, layoutPolicy, versionPoliy string) Repository {
+	writePolicy := "ALLOW_ONCE"
 	return Repository{
 		Name:   name,
 		Format: RepositoryFormatMaven2,
@@ -67,7 +68,7 @@ func getTestRepositoryMavenHosted(name, layoutPolicy, versionPoliy string) Repos
 
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName: "default",
-			WritePolicy:   "ALLOW_ONCE",
+			WritePolicy:   &writePolicy,
 		},
 	}
 }

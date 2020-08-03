@@ -30,7 +30,7 @@ func getTestRepositoryDockerHostedWithPorts(name string) Repository {
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 writePolicy,
+			WritePolicy:                 &writePolicy,
 		},
 	}
 }
@@ -53,6 +53,7 @@ func TestRepositoryDockerHostedWithPorts(t *testing.T) {
 }
 
 func getTestRepositoryDockerHostedWithoutPorts(name string) Repository {
+	writePolicy := "ALLOW_ONCE"
 	return Repository{
 		Name:   name,
 		Online: true,
@@ -68,7 +69,7 @@ func getTestRepositoryDockerHostedWithoutPorts(name string) Repository {
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 "ALLOW_ONCE",
+			WritePolicy:                 &writePolicy,
 		},
 	}
 }
