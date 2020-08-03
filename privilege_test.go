@@ -34,6 +34,34 @@ func TestPrivilegeTypeWildcardRead(t *testing.T) {
 	}
 }
 
+func TestPrivilegeTypeScriptCreateAndRead(t *testing.T) {
+	client := getTestClient()
+	testPrivilegeName := "test-script-privilege"
+	testScriptName := "test-script"
+
+	createScriptErr := client.ScriptCreate(&Script{
+		Name:    testScriptName,
+		Content: "log.info('Test a script privilege')",
+		Type:    "groovy",
+	})
+	assert.Nil(t, createScriptErr)
+
+	testScriptPrivilege := testScriptPrivilege(testPrivilegeName, testScriptName)
+	createPrivilegeErr := client.PrivilegeCreate(testScriptPrivilege)
+	assert.Nil(t, createPrivilegeErr)
+
+	readPrivilege, readPrivilegeErr := client.PrivilegeRead(testPrivilegeName)
+	assert.Nil(t, readPrivilegeErr)
+	assert.Equal(t, testScriptPrivilege.Name, readPrivilege.Name)
+	assert.Equal(t, testScriptPrivilege.Type, readPrivilege.Type)
+	assert.Equal(t, testScriptPrivilege.ScriptName, readPrivilege.ScriptName)
+
+	deletePrivilegeErr := client.PrivilegeDelete(testPrivilegeName)
+	assert.Nil(t, deletePrivilegeErr)
+	deleteScriptErr := client.ScriptDelete(testScriptName)
+	assert.Nil(t, deleteScriptErr)
+}
+
 func TestPrivilegeTypeAnalyticsRead(t *testing.T) {
 	client := getTestClient()
 	privName := "nx-analytics-all"
@@ -150,6 +178,16 @@ func TestPrivilegeCreateReadUpdateDelete(t *testing.T) {
 		deletedPrivilege, err := client.PrivilegeRead(privilege.Name)
 		assert.Nil(t, err)
 		assert.Nil(t, deletedPrivilege)
+	}
+}
+
+func testScriptPrivilege(name string, scriptName string) Privilege {
+	return Privilege{
+		Actions:     []string{"READ"},
+		Name:        name,
+		Description: "Description",
+		ScriptName:  scriptName,
+		Type:        PrivilegeTypeScript,
 	}
 }
 
