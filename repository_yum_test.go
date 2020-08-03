@@ -39,6 +39,7 @@ func TestRepositoryYumHosted(t *testing.T) {
 }
 
 func getTestRepositoryYumHosted(name string) Repository {
+	writePolicy := "ALLOW_ONCE"
 	return Repository{
 		Name:   name,
 		Format: RepositoryFormatYum,
@@ -47,7 +48,7 @@ func getTestRepositoryYumHosted(name string) Repository {
 
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName: "default",
-			WritePolicy:   "ALLOW_ONCE",
+			WritePolicy:   &writePolicy,
 		},
 
 		RepositoryYum: &RepositoryYum{

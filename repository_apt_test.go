@@ -7,6 +7,7 @@ import (
 )
 
 func getTestRepositoryAptHosted(name string) Repository {
+	writePolicy := "ALLOW"
 	return Repository{
 		Name:   name,
 		Online: true,
@@ -26,7 +27,7 @@ func getTestRepositoryAptHosted(name string) Repository {
 		RepositoryStorage: &RepositoryStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 "ALLOW",
+			WritePolicy:                 &writePolicy,
 		},
 	}
 }

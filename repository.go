@@ -135,9 +135,9 @@ type RepositoryHTTPClientConnection struct {
 type RepositoryHTTPClientAuthentication struct {
 	NTLMDomain string `json:"ntlmDomain,omitempty"`
 	NTLMHost   string `json:"ntlmHost,omitempty"`
+	Password   string `json:"password,omitempty"`
 	Type       string `json:"type,omitempty"`
 	Username   string `json:"username,omitempty"`
-	Password   string `json:"password,omitempty"`
 }
 
 // RepositoryNegativeCache ...
@@ -155,9 +155,9 @@ type RepositoryProxy struct {
 
 // RepositoryStorage contains repository storage
 type RepositoryStorage struct {
-	BlobStoreName               string `json:"blobStoreName,omitempty"`
-	StrictContentTypeValidation bool   `json:"strictContentTypeValidation"`
-	WritePolicy                 string `json:"writePolicy,omitempty"`
+	BlobStoreName               string  `json:"blobStoreName,omitempty"`
+	StrictContentTypeValidation bool    `json:"strictContentTypeValidation"`
+	WritePolicy                 *string `json:"writePolicy,omitempty"`
 }
 
 func jsonUnmarshalRepositories(data []byte) ([]Repository, error) {
