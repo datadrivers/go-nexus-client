@@ -59,7 +59,11 @@ func getTestRepositoryPyPiProxy(name string) Repository {
 		Name:                 name,
 		Format:               RepositoryFormatPyPi,
 		Type:                 RepositoryTypeProxy,
-		RepositoryHTTPClient: &RepositoryHTTPClient{},
+		RepositoryHTTPClient:    &RepositoryHTTPClient{
+			Connection: &RepositoryHTTPClientConnection{
+				Timeout: makeIntAddressable(20),
+			},
+		},
 		RepositoryNegativeCache: &RepositoryNegativeCache{
 			Enabled: true,
 		},

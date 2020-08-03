@@ -23,3 +23,7 @@ func getEnv(key string, fallback interface{}) interface{} {
 	}
 	return fallback
 }
+
+func makeIntAddressable(number int) *int {
+	return &number
+}

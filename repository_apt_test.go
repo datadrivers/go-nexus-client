@@ -92,6 +92,9 @@ func getTestRepositoryAptProxy(name string) Repository {
 		RepositoryHTTPClient: &RepositoryHTTPClient{
 			Blocked:   true,
 			AutoBlock: true,
+			Connection: &RepositoryHTTPClientConnection{
+				Timeout: makeIntAddressable(20),
+			},
 		},
 
 		RepositoryNegativeCache: &RepositoryNegativeCache{
