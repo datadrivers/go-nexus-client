@@ -55,6 +55,11 @@ type Client interface {
 	RoleDelete(string) error
 	RoleRead(string) (*Role, error)
 	RoleUpdate(string, Role) error
+	RoutingRuleCreate(*RoutingRule) error
+	RoutingRuleDelete(string) error
+	RoutingRuleRead(string) (*RoutingRule, error)
+	RoutingRuleUpdate(*RoutingRule) error
+	RoutingRulesLists() ([]RoutingRule, error)
 	ScriptCreate(*Script) error
 	ScriptDelete(string) error
 	ScriptLists() ([]Script, error)
