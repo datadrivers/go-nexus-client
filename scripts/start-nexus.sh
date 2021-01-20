@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 LOCAL_PORT=8081
-NEXUS_VERSION=3.25.1
+NEXUS_VERSION=3.29.0
 
 echo "Starting Nexus container..."
 docker run -d --rm -v "${PWD}/nexus.properties":/nexus-data/etc/nexus.properties \
