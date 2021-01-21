@@ -86,8 +86,8 @@ func NewClient(config Config) Client {
 		contentType: ContentTypeApplicationJSON,
 		httpClient: &http.Client{
 			Timeout: 30 * time.Second,
-			Proxy:   http.ProxyFromEnvironment,
 			Transport: &http.Transport{
+				Proxy: http.ProxyFromEnvironment,
 				TLSClientConfig: &tls.Config{
 					InsecureSkipVerify: config.Insecure,
 				},
