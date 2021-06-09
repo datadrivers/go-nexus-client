@@ -11,6 +11,7 @@ const (
 	blobstoreAPIEndpoint = "service/rest/beta/blobstores"
 
 	BlobstoreTypeFile = "File"
+	BlobstoreTypeGoogle = "Google Cloud Storage"
 	BlobstoreTypeS3   = "S3"
 )
 
@@ -18,8 +19,11 @@ const (
 type Blobstore struct {
 	AvailableSpaceInBytes int    `json:"availableSpaceInBytes"`
 	BlobCount             int    `json:"blobCount"`
+	BucketName            string `json:"bucketName,omitempty"` // only if type Google
+	CredentialFilePath    string `json:"credentialFilePath,omitempty"` // only if type Google
 	Name                  string `json:"name"`
 	Path                  string `json:"path,omitempty"` // only if type File
+	Region                string `json:"region,omitempty"` // only if type Google
 	TotalSizeInBytes      int    `json:"totalSizeInBytes"`
 	Type                  string `json:"type"`
 
@@ -70,13 +74,17 @@ type BlobstoreS3AdvancedBucketConnection struct {
 	ForcePathStyle bool   `json:"forcePathStyle"`
 }
 
+func toEndpointPath(bsType string) string {
+	return strings.Split(strings.ToLower(bsType), " ")[0]
+}
+
 func (c client) BlobstoreCreate(bs Blobstore) error {
 	ioReader, err := jsonMarshalInterfaceToIOReader(bs)
 	if err != nil {
 		return err
 	}
 
-	body, resp, err := c.Post(fmt.Sprintf("%s/%s", blobstoreAPIEndpoint, strings.ToLower(bs.Type)), ioReader)
+	body, resp, err := c.Post(fmt.Sprintf("%s/%s", blobstoreAPIEndpoint, toEndpointPath(bs.Type)), ioReader)
 	if err != nil {
 		return err
 	}
@@ -129,7 +137,7 @@ func (c client) BlobstoreUpdate(id string, bs Blobstore) error {
 		return err
 	}
 
-	body, resp, err := c.Put(fmt.Sprintf("%s/%s/%s", blobstoreAPIEndpoint, strings.ToLower(bs.Type), id), ioReader)
+	body, resp, err := c.Put(fmt.Sprintf("%s/%s/%s", blobstoreAPIEndpoint, toEndpointPath(bs.Type), id), ioReader)
 	if err != nil {
 		return err
 	}
@@ -154,7 +162,7 @@ func (c client) BlobstoreDelete(id string) error {
 }
 
 func (c client) BlobstoreReadDetails(id string, bsType string) (*Blobstore, error) {
-	body, resp, err := c.Get(fmt.Sprintf("%s/%s/%s", blobstoreAPIEndpoint, strings.ToLower(bsType), id), nil)
+	body, resp, err := c.Get(fmt.Sprintf("%s/%s/%s", blobstoreAPIEndpoint, toEndpointPath(bsType), id), nil)
 	if err != nil {
 		return nil, err
 	}

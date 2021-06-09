@@ -2,6 +2,7 @@ package client
 
 import (
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -108,6 +109,42 @@ func TestBlobstoreS3(t *testing.T) {
 		assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration)
 		assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration.BlobstoreS3Bucket)
 		assert.NotNil(t, s3BS.BlobstoreS3BucketConfiguration.BlobstoreS3BucketSecurity)
+
+		err = client.BlobstoreDelete(bs.Name)
+		assert.Nil(t, err)
+	}
+}
+
+// You will need either workload identity in the target nexus or provision credentials in the nexus container to
+// run this test as nexus validates the configuration when adding the blobstore
+func TestBlobstoreGoogle(t *testing.T) {
+	if strings.ToLower(os.Getenv("SKIP_GOOGLE_TESTS")) != "false" {
+		t.Skip("Skipping Google tests")
+	}
+	client := getTestClient()
+
+	bsName := "test-blobstore-google"
+	bsType := BlobstoreTypeGoogle
+
+	bs := Blobstore{
+		Name: bsName,
+		Type: bsType,
+		BucketName: getEnv("GOOGLE_BUCKET_NAME", "terraform-provider-nexus-google-test").(string),
+		Region: getEnv("GOOGLE_DEFAULT_REGION", "us-central1").(string),
+		CredentialFilePath: getEnv("GOOGLE_CREDENTIAL_FILE_PATH", "").(string),
+	}
+
+	err := client.BlobstoreCreate(bs)
+	assert.Nil(t, err)
+
+	googleBS, err := client.BlobstoreRead(bs.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, googleBS)
+	if googleBS != nil {
+		assert.Equal(t, BlobstoreTypeGoogle, googleBS.Type)
+		assert.NotNil(t, googleBS.BucketName)
+		assert.NotNil(t, googleBS.Region)
+		assert.NotNil(t, googleBS.CredentialFilePath)
 
 		err = client.BlobstoreDelete(bs.Name)
 		assert.Nil(t, err)

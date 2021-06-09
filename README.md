@@ -6,17 +6,11 @@ Golang Nexus Client
 Sonatype Nexus Golang Client
 
 # Development and testing
-
-Start a Nexus Docker container
-
-```shell
-$ docker run -d -p 8081:8081 --name nexus sonatype/nexus3
-```
-
-Get the Admin password
+                         
+Start a Nexus Docker container pre-configured for the tests (plugins installed and password set to `admin123`)
 
 ```shell
-$ docker exec -ti nexus /bin/bash -c 'cat /nexus-data/admin.password'
+$ scripts/start-nexus.sh
 ```
 
 Set config as environment variables
@@ -24,7 +18,7 @@ Set config as environment variables
 ```shell
 $ export NEXUS_URL=http://127.0.0.1:8081
 $ export NEXUS_USERNAME=admin
-$ export NEXUS_PASSWORD=<random-password-from-above>
+$ export NEXUS_PASSWORD=admin123
 ```
 
 Run tests
@@ -32,6 +26,14 @@ Run tests
 ```shell
 $ make test
 ```
+
+Stop nexus
+
+```shell
+$ docker rm -f nexus
+```
+
+*NOTE*: Some tests do not clean up reliably. You may need to restart Nexus to get a clean test run
 
 # Author
 
