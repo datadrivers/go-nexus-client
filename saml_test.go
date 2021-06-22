@@ -9,7 +9,7 @@ import (
 )
 
 func TestSAML(t *testing.T) {
-	if strings.ToLower(os.Getenv("SKIP_PRO_TESTS")) != "false" {
+	if getEnv("SKIP_PRO_TESTS", false).(bool) {
 		t.Skip("Skipping Nexus Pro tests")
 	}
 	client := getTestClient()
