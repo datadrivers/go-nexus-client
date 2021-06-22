@@ -7,6 +7,9 @@ import (
 )
 
 func TestUserTokens(t *testing.T) {
+	if getEnv("SKIP_PRO_TESTS", false).(bool) {
+		t.Skip("Skipping Nexus Pro tests")
+	}
 	client := getTestClient()
 
 	userTokens := UserTokenConfiguration{
