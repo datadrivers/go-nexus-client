@@ -14,17 +14,20 @@ jobs:
     steps:
       - name: Checkout source codes
         uses: actions/checkout@v2
-
       - name: Setup go
         uses: actions/setup-go@v1
         with:
           go-version: 1.14.15
-
-      - name: Test operator
+      - name: Test client with nexus3 instance
+        env:
+          NEXUS3_LICENSE_B64_ENCODED: ${{ secrets.NEXUS3_LICENSE_B64_ENCODED }}
         run: |
           cd scripts
-          bash gogetcookie.sh
-          bash start-nexus.sh
+          echo "${NEXUS3_LICENSE_B64_ENCODED}" | base64 -d > license.lic
+          ./start-services.sh
           cd -
           make test
+          cd scripts
+          ./stop-services.sh
+
 

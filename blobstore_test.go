@@ -1,9 +1,11 @@
 package client
 
 import (
-	"os"
+	"context"
 	"testing"
 
+	minio "github.com/minio/minio-go/v7"
+	credentials "github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -74,9 +76,17 @@ func TestBlobstoreRead(t *testing.T) {
 }
 
 func TestBlobstoreS3(t *testing.T) {
-	if os.Getenv("SKIP_S3_TESTS") != "" {
-		t.Skip("Skipping S3 tests")
-	}
+	bucketName := "s3test"
+	bucketLocation := "us-east-1"
+	minioGoEndpoint := "localhost:9000"
+	minioNexusEndpoint := "http://minio:9000"
+	minioAccessKeyID := "minioadmin"
+	minioSecretAccessKey := "minioadmin"
+	minioUseSSL := false
+
+	err := ensureMinioBucket(bucketName, bucketLocation, minioGoEndpoint, minioUseSSL, minioAccessKeyID, minioSecretAccessKey)
+	assert.Nil(t, err)
+
 	client := getTestClient()
 
 	bsName := "test-blobstore-s3"
@@ -87,17 +97,21 @@ func TestBlobstoreS3(t *testing.T) {
 		Type: bsType,
 		BlobstoreS3BucketConfiguration: &BlobstoreS3BucketConfiguration{
 			BlobstoreS3Bucket: &BlobstoreS3Bucket{
-				Name:   getEnv("AWS_BUCKET_NAME", "terraform-provider-nexus-s3-test").(string),
-				Region: getEnv("AWS_DEFAULT_REGION", "us-central-1").(string),
+				Name:   bucketName,
+				Region: bucketLocation,
 			},
 			BlobstoreS3BucketSecurity: &BlobstoreS3BucketSecurity{
-				AccessKeyID:     getEnv("AWS_ACCESS_KEY_ID", "AWS_ACCESS_KEY_ID must be set").(string),
-				SecretAccessKey: getEnv("AWS_SECRET_ACCESS_KEY", "AWS_SECRET_ACCESS_KEY must be set").(string),
+				AccessKeyID:     minioAccessKeyID,
+				SecretAccessKey: minioSecretAccessKey,
+			},
+			BlobstoreS3AdvancedBucketConnection: &BlobstoreS3AdvancedBucketConnection{
+				Endpoint:       minioNexusEndpoint,
+				ForcePathStyle: true,
 			},
 		},
 	}
 
-	err := client.BlobstoreCreate(bs)
+	err = client.BlobstoreCreate(bs)
 	assert.Nil(t, err)
 
 	s3BS, err := client.BlobstoreRead(bs.Name)
@@ -112,4 +126,25 @@ func TestBlobstoreS3(t *testing.T) {
 		err = client.BlobstoreDelete(bs.Name)
 		assert.Nil(t, err)
 	}
+}
+
+func ensureMinioBucket(bucketName string, bucketLocation string, endpoint string, useSSL bool, accessKeyID string, secretAccessKey string) error {
+
+	minioClient, err := minio.New(endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
+		Secure: useSSL,
+	})
+
+	if err != nil {
+		return err
+	}
+	ctx := context.Background()
+	exists, err := minioClient.BucketExists(ctx, bucketName)
+	if err != nil {
+		return err
+	}
+	if !exists {
+		err = minioClient.MakeBucket(ctx, bucketName, minio.MakeBucketOptions{Region: bucketLocation})
+	}
+	return err
 }
