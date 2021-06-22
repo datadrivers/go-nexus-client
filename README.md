@@ -33,10 +33,10 @@ Run tests
 $ make test
 ```
   
-To test the Nexus Pro features you will need to install a Nexus Pro license, restart nexus and then enable the additional tests:
+The tests assume Nexus Pro features. If you do not have a Nexus Pro license you can skip the pro tests by setting the `SKIP_PRO_TESTS` environment variable:
 
 ```shell
-$ export SKIP_PRO_TESTS=false
+$ export SKIP_PRO_TESTS=true
 ```
 
 # Author
