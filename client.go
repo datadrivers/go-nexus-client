@@ -52,6 +52,10 @@ type Client interface {
 	RepositoryRead(string) (*Repository, error)
 	RepositoryUpdate(string, Repository) error
 	RepositoryList() ([]Repository, error)
+	ComponentRead(string) (*Component, error)
+	ComponentUpload(string, Component) error
+	ComponentDelete(string) error
+	ComponentList(string) ([]Component, error)
 	RoleCreate(Role) error
 	RoleDelete(string) error
 	RoleRead(string) (*Role, error)
