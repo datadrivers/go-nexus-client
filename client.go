@@ -51,6 +51,7 @@ type Client interface {
 	RepositoryDelete(string) error
 	RepositoryRead(string) (*Repository, error)
 	RepositoryUpdate(string, Repository) error
+	RepositoryList() ([]Repository, error)
 	RoleCreate(Role) error
 	RoleDelete(string) error
 	RoleRead(string) (*Role, error)
