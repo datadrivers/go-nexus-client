@@ -8,7 +8,8 @@ import (
 )
 
 const (
-	usersAPIEndpoint = "service/rest/beta/security/users"
+	usersAPIEndpoint   = "service/rest/beta/security/users"
+	usersAPIEndpointV1 = "service/rest/v1/security/users"
 )
 
 // User ..
@@ -50,7 +51,7 @@ func (c *client) UserCreate(user User) error {
 }
 
 func (c *client) UserRead(id string) (*User, error) {
-	body, resp, err := c.Get(usersAPIEndpoint, nil)
+	body, resp, err := c.Get(fmt.Sprintf("%s?userId=%s", usersAPIEndpointV1, id), nil)
 	if err != nil {
 		return nil, err
 	}

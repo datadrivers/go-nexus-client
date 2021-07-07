@@ -23,7 +23,7 @@ const (
 	RepositoryFormatP2     = "p2"
 	RepositoryFormatPyPi   = "pypi"
 	RepositoryFormatRAW    = "raw"
-	RepositoryFormatRuby    = "rubygems"
+	RepositoryFormatRuby   = "rubygems"
 	RepositoryFormatYum    = "yum"
 
 	RepositoryTypeGroup  = "group"
