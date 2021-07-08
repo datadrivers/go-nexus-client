@@ -18,6 +18,9 @@ const (
 
 // Client represents the Nexus API Client interface
 type Client interface {
+	AssetRead(string) (*Asset, error)
+	AssetDelete(string) error
+	AssetList(string) ([]Asset, error)
 	BlobstoreCreate(Blobstore) error
 	BlobstoreDelete(string) error
 	BlobstoreRead(string) (*Blobstore, error)
