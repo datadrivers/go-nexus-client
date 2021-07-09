@@ -8,10 +8,11 @@ import (
 )
 
 const (
-	blobstoreAPIEndpoint = "service/rest/beta/blobstores"
+	blobstoreAPIEndpoint = "service/rest/v1/blobstores"
 
-	BlobstoreTypeFile = "File"
-	BlobstoreTypeS3   = "S3"
+	BlobstoreTypeFile  = "File"
+	BlobstoreTypeS3    = "S3"
+	BlobstoreTypeAzure = "Azure"
 )
 
 // Blobstore data
@@ -33,8 +34,17 @@ type BlobstoreSoftQuota struct {
 	Type  string `json:"type"`
 }
 
+// BlobstoreAzureAuthenticationConfiguration data
+type BlobstoreAzureAuthenticationConfiguration struct {
+	AuthenticationMethod string `json:"authenticationMethod"`
+}
+
 // BlobstoreS3BucketConfiguration data
 type BlobstoreS3BucketConfiguration struct {
+	AccountName    string                                    `json:"accountName,omitempty"`
+	ContainerName  string                                    `json:"containerName,omitempty"`
+	Authentication BlobstoreAzureAuthenticationConfiguration `json:"authentication,omitempty"`
+
 	*BlobstoreS3Bucket                   `json:"bucket,omitempty"`
 	*BlobstoreS3Encryption               `json:"encryption,omitempty"`
 	*BlobstoreS3BucketSecurity           `json:"bucketSecurity,omitempty"`
@@ -105,6 +115,11 @@ func (c client) BlobstoreRead(id string) (*Blobstore, error) {
 
 	for _, bs := range blobstores {
 		if bs.Name == id {
+			// fix for nexus inconsistency
+			if bs.Type == "Azure Cloud Storage" {
+				bs.Type = "Azure"
+			}
+
 			bsDetailed, err := c.BlobstoreReadDetails(id, bs.Type)
 			if err != nil {
 				return nil, err
@@ -166,6 +181,11 @@ func (c client) BlobstoreReadDetails(id string, bsType string) (*Blobstore, erro
 	blobstore := &Blobstore{}
 	if err := json.Unmarshal(body, blobstore); err != nil {
 		return nil, fmt.Errorf("could not unmarshal details of blobstore \"%s\": %v", id, err)
+	}
+
+	// fix for nexus inconsistency
+	if blobstore.Type == "Azure Cloud Storage" {
+		blobstore.Type = "Azure"
 	}
 
 	return blobstore, nil
