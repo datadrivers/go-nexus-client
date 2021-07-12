@@ -84,5 +84,25 @@ func (c client) AssetList(repository string) ([]Asset, error) {
 		return nil, err
 	}
 
+	list := assetResponse.Items
+	for assetResponse.ContinuationToken != nil && assetResponse.ContinuationToken != "" {
+		body, resp, err := c.Get(fmt.Sprintf("%s?repository=%s&continuationToken=%s", assetAPIEndpoint, repository, assetResponse.ContinuationToken), nil)
+		if err != nil {
+			return nil, err
+		}
+
+		if resp.StatusCode != http.StatusOK {
+			return nil, fmt.Errorf("could not read repository '%s' asset list : HTTP: %d, %s",
+				repository, resp.StatusCode, string(body))
+		}
+
+		assetResponse, err := jsonUnmarshalAssetResponse(body)
+		if err != nil {
+			return nil, err
+		}
+
+		list = append(list, assetResponse.Items...)
+	}
+
 	return assetResponse.Items, nil
 }
