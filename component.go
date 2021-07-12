@@ -90,5 +90,25 @@ func (c client) ComponentList(repository string) ([]Component, error) {
 		return nil, err
 	}
 
-	return componentResponse.Items, nil
+	list := componentResponse.Items
+	for componentResponse.ContinuationToken != nil && componentResponse.ContinuationToken != "" {
+		body, resp, err := c.Get(fmt.Sprintf("%s?repository=%s&continuationToken=%s", componentAPIEndpoint, repository, componentResponse.ContinuationToken), nil)
+		if err != nil {
+			return nil, err
+		}
+
+		if resp.StatusCode != http.StatusOK {
+			return nil, fmt.Errorf("could not read repository '%s' component list : HTTP: %d, %s",
+				repository, resp.StatusCode, string(body))
+		}
+
+		componentResponse, err := jsonUnmarshalComponentResponse(body)
+		if err != nil {
+			return nil, err
+		}
+
+		list = append(list, componentResponse.Items...)
+	}
+
+	return list, nil
 }
