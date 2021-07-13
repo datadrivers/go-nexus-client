@@ -11,8 +11,8 @@ const (
 )
 
 type AssetResponse struct {
-	Items             []Asset     `json:"items,omitempty"`
-	ContinuationToken interface{} `json:"continuationToken,omitempty"`
+	Items             []Asset `json:"items,omitempty"`
+	ContinuationToken string  `json:"continuationToken,omitempty"`
 }
 
 type Asset struct {
@@ -85,7 +85,7 @@ func (c client) AssetList(repository string) ([]Asset, error) {
 	}
 
 	list := assetResponse.Items
-	for assetResponse.ContinuationToken != nil && assetResponse.ContinuationToken != "" {
+	for assetResponse.ContinuationToken != "" {
 		body, resp, err := c.Get(fmt.Sprintf("%s?repository=%s&continuationToken=%s", assetAPIEndpoint, repository, assetResponse.ContinuationToken), nil)
 		if err != nil {
 			return nil, err

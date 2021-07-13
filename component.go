@@ -12,7 +12,7 @@ const (
 
 type ComponentResponse struct {
 	Items             []Component `json:"items,omitempty"`
-	ContinuationToken interface{} `json:"continuationToken,omitempty"`
+	ContinuationToken string      `json:"continuationToken,omitempty"`
 }
 
 // Component is the base structure for Nexus Component
@@ -91,7 +91,7 @@ func (c client) ComponentList(repository string) ([]Component, error) {
 	}
 
 	list := componentResponse.Items
-	for componentResponse.ContinuationToken != nil && componentResponse.ContinuationToken != "" {
+	for componentResponse.ContinuationToken != "" {
 		body, resp, err := c.Get(fmt.Sprintf("%s?repository=%s&continuationToken=%s", componentAPIEndpoint, repository, componentResponse.ContinuationToken), nil)
 		if err != nil {
 			return nil, err
