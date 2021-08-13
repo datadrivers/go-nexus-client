@@ -60,6 +60,9 @@ type Client interface {
 	RoutingRuleRead(string) (*RoutingRule, error)
 	RoutingRuleUpdate(*RoutingRule) error
 	RoutingRulesLists() ([]RoutingRule, error)
+	SAMLApply(SAML) error
+	SAMLRead() (*SAML, error)
+	SAMLDelete() error
 	ScriptCreate(*Script) error
 	ScriptDelete(string) error
 	ScriptLists() ([]Script, error)
