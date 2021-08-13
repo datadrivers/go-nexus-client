@@ -71,6 +71,8 @@ type Client interface {
 	UserDelete(string) error
 	UserRead(string) (*User, error)
 	UserUpdate(string, User) error
+	UserTokensApply(UserTokenConfiguration) error
+	UserTokensRead() (*UserTokenConfiguration, error)
 }
 
 type client struct {
