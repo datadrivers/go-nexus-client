@@ -58,6 +58,7 @@ func TestLDAP(t *testing.T) {
 		assert.Equal(t, ldap.UserRealNameAttribute, createdLDAP.UserRealNameAttribute)
 
 		createdLDAP.Host = "127.0.0.2"
+		createdLDAP.ID = ""
 		// As GroupType is not returned while read, it needs to be set again
 		createdLDAP.GroupType = "DYNAMIC"
 		// As AuthPassword is not returned while read, it needs to be set again

@@ -41,19 +41,3 @@ func TestContentType(t *testing.T) {
 	c.ContentTypeTextPlain()
 	assert.Equal(t, c.ContentType(), ContentTypeTextPlain)
 }
-
-func TestPut(t *testing.T) {
-
-}
-
-func TestGet(t *testing.T) {
-
-}
-
-func TestPost(t *testing.T) {
-
-}
-
-func TestDelete(t *testing.T) {
-
-}
