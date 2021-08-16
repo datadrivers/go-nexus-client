@@ -8,6 +8,8 @@ start-services:
 stop-services:
 	cd ./scripts && ./stop-services.sh && cd -
 
+restart-services: stop-services start-services
+
 test:
 	$(GOTEST) -v -cover ./...
 
