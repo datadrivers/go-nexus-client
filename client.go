@@ -19,6 +19,8 @@ const (
 
 // Client represents the Nexus API Client interface
 type Client interface {
+	AnonymousRead() (*AnonymousConfig, error)
+	AnonymousUpdate(AnonymousConfig) error
 	BlobstoreCreate(Blobstore) error
 	BlobstoreDelete(string) error
 	BlobstoreRead(string) (*Blobstore, error)
