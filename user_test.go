@@ -90,16 +90,3 @@ func TestUserDeleteCurrentlySignedInUser(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Contains(t, err.Error(), "Can not delete currently signed in user")
 }
-
-func TestUserDeleteAnonymous(t *testing.T) {
-	client := getTestClient()
-
-	anonymous, err := client.UserRead("anonymous")
-	assert.Nil(t, err)
-
-	if anonymous != nil {
-		err = client.UserDelete("anonymous")
-		assert.NotNil(t, err)
-		assert.Contains(t, err.Error(), "Can not delete anonymous user")
-	}
-}

@@ -14,7 +14,7 @@ const (
 type SAML struct {
 	EntityId                   string `json:"entityId,omitempty"`
 	IdpMetadata                string `json:"idpMetadata"`
-	UsernameAttribute          string `json:"usernameAttribute,omitempty"`
+	UsernameAttribute          string `json:"usernameAttribute"`
 	FirstNameAttribute         string `json:"firstNameAttribute,omitempty"`
 	LastNameAttribute          string `json:"lastNameAttribute,omitempty"`
 	EmailAttribute             string `json:"emailAttribute,omitempty"`
