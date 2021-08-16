@@ -3,15 +3,16 @@ package client
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/google/go-querystring/query"
 	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
+
+	"github.com/google/go-querystring/query"
 )
 
 const (
-	certificateAPIEndpoint = "service/rest/beta/security/ssl"
+	certificateAPIEndpoint = basePath + "v1/security/ssl"
 )
 
 type Certificate struct {

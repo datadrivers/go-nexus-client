@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	ldapAPIEndpoint = "service/rest/beta/security/ldap"
+	ldapAPIEndpoint = basePath + "v1/security/ldap"
 )
 
 // LDAP data structure

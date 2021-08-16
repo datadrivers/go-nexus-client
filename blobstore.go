@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	blobstoreAPIEndpoint = "service/rest/beta/blobstores"
+	blobstoreAPIEndpoint = basePath + "v1/blobstores"
 
 	BlobstoreTypeFile = "File"
 	BlobstoreTypeS3   = "S3"

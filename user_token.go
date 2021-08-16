@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	userTokensAPIEndpoint = "service/rest/v1/security/user-tokens"
+	userTokensAPIEndpoint = basePath + "v1/security/user-tokens"
 )
 
 // UserTokenConfiguration data structure

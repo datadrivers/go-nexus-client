@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	scriptsAPIEndpoint = "service/rest/v1/script"
+	scriptsAPIEndpoint = basePath + "v1/script"
 )
 
 // Script describe a groovy script object that can be run on the nexus server
