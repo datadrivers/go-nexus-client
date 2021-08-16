@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	realmAPIEndpoint = "service/rest/beta/security/realms"
+	realmAPIEndpoint = basePath + "v1/security/realms"
 )
 
 // Realm represents an instance of Nexus Realm

@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	privilegeAPIEndpoint = "service/rest/beta/security/privileges"
+	privilegeAPIEndpoint = basePath + "v1/security/privileges"
 
 	// PrivilegeDomains
 	PrivilegeDomainAll                = "*"

@@ -14,6 +14,7 @@ const (
 	ContentTypeApplicationJSON = "application/json"
 	// ContentTypeTextPlain ...
 	ContentTypeTextPlain = "text/plain"
+	basePath             = "service/rest/"
 )
 
 // Client represents the Nexus API Client interface

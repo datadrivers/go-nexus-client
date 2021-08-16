@@ -2,4 +2,4 @@
 set -eo pipefail
 
 echo "Stopping the services..."
-docker-compose down
+docker compose down

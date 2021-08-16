@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	routingRulesAPIEndpoint = "service/rest/v1/routing-rules"
+	routingRulesAPIEndpoint = basePath + "v1/routing-rules"
 
 	RoutingRuleModeAllow RoutingRuleMode = "ALLOW"
 	RoutingRuleModeBlock RoutingRuleMode = "BLOCK"

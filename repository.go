@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	repositoryAPIEndpoint = "service/rest/beta/repositories"
+	repositoryAPIEndpoint = basePath + "v1/repositories"
 
 	RepositoryFormatApt    = "apt"
 	RepositoryFormatBower  = "bower"

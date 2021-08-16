@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	samlAPIEndpoint = "service/rest/v1/security/saml"
+	samlAPIEndpoint = basePath + "v1/security/saml"
 )
 
 // SAML data structure
