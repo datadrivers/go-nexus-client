@@ -21,9 +21,9 @@ func TestRealmsActive(t *testing.T) {
 	activeRealms, err := client.RealmsActive()
 	assert.Nil(t, err)
 	assert.NotNil(t, activeRealms)
-	assert.Equal(t, 2, len(activeRealms))
-	assert.Equal(t, "NexusAuthenticatingRealm", activeRealms[0])
-	assert.Equal(t, "NexusAuthorizingRealm", activeRealms[1])
+	assert.Greater(t, len(activeRealms), 0)
+	assert.Contains(t, activeRealms, "NexusAuthenticatingRealm")
+	assert.Contains(t, activeRealms, "NexusAuthorizingRealm")
 }
 
 func TestRealmsAvailable(t *testing.T) {

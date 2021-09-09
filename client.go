@@ -14,10 +14,13 @@ const (
 	ContentTypeApplicationJSON = "application/json"
 	// ContentTypeTextPlain ...
 	ContentTypeTextPlain = "text/plain"
+	basePath             = "service/rest/"
 )
 
 // Client represents the Nexus API Client interface
 type Client interface {
+	AnonymousRead() (*AnonymousConfig, error)
+	AnonymousUpdate(AnonymousConfig) error
 	AssetRead(string) (*Asset, error)
 	AssetDelete(string) error
 	AssetList(string) ([]Asset, error)
@@ -68,6 +71,9 @@ type Client interface {
 	RoutingRuleRead(string) (*RoutingRule, error)
 	RoutingRuleUpdate(*RoutingRule) error
 	RoutingRulesLists() ([]RoutingRule, error)
+	SAMLApply(SAML) error
+	SAMLRead() (*SAML, error)
+	SAMLDelete() error
 	ScriptCreate(*Script) error
 	ScriptDelete(string) error
 	ScriptLists() ([]Script, error)
@@ -79,6 +85,8 @@ type Client interface {
 	UserDelete(string) error
 	UserRead(string) (*User, error)
 	UserUpdate(string, User) error
+	UserTokensApply(UserTokenConfiguration) error
+	UserTokensRead() (*UserTokenConfiguration, error)
 }
 
 type client struct {

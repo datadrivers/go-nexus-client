@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	repositoryAPIEndpoint = "service/rest/beta/repositories"
+	repositoryAPIEndpoint = basePath + "v1/repositories"
 
 	RepositoryFormatApt    = "apt"
 	RepositoryFormatBower  = "bower"
@@ -23,7 +23,7 @@ const (
 	RepositoryFormatP2     = "p2"
 	RepositoryFormatPyPi   = "pypi"
 	RepositoryFormatRAW    = "raw"
-	RepositoryFormatRuby    = "rubygems"
+	RepositoryFormatRuby   = "rubygems"
 	RepositoryFormatYum    = "yum"
 
 	RepositoryTypeGroup  = "group"
@@ -202,6 +202,20 @@ func (c client) RepositoryRead(id string) (*Repository, error) {
 
 	for _, repo := range repositories {
 		if repo.Name == id {
+			format := repo.Format
+			if repo.Format == "maven2" {
+				format = "maven"
+			}
+			body, resp, err := c.Get(fmt.Sprintf("%s/%s/%s/%s", repositoryAPIEndpoint, format, repo.Type, repo.Name), nil)
+			if err != nil {
+				return nil, err
+			}
+			if resp.StatusCode != http.StatusOK {
+				return nil, fmt.Errorf("could not read repository '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
+			}
+			if err := json.Unmarshal(body, &repo); err != nil {
+				return nil, fmt.Errorf("could not unmarshal repository: %v", err)
+			}
 			return &repo, nil
 		}
 	}

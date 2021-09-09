@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	rolesAPIEndpoint = "service/rest/beta/security/roles"
+	rolesAPIEndpoint = basePath + "v1/security/roles"
 )
 
 // Role ...

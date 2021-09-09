@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	ldapAPIEndpoint = "service/rest/beta/security/ldap"
+	ldapAPIEndpoint = basePath + "v1/security/ldap"
 )
 
 // LDAP data structure
@@ -118,6 +118,14 @@ func (c *client) LDAPRead(name string) (*LDAP, error) {
 }
 
 func (c *client) LDAPUpdate(name string, ldap LDAP) error {
+	if ldap.ID == "" {
+		ldapFound, err := c.LDAPRead(ldap.Name)
+		if err != nil {
+			return err
+		}
+		ldap.ID = ldapFound.ID
+
+	}
 	ioReader, err := jsonMarshalInterfaceToIOReader(ldap)
 	if err != nil {
 		return err

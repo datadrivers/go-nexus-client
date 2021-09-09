@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	contentSelectorAPIEndpoint = "service/rest/beta/security/content-selectors"
+	contentSelectorAPIEndpoint = basePath + "v1/security/content-selectors"
 )
 
 // ContentSelector data

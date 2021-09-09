@@ -33,6 +33,12 @@ Run tests
 $ make test
 ```
 
+The tests assume Nexus Pro features. If you do not have a Nexus Pro license you can skip the pro tests by setting the `SKIP_PRO_TESTS` environment variable:
+
+```shell
+$ export SKIP_PRO_TESTS=true
+```
+
 # Author
 
 [Datadrivers GmbH](https://www.datadrivers.de)
