@@ -10,25 +10,25 @@ const (
 	assetAPIEndpoint = "service/rest/v1/assets"
 )
 
-type AssetResponse struct {
+type AssetList struct {
 	Items             []Asset `json:"items,omitempty"`
 	ContinuationToken string  `json:"continuationToken,omitempty"`
 }
 
 type Asset struct {
-	DownloadUrl string `json:"download_url,omitempty"`
+	DownloadUrl string `json:"downloadUrl,omitempty"`
 	Path        string `json:"path,omitempty"`
 	ID          string `json:"id,omitempty"`
 	Repository  string `json:"repository,omitempty"`
 	Format      string `json:"format,omitempty"`
 }
 
-func jsonUnmarshalAssetResponse(data []byte) (*AssetResponse, error) {
-	var assetResponse AssetResponse
-	if err := json.Unmarshal(data, &assetResponse); err != nil {
-		return nil, fmt.Errorf("could not unmarshal assetResponse: %v", err)
+func jsonUnmarshalAssetList(data []byte) (*AssetList, error) {
+	var assetList AssetList
+	if err := json.Unmarshal(data, &assetList); err != nil {
+		return nil, fmt.Errorf("could not unmarshal assetList: %v", err)
 	}
-	return &assetResponse, nil
+	return &assetList, nil
 }
 
 func jsonUnmarshalAsset(data []byte) (*Asset, error) {
@@ -40,13 +40,13 @@ func jsonUnmarshalAsset(data []byte) (*Asset, error) {
 }
 
 func (c client) AssetRead(id string) (*Asset, error) {
-	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", assetAPIEndpoint, id))
+	body, resp, err := c.Get(fmt.Sprintf("%s/%s", assetAPIEndpoint, id), nil)
 	if err != nil {
 		return nil, err
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return nil, fmt.Errorf("could not delete Asset '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
+		return nil, fmt.Errorf("could not read Asset '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
 	}
 
 	asset, err := jsonUnmarshalAsset(body)
@@ -79,14 +79,14 @@ func (c client) AssetList(repository string) ([]Asset, error) {
 			repository, resp.StatusCode, string(body))
 	}
 
-	assetResponse, err := jsonUnmarshalAssetResponse(body)
+	assetList, err := jsonUnmarshalAssetList(body)
 	if err != nil {
 		return nil, err
 	}
 
-	list := assetResponse.Items
-	for assetResponse.ContinuationToken != "" {
-		body, resp, err := c.Get(fmt.Sprintf("%s?repository=%s&continuationToken=%s", assetAPIEndpoint, repository, assetResponse.ContinuationToken), nil)
+	list := assetList.Items
+	for assetList.ContinuationToken != "" {
+		body, resp, err := c.Get(fmt.Sprintf("%s?repository=%s&continuationToken=%s", assetAPIEndpoint, repository, assetList.ContinuationToken), nil)
 		if err != nil {
 			return nil, err
 		}
@@ -96,7 +96,7 @@ func (c client) AssetList(repository string) ([]Asset, error) {
 				repository, resp.StatusCode, string(body))
 		}
 
-		assetResponse, err := jsonUnmarshalAssetResponse(body)
+		assetResponse, err := jsonUnmarshalAssetList(body)
 		if err != nil {
 			return nil, err
 		}
@@ -104,5 +104,5 @@ func (c client) AssetList(repository string) ([]Asset, error) {
 		list = append(list, assetResponse.Items...)
 	}
 
-	return assetResponse.Items, nil
+	return assetList.Items, nil
 }
