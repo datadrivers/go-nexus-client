@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	componentAPIEndpoint = "service/rest/v1/components"
+	componentAPIEndpoint = basePath + "v1/components"
 )
 
 type ComponentList struct {
@@ -102,12 +102,12 @@ func (c client) ComponentList(repository string) ([]Component, error) {
 				repository, resp.StatusCode, string(body))
 		}
 
-		componentResponse, err := jsonUnmarshalComponentList(body)
+		componentList, err := jsonUnmarshalComponentList(body)
 		if err != nil {
 			return nil, err
 		}
 
-		list = append(list, componentResponse.Items...)
+		list = append(list, componentList.Items...)
 	}
 
 	return list, nil

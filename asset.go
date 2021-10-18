@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	assetAPIEndpoint = "service/rest/v1/assets"
+	assetAPIEndpoint = basePath + "v1/assets"
 )
 
 type AssetList struct {
@@ -96,12 +96,12 @@ func (c client) AssetList(repository string) ([]Asset, error) {
 				repository, resp.StatusCode, string(body))
 		}
 
-		assetResponse, err := jsonUnmarshalAssetList(body)
+		assetList, err := jsonUnmarshalAssetList(body)
 		if err != nil {
 			return nil, err
 		}
 
-		list = append(list, assetResponse.Items...)
+		list = append(list, assetList.Items...)
 	}
 
 	return assetList.Items, nil
