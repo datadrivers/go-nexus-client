@@ -96,7 +96,7 @@ func (c client) AssetList(repository string) ([]Asset, error) {
 				repository, resp.StatusCode, string(body))
 		}
 
-		assetList, err := jsonUnmarshalAssetList(body)
+		assetList, err = jsonUnmarshalAssetList(body)
 		if err != nil {
 			return nil, err
 		}

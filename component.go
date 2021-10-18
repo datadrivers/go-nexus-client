@@ -102,7 +102,7 @@ func (c client) ComponentList(repository string) ([]Component, error) {
 				repository, resp.StatusCode, string(body))
 		}
 
-		componentList, err := jsonUnmarshalComponentList(body)
+		componentList, err = jsonUnmarshalComponentList(body)
 		if err != nil {
 			return nil, err
 		}
