@@ -105,6 +105,14 @@ type Repository struct {
 
 	// Yum Repository data
 	*RepositoryYum `json:"yum,omitempty"`
+
+	// Components
+	*RepositoryComponent `json:"component,omitempty"`
+}
+
+// RepositoryComponent ...
+type RepositoryComponent struct {
+	ProprietaryComponents bool `json:"proprietaryComponents"`
 }
 
 // RepositoryCleanup ...
