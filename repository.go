@@ -66,6 +66,7 @@ type Repository struct {
 	Online          bool    `json:"online"`
 	RoutingRuleName *string `json:"routingRuleName,omitempty"`
 	Type            string  `json:"type"`
+	Url             string  `json:"url"`
 
 	// Apt Repository data
 	*RepositoryApt        `json:"apt,omitempty"`
@@ -202,16 +203,7 @@ func (c client) RepositoryCreate(repo Repository) error {
 }
 
 func (c client) RepositoryRead(id string) (*Repository, error) {
-	body, resp, err := c.Get(fmt.Sprintf("%s", repositoryAPIEndpoint), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("could not read repository '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
-	}
-
-	repositories, err := jsonUnmarshalRepositories(body)
+	repositories, err := c.RepositoryList()
 	if err != nil {
 		return nil, err
 	}
@@ -266,4 +258,22 @@ func (c client) RepositoryDelete(id string) error {
 		return fmt.Errorf("could not delete repository '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
 	}
 	return nil
+}
+
+func (c client) RepositoryList() ([]Repository, error) {
+	body, resp, err := c.Get(fmt.Sprintf("%s", repositoryAPIEndpoint), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("could not read repository list: HTTP: %d, %s", resp.StatusCode, string(body))
+	}
+
+	repositories, err := jsonUnmarshalRepositories(body)
+	if err != nil {
+		return nil, err
+	}
+
+	return repositories, nil
 }

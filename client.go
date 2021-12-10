@@ -21,6 +21,9 @@ const (
 type Client interface {
 	AnonymousRead() (*AnonymousConfig, error)
 	AnonymousUpdate(AnonymousConfig) error
+	AssetRead(string) (*Asset, error)
+	AssetDelete(string) error
+	AssetList(string) ([]Asset, error)
 	BlobstoreCreate(Blobstore) error
 	BlobstoreDelete(string) error
 	BlobstoreRead(string) (*Blobstore, error)
@@ -54,6 +57,11 @@ type Client interface {
 	RepositoryDelete(string) error
 	RepositoryRead(string) (*Repository, error)
 	RepositoryUpdate(string, Repository) error
+	RepositoryList() ([]Repository, error)
+	ComponentRead(string) (*Component, error)
+	ComponentUpload(string, Component) error
+	ComponentDelete(string) error
+	ComponentList(string) ([]Component, error)
 	RoleCreate(Role) error
 	RoleDelete(string) error
 	RoleRead(string) (*Role, error)
