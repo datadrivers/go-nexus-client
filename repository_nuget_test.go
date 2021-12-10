@@ -42,6 +42,7 @@ func getTestRepositoryNugetProxy(name string) Repository {
 		RepositoryNegativeCache: &RepositoryNegativeCache{},
 		RepositoryNugetProxy: &RepositoryNugetProxy{
 			QueryCacheItemMaxAge: 1,
+			NugetVersion:         "V3",
 		},
 		RepositoryProxy: &RepositoryProxy{
 			RemoteURL: "https://www.nuget.org/api/v2/",
