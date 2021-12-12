@@ -139,6 +139,7 @@ type RepositoryHTTPClientConnection struct {
 	Retries                 *int   `json:"retries,omitempty"`
 	Timeout                 *int   `json:"timeout,omitempty"`
 	UserAgentSuffix         string `json:"userAgentSuffix,omitempty"`
+	UseTrustStore           *bool  `json:"useTrustStore,omitempty"`
 }
 
 // RepositoryHTTPClientAuthentication ...

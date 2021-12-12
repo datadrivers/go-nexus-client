@@ -77,6 +77,7 @@ func TestRepositoryAptProxy(t *testing.T) {
 }
 
 func getTestRepositoryAptProxy(name string) Repository {
+	useTrustStore := true
 	return Repository{
 		Name:   name,
 		Type:   RepositoryTypeProxy,
@@ -92,7 +93,8 @@ func getTestRepositoryAptProxy(name string) Repository {
 			Blocked:   true,
 			AutoBlock: true,
 			Connection: &RepositoryHTTPClientConnection{
-				Timeout: makeIntAddressable(20),
+				Timeout:       makeIntAddressable(20),
+				UseTrustStore: &useTrustStore,
 			},
 		},
 
@@ -104,7 +106,7 @@ func getTestRepositoryAptProxy(name string) Repository {
 		RepositoryProxy: &RepositoryProxy{
 			ContentMaxAge:  1440,
 			MetadataMaxAge: 1440,
-			RemoteURL:      "http://archive.ubuntu.com/ubuntu/",
+			RemoteURL:      "https://archive.ubuntu.com/ubuntu/",
 		},
 
 		RepositoryStorage: &RepositoryStorage{
