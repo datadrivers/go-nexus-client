@@ -54,7 +54,7 @@ func TestLegacyRepositoryAptHosted(t *testing.T) {
 
 func TestLegacyRepositoryAptProxy(t *testing.T) {
 	service := getTestService()
-	repo := getTestLegacyRepositoryAptProxy("test-repo-apt-proxy" + strconv.Itoa(rand.Intn(1024)))
+	repo := getTestLegacyRepositoryAptProxy("test-repo-apt-proxy-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Legacy.Create(repo)
 	assert.Nil(t, err)

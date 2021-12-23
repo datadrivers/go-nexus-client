@@ -1,7 +1,9 @@
 package blobstore
 
 import (
+	"math/rand"
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -16,7 +18,7 @@ func TestBlobstoreAzure(t *testing.T) {
 
 	azureAccountName := "terraformprovidernexus"
 	azureContainerName := "go-nexus-client"
-	bsName := "test-blobstore-azure"
+	bsName := "test-blobstore-azure-" + strconv.Itoa(rand.Intn(1024))
 	azureAccountKey := tools.GetEnv("AZURE_STORAGE_ACCOUNT_KEY", "test-key").(string)
 
 	service := getTestService()
