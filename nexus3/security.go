@@ -12,6 +12,7 @@ type SecurityService struct {
 	ContentSelector *SecurityContentSelectorService
 	LDAP            *SecurityLdapService
 	SSL             *SecuritySSLService
+	User            *SecurityUserService
 }
 
 func NewSecurityService(c *client) *SecurityService {
@@ -19,6 +20,7 @@ func NewSecurityService(c *client) *SecurityService {
 	cs := NewSecurityContentSelectorService(c)
 	l := NewSecurityLdapService(c)
 	s := NewSecuritySSLService(c)
+	u := NewSecurityUserService(c)
 	return &SecurityService{
 		client: c,
 
@@ -26,5 +28,6 @@ func NewSecurityService(c *client) *SecurityService {
 		ContentSelector: cs,
 		LDAP:            l,
 		SSL:             s,
+		User:            u,
 	}
 }
