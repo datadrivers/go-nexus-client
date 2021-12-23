@@ -23,7 +23,7 @@ func getTestLegacyRepositoryDockerHostedWithPorts(name string) repository.Legacy
 			HTTPPort:       tools.GetIntPointer(8082),
 			HTTPSPort:      tools.GetIntPointer(8083),
 		},
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
 			WritePolicy:                 tools.GetStringPointer("ALLOW"),
@@ -61,7 +61,7 @@ func getTestLegacyRepositoryDockerHostedWithoutPorts(name string) repository.Leg
 			V1Enabled:      false,
 			ForceBasicAuth: true,
 		},
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
 			WritePolicy:                 tools.GetStringPointer("ALLOW_ONCE"),
@@ -130,9 +130,9 @@ func getTestLegacyRepositoryDockerProxy(name string) repository.LegacyRepository
 		},
 		NegativeCache: &repository.NegativeCache{},
 		Proxy: &repository.Proxy{
-			RemoteURL: "https://registry-1.docker.io",
+			RemoteURL: tools.GetStringPointer("https://registry-1.docker.io"),
 		},
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 		},
 	}

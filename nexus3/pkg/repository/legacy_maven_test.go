@@ -27,8 +27,9 @@ func TestLegacyRepositoryMavenGroupRead(t *testing.T) {
 
 func TestLegacyRepositoryMavenHosted(t *testing.T) {
 	service := getTestService()
-
-	repo := getTestLegacyRepositoryMavenHosted("test-maven-repo-hosted", "STRICT", "RELEASE")
+	layoutPolicy := repository.MavenLayoutPolicyStrict
+	versionPolicy := repository.MavenVersionPolicyRelease
+	repo := getTestLegacyRepositoryMavenHosted("test-maven-repo-hosted", &layoutPolicy, &versionPolicy)
 
 	err := service.Legacy.Create(repo)
 	assert.Nil(t, err)
@@ -37,25 +38,25 @@ func TestLegacyRepositoryMavenHosted(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, createdRepo)
 
-	if createdRepo != nil {
-		writePolicy := "ALLOW"
-		createdRepo.Maven.LayoutPolicy = "PERMISSIVE"
-		createdRepo.Storage.WritePolicy = &writePolicy
-		err := service.Legacy.Update(createdRepo.Name, *createdRepo)
-		assert.Nil(t, err)
+	writePolicy := "ALLOW"
+	layoutPolicy = repository.MavenLayoutPolicyPermissive
+	createdRepo.Maven.LayoutPolicy = &layoutPolicy
+	createdRepo.Storage.WritePolicy = &writePolicy
+	err = service.Legacy.Update(createdRepo.Name, *createdRepo)
+	assert.Nil(t, err)
 
-		updatedRepo, err := service.Legacy.Get(createdRepo.Name)
-		assert.Nil(t, err)
-		assert.NotNil(t, updatedRepo)
-		assert.Equal(t, updatedRepo.Maven.LayoutPolicy, "PERMISSIVE")
-		assert.Equal(t, *updatedRepo.Storage.WritePolicy, "ALLOW")
+	updatedRepo, err := service.Legacy.Get(createdRepo.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, updatedRepo)
+	assert.Equal(t, *updatedRepo.Maven.LayoutPolicy, repository.MavenLayoutPolicyPermissive)
+	assert.Equal(t, *updatedRepo.Storage.WritePolicy, "ALLOW")
 
-		err = service.Legacy.Delete(createdRepo.Name)
-		assert.Nil(t, err)
-	}
+	err = service.Legacy.Delete(createdRepo.Name)
+	assert.Nil(t, err)
+
 }
 
-func getTestLegacyRepositoryMavenHosted(name, layoutPolicy, versionPoliy string) repository.LegacyRepository {
+func getTestLegacyRepositoryMavenHosted(name string, layoutPolicy *repository.MavenLayoutPolicy, versionPolicy *repository.MavenVersionPolicy) repository.LegacyRepository {
 	return repository.LegacyRepository{
 		Name:   name,
 		Format: repository.RepositoryFormatMaven2,
@@ -64,10 +65,10 @@ func getTestLegacyRepositoryMavenHosted(name, layoutPolicy, versionPoliy string)
 
 		Maven: &repository.Maven{
 			LayoutPolicy:  layoutPolicy,
-			VersionPolicy: versionPoliy,
+			VersionPolicy: versionPolicy,
 		},
 
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
 		},

@@ -91,7 +91,7 @@ type LegacyRepository struct {
 	*Proxy `json:"proxy,omitempty"`
 
 	// Storage data
-	*Storage `json:"storage,omitempty"`
+	Storage *HostedStorage `json:"storage,omitempty"`
 
 	// Yum data
 	*Yum `json:"yum,omitempty"`

@@ -44,7 +44,7 @@ func getTestLegacyRepositoryPyPiHosted(name string) repository.LegacyRepository 
 		Name:   name,
 		Format: repository.RepositoryFormatPyPi,
 		Type:   repository.RepositoryTypeHosted,
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
 		},
@@ -68,9 +68,9 @@ func getTestLegacyRepositoryPyPiProxy(name string) repository.LegacyRepository {
 			Enabled: true,
 		},
 		Proxy: &repository.Proxy{
-			RemoteURL: "https://pypi.org/",
+			RemoteURL: tools.GetStringPointer("https://pypi.org/"),
 		},
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
 		},
@@ -85,7 +85,7 @@ func getTestLegacyRepositoryPyPiGroup(name string, memberNames []string) reposit
 		Group: &repository.Group{
 			MemberNames: memberNames,
 		},
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
 		},

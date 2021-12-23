@@ -47,9 +47,9 @@ func getTestLegacyRepositoryNugetProxy(name string) repository.LegacyRepository 
 			NugetVersion:         repository.NugetVersion3,
 		},
 		Proxy: &repository.Proxy{
-			RemoteURL: "https://www.nuget.org/api/v2/",
+			RemoteURL: tools.GetStringPointer("https://www.nuget.org/api/v2/"),
 		},
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 		},
 	}

@@ -43,7 +43,7 @@ func getTestLegacyRepositoryRubyHosted(name string) repository.LegacyRepository 
 		Name:   name,
 		Format: repository.RepositoryFormatRuby,
 		Type:   repository.RepositoryTypeHosted,
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
 		},
@@ -63,9 +63,9 @@ func getTestLegacyRepositoryRubyProxy(name string) repository.LegacyRepository {
 			Enabled: true,
 		},
 		Proxy: &repository.Proxy{
-			RemoteURL: "https://rubygems.org/",
+			RemoteURL: tools.GetStringPointer("https://rubygems.org/"),
 		},
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 		},
 	}
@@ -79,7 +79,7 @@ func getTestLegacyRepositoryRubyGroup(name string, memberNames []string) reposit
 		Group: &repository.Group{
 			MemberNames: memberNames,
 		},
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 		},
 	}

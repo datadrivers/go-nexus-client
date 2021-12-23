@@ -1,9 +1,11 @@
 package blobstore
 
 const (
-	AzureAuthenticationMethodAccountKey      = "ACCOUNTKEY"
-	AzureAuthenticationMethodManagedIdentity = "MANAGEDIDENTITY"
+	AzureAuthenticationMethodAccountKey      AzureAuthenticationMethod = "ACCOUNTKEY"
+	AzureAuthenticationMethodManagedIdentity AzureAuthenticationMethod = "MANAGEDIDENTITY"
 )
+
+type AzureAuthenticationMethod string
 
 type Azure struct {
 	// Name of the BlobStore
@@ -30,7 +32,7 @@ type AzureConnection struct {
 	AccountName string `json:"accountName"`
 
 	// The type of Azure authentication to use.
-	AuthenticationMethod string `json:"authenticationMethod"`
+	AuthenticationMethod AzureAuthenticationMethod `json:"authenticationMethod"`
 
 	// The account key.
 	AccountKey string `json:"accountKey,omitempty"`
@@ -40,7 +42,7 @@ type AzureConnection struct {
 
 type AzureBucketConfigurationAuthentication struct {
 	// The type of Azure authentication to use.
-	AuthenticationMethod string `json:"authenticationMethod"`
+	AuthenticationMethod AzureAuthenticationMethod `json:"authenticationMethod"`
 
 	// The account key.
 	AccountKey string `json:"accountKey,omitempty"`

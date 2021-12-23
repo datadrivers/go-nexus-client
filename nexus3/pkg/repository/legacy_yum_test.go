@@ -47,7 +47,7 @@ func getTestLegacyRepositoryYumHosted(name string) repository.LegacyRepository {
 		Type:   repository.RepositoryTypeHosted,
 		Online: true,
 
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
 		},

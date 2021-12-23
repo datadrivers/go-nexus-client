@@ -27,7 +27,7 @@ func getTestLegacyRepositoryAptHosted(name string) repository.LegacyRepository {
 		Cleanup: &repository.Cleanup{
 			PolicyNames: []string{"weekly-cleanup"},
 		},
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
 			WritePolicy:                 tools.GetStringPointer("ALLOW"),
@@ -108,10 +108,10 @@ func getTestLegacyRepositoryAptProxy(name string) repository.LegacyRepository {
 		Proxy: &repository.Proxy{
 			ContentMaxAge:  1440,
 			MetadataMaxAge: 1440,
-			RemoteURL:      "https://archive.ubuntu.com/ubuntu/",
+			RemoteURL:      tools.GetStringPointer("https://archive.ubuntu.com/ubuntu/"),
 		},
 
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
 		},

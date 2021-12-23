@@ -46,7 +46,7 @@ func getTestLegacyRepositoryBowerHosted(name string) repository.LegacyRepository
 		Name:   name,
 		Type:   repository.RepositoryTypeHosted,
 		Format: repository.RepositoryFormatBower,
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
 		},
@@ -59,7 +59,7 @@ func getTestLegacyRepositoryBowerGroup(name string, memberNames []string) reposi
 		Format: repository.RepositoryFormatBower,
 		Type:   repository.RepositoryTypeGroup,
 		Online: true,
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 		},
 		Group: &repository.Group{
@@ -88,9 +88,9 @@ func getTestLegacyRepositoryBowerProxy(name string) repository.LegacyRepository 
 			Enabled: true,
 		},
 		Proxy: &repository.Proxy{
-			RemoteURL: "https://registry.bower.io",
+			RemoteURL: tools.GetStringPointer("https://registry.bower.io"),
 		},
-		Storage: &repository.Storage{
+		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
 		},
 	}
