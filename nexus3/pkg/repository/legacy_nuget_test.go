@@ -44,6 +44,7 @@ func getTestLegacyRepositoryNugetProxy(name string) repository.LegacyRepository 
 		NegativeCache: &repository.NegativeCache{},
 		NugetProxy: &repository.NugetProxy{
 			QueryCacheItemMaxAge: 1,
+			NugetVersion:         repository.NugetVersion3,
 		},
 		Proxy: &repository.Proxy{
 			RemoteURL: "https://www.nuget.org/api/v2/",

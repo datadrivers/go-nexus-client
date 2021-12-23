@@ -25,6 +25,7 @@ type HTTPClientConnection struct {
 	Retries                 *int   `json:"retries,omitempty"`
 	Timeout                 *int   `json:"timeout,omitempty"`
 	UserAgentSuffix         string `json:"userAgentSuffix,omitempty"`
+	UseTrustStore           *bool  `json:"useTrustStore,omitempty"`
 }
 
 // HTTPClientAuthentication ...
@@ -54,4 +55,9 @@ type Storage struct {
 	BlobStoreName               string  `json:"blobStoreName,omitempty"`
 	StrictContentTypeValidation bool    `json:"strictContentTypeValidation"`
 	WritePolicy                 *string `json:"writePolicy,omitempty"`
+}
+
+// Component ...
+type Component struct {
+	ProprietaryComponents bool `json:"proprietaryComponents"`
 }

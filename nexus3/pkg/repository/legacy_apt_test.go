@@ -95,7 +95,8 @@ func getTestLegacyRepositoryAptProxy(name string) repository.LegacyRepository {
 			Blocked:   true,
 			AutoBlock: true,
 			Connection: &repository.HTTPClientConnection{
-				Timeout: tools.GetIntPointer(20),
+				Timeout:       tools.GetIntPointer(20),
+				UseTrustStore: tools.GetBoolPointer(true),
 			},
 		},
 
@@ -107,7 +108,7 @@ func getTestLegacyRepositoryAptProxy(name string) repository.LegacyRepository {
 		Proxy: &repository.Proxy{
 			ContentMaxAge:  1440,
 			MetadataMaxAge: 1440,
-			RemoteURL:      "http://archive.ubuntu.com/ubuntu/",
+			RemoteURL:      "https://archive.ubuntu.com/ubuntu/",
 		},
 
 		Storage: &repository.Storage{

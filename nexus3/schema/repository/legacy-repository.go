@@ -95,4 +95,7 @@ type LegacyRepository struct {
 
 	// Yum data
 	*Yum `json:"yum,omitempty"`
+
+	// Components
+	*Component `json:"component,omitempty"`
 }
