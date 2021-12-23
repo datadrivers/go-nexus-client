@@ -12,6 +12,8 @@ type SecurityService struct {
 	ContentSelector *SecurityContentSelectorService
 	LDAP            *SecurityLdapService
 	Privilege       *SecurityPrivilegeService
+	Realm           *SecurityRealmService
+	Role            *SecurityRoleService
 	SSL             *SecuritySSLService
 	User            *SecurityUserService
 	UserTokens      *SecurityUserTokensService
@@ -25,6 +27,8 @@ func NewSecurityService(c *client) *SecurityService {
 		ContentSelector: NewSecurityContentSelectorService(c),
 		LDAP:            NewSecurityLdapService(c),
 		Privilege:       NewSecurityPrivilegeService(c),
+		Realm:           NewSecurityRealmService(c),
+		Role:            NewSecurityRoleService(c),
 		SSL:             NewSecuritySSLService(c),
 		User:            NewSecurityUserService(c),
 		UserTokens:      NewSecurityUserTokensService(c),
