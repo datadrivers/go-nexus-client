@@ -17,7 +17,7 @@ func getTestLegacyRepositoryAptHosted(name string) repository.LegacyRepository {
 		Type:   repository.RepositoryTypeHosted,
 		Format: repository.RepositoryFormatApt,
 
-		Apt: &repository.Apt{
+		Apt: &repository.AptProxy{
 			Distribution: "bionic",
 		},
 		AptSigning: &repository.AptSigning{
@@ -86,7 +86,7 @@ func getTestLegacyRepositoryAptProxy(name string) repository.LegacyRepository {
 		Format: repository.RepositoryFormatApt,
 		Online: true,
 
-		Apt: &repository.Apt{
+		Apt: &repository.AptProxy{
 			Distribution: "bionic",
 			Flat:         true,
 		},

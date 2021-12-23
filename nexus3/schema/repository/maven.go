@@ -49,7 +49,7 @@ type MavenProxyRepository struct {
 	Maven         `json:"maven"`
 	Proxy         `json:"proxy"`
 	NegativeCache `json:"negativeCache"`
-	HttpClient    HTTPClientWithPreemptiveAuth `json:"httpClient"`
+	HTTPClient    HTTPClientWithPreemptiveAuth `json:"httpClient"`
 
 	RoutingRule *string `json:"routingRule,omitempty"`
 	*Cleanup    `json:"cleanup,omitempty"`

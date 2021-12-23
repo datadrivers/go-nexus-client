@@ -59,7 +59,7 @@ type LegacyRepository struct {
 	Type            string  `json:"type"`
 
 	// Apt data
-	*Apt        `json:"apt,omitempty"`
+	Apt         *AptProxy `json:"apt,omitempty"`
 	*AptSigning `json:"aptSigning,omitempty"`
 
 	// Bower data
