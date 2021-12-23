@@ -9,8 +9,12 @@ import (
 )
 
 func TestBlobstoreAzure(t *testing.T) {
-	azureAccountName := "testAcoount"
-	azureContainerName := "test-container"
+	if getEnv("SKIP_AZURE_TESTS", "false") == "true" {
+		t.Skip("Skipping Nexus blobstore for Azure tests")
+	}
+
+	azureAccountName := "terraformprovidernexus"
+	azureContainerName := "go-nexus-client"
 	bsName := "test-blobstore-azure"
 	azureAccountKey := getEnv("AZURE_STORAGE_ACCOUNT_KEY", "test-key").(string)
 
@@ -21,7 +25,7 @@ func TestBlobstoreAzure(t *testing.T) {
 		BucketConfiguration: blobstore.AzureBucketConfiguration{
 			AccountName: azureAccountName,
 			Authentication: blobstore.AzureBucketConfigurationAuthentication{
-				AuthenticationMethod: BlobstoreAzureAuthenticationMethodAccountKey,
+				AuthenticationMethod: blobstore.AzureAuthenticationMethodAccountKey,
 				AccountKey:           azureAccountKey,
 			},
 			ContainerName: azureContainerName,
@@ -34,38 +38,38 @@ func TestBlobstoreAzure(t *testing.T) {
 	azureBS, err := client.BlobStore.Azure.Get(bs.Name)
 	assert.Nil(t, err)
 	assert.NotNil(t, azureBS)
-	if azureBS != nil {
-		assert.Equal(t, bsName, azureBS.Name)
-		assert.NotNil(t, azureBS.BucketConfiguration)
-		assert.Equal(t, azureAccountName, azureBS.BucketConfiguration.AccountName)
-		assert.Equal(t, azureContainerName, azureBS.BucketConfiguration.ContainerName)
+	assert.Equal(t, bsName, azureBS.Name)
+	assert.NotNil(t, azureBS.BucketConfiguration)
+	assert.Equal(t, azureAccountName, azureBS.BucketConfiguration.AccountName)
+	assert.Equal(t, azureContainerName, azureBS.BucketConfiguration.ContainerName)
 
-		azureBS.SoftQuota = &blobstore.SoftQuota{
-			Type:  "spaceRemainingQuota",
-			Limit: 100000000,
-		}
-
-		err = client.BlobStore.Azure.Update(azureBS.Name, azureBS)
-		assert.Nil(t, err)
-
-		updatedBlobstore, err := client.BlobStore.Azure.Get(azureBS.Name)
-		assert.Nil(t, err)
-		assert.NotNil(t, updatedBlobstore)
-
-		if updatedBlobstore != nil {
-			assert.NotNil(t, updatedBlobstore.SoftQuota)
-		}
-
-		err = client.BlobStore.Azure.Delete(azureBS.Name)
-		assert.Nil(t, err)
+	azureBS.SoftQuota = &blobstore.SoftQuota{
+		Type:  "spaceRemainingQuota",
+		Limit: 100000000,
 	}
+
+	err = client.BlobStore.Azure.Update(azureBS.Name, azureBS)
+	assert.Nil(t, err)
+
+	updatedBlobstore, err := client.BlobStore.Azure.Get(azureBS.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, updatedBlobstore)
+	assert.NotNil(t, updatedBlobstore.SoftQuota)
+
+	err = client.BlobStore.Azure.Delete(azureBS.Name)
+	assert.Nil(t, err)
+
 }
 
 func TestBlobstoreAzureTestConnection(t *testing.T) {
-	azureAccountName := "testAcoount"
-	azureContainerName := "test-container"
-	azureAccountKey := "test-key"
+	if getEnv("SKIP_AZURE_TESTS", "false") == "true" {
+		t.Skip("Skipping Nexus blobstore for Azure tests")
+	}
+
+	azureAccountName := "terraformprovidernexus"
+	azureContainerName := "go-nexus-client"
 	bsName := "test-blobstore-azure"
+	azureAccountKey := "test-key"
 
 	client := getTestClient()
 

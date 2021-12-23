@@ -32,40 +32,37 @@ func TestBlobstoreGroup(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, createdGroup)
 
-	if createdGroup != nil {
-		assert.Equal(t, BlobstoreGroupFillPolicyRoundRobin, createdGroup.FillPolicy)
-		assert.Nil(t, createdGroup.SoftQuota)
+	assert.Equal(t, blobstore.GroupFillPolicyRoundRobin, createdGroup.FillPolicy)
+	assert.Nil(t, createdGroup.SoftQuota)
 
-		createdGroup.SoftQuota = &blobstore.SoftQuota{
-			Type:  "spaceRemainingQuota",
-			Limit: 100000000,
-		}
-		createdGroup.FillPolicy = BlobstoreGroupFillPolicyWriteToFirst
-
-		err = client.BlobStore.Group.Update(createdGroup.Name, createdGroup)
-		assert.Nil(t, err)
-
-		updatedGroup, err := client.BlobStore.Group.Get(createdGroup.Name)
-		assert.Nil(t, err)
-		assert.NotNil(t, updatedGroup)
-
-		if updatedGroup != nil {
-			assert.NotNil(t, updatedGroup.SoftQuota)
-			assert.Equal(t, BlobstoreGroupFillPolicyWriteToFirst, updatedGroup.FillPolicy)
-		}
-
-		err = client.BlobStore.Group.Delete(group.Name)
-		assert.Nil(t, err)
-
-		deletedGroup, err := client.BlobStore.Group.Get(group.Name)
-		assert.NotNil(t, err)
-		assert.Nil(t, deletedGroup)
-
-		err = client.BlobStore.File.Delete(bs.Name)
-		assert.Nil(t, err)
-
-		deletedBlobstore, err := client.BlobStore.File.Get(bs.Name)
-		assert.NotNil(t, err)
-		assert.Nil(t, deletedBlobstore)
+	createdGroup.SoftQuota = &blobstore.SoftQuota{
+		Type:  "spaceRemainingQuota",
+		Limit: 100000000,
 	}
+	createdGroup.FillPolicy = blobstore.GroupFillPolicyWriteToFirst
+
+	err = client.BlobStore.Group.Update(createdGroup.Name, createdGroup)
+	assert.Nil(t, err)
+
+	updatedGroup, err := client.BlobStore.Group.Get(createdGroup.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, updatedGroup)
+
+	assert.NotNil(t, updatedGroup.SoftQuota)
+	assert.Equal(t, blobstore.GroupFillPolicyWriteToFirst, updatedGroup.FillPolicy)
+
+	err = client.BlobStore.Group.Delete(group.Name)
+	assert.Nil(t, err)
+
+	deletedGroup, err := client.BlobStore.Group.Get(group.Name)
+	assert.NotNil(t, err)
+	assert.Nil(t, deletedGroup)
+
+	err = client.BlobStore.File.Delete(bs.Name)
+	assert.Nil(t, err)
+
+	deletedBlobstore, err := client.BlobStore.File.Get(bs.Name)
+	assert.NotNil(t, err)
+	assert.Nil(t, deletedBlobstore)
+
 }

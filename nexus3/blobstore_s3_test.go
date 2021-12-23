@@ -50,14 +50,13 @@ func TestBlobstoreS3(t *testing.T) {
 	s3BS, err := client.BlobStore.S3.Get(bs.Name)
 	assert.Nil(t, err)
 	assert.NotNil(t, s3BS)
-	if s3BS != nil {
-		assert.NotNil(t, s3BS.BucketConfiguration)
-		assert.NotNil(t, s3BS.BucketConfiguration.Bucket)
-		assert.NotNil(t, s3BS.BucketConfiguration.BucketSecurity)
+	assert.NotNil(t, s3BS.BucketConfiguration)
+	assert.NotNil(t, s3BS.BucketConfiguration.Bucket)
+	assert.NotNil(t, s3BS.BucketConfiguration.BucketSecurity)
 
-		err = client.BlobStore.S3.Delete(bs.Name)
-		assert.Nil(t, err)
-	}
+	err = client.BlobStore.S3.Delete(bs.Name)
+	assert.Nil(t, err)
+
 }
 
 func ensureMinioBucket(bucketName string, bucketLocation string, endpoint string, useSSL bool, accessKeyID string, secretAccessKey string) error {

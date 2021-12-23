@@ -1,5 +1,10 @@
 package blobstore
 
+const (
+	AzureAuthenticationMethodAccountKey      = "ACCOUNTKEY"
+	AzureAuthenticationMethodManagedIdentity = "MANAGEDIDENTITY"
+)
+
 type Azure struct {
 	// Name of the BlobStore
 	Name string `json:"name"`

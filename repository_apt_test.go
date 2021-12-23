@@ -1,6 +1,8 @@
 package client
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -50,30 +52,29 @@ func TestRepositoryAptHosted(t *testing.T) {
 
 func TestRepositoryAptProxy(t *testing.T) {
 	client := getTestClient()
-	repo := getTestRepositoryAptProxy("test-repo-apt-proxy")
+	repo := getTestRepositoryAptProxy("test-repo-apt-proxy-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := client.RepositoryCreate(repo)
 	assert.Nil(t, err)
 
-	if err != nil {
-		createdRepo, err := client.RepositoryRead(repo.Name)
-		assert.Nil(t, err)
-		assert.NotNil(t, createdRepo)
+	createdRepo, err := client.RepositoryRead(repo.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, createdRepo)
 
-		if err != nil && createdRepo != nil {
-			assert.Equal(t, true, createdRepo.Online)
-			assert.Equal(t, repo.Name, createdRepo.Name)
-			assert.Equal(t, RepositoryFormatApt, createdRepo.Format)
-			assert.Equal(t, RepositoryTypeProxy, createdRepo.Type)
-		}
-
-		err = client.RepositoryDelete(repo.Name)
-		assert.Nil(t, err)
-
-		deletedRepo, err := client.RepositoryRead(repo.Name)
-		assert.Nil(t, err)
-		assert.Nil(t, deletedRepo)
+	if err != nil && createdRepo != nil {
+		assert.Equal(t, true, createdRepo.Online)
+		assert.Equal(t, repo.Name, createdRepo.Name)
+		assert.Equal(t, RepositoryFormatApt, createdRepo.Format)
+		assert.Equal(t, RepositoryTypeProxy, createdRepo.Type)
 	}
+
+	err = client.RepositoryDelete(repo.Name)
+	assert.Nil(t, err)
+
+	deletedRepo, err := client.RepositoryRead(repo.Name)
+	assert.Nil(t, err)
+	assert.Nil(t, deletedRepo)
+
 }
 
 func getTestRepositoryAptProxy(name string) Repository {

@@ -23,34 +23,28 @@ func TestBlobstoreFile(t *testing.T) {
 	createdBlobstore, err := client.BlobStore.File.Get(bs.Name)
 	assert.Nil(t, err)
 	assert.NotNil(t, createdBlobstore)
+	assert.Equal(t, bsPath, createdBlobstore.Path)
+	assert.Nil(t, createdBlobstore.SoftQuota)
 
-	if createdBlobstore != nil {
-		assert.Equal(t, bsPath, createdBlobstore.Path)
-		assert.Nil(t, createdBlobstore.SoftQuota)
-
-		createdBlobstore.SoftQuota = &blobstore.SoftQuota{
-			Type:  "spaceRemainingQuota",
-			Limit: 100000000,
-		}
-
-		err = client.BlobStore.File.Update(createdBlobstore.Name, createdBlobstore)
-		assert.Nil(t, err)
-
-		updatedBlobstore, err := client.BlobStore.File.Get(createdBlobstore.Name)
-		assert.Nil(t, err)
-		assert.NotNil(t, updatedBlobstore)
-
-		if updatedBlobstore != nil {
-			assert.NotNil(t, updatedBlobstore.SoftQuota)
-		}
-
-		err = client.BlobStore.File.Delete(bs.Name)
-		assert.Nil(t, err)
-
-		deletedBlobstore, err := client.BlobStore.File.Get(bs.Name)
-		assert.NotNil(t, err)
-		assert.Nil(t, deletedBlobstore)
+	createdBlobstore.SoftQuota = &blobstore.SoftQuota{
+		Type:  "spaceRemainingQuota",
+		Limit: 100000000,
 	}
+
+	err = client.BlobStore.File.Update(createdBlobstore.Name, createdBlobstore)
+	assert.Nil(t, err)
+
+	updatedBlobstore, err := client.BlobStore.File.Get(createdBlobstore.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, updatedBlobstore)
+	assert.NotNil(t, updatedBlobstore.SoftQuota)
+
+	err = client.BlobStore.File.Delete(bs.Name)
+	assert.Nil(t, err)
+
+	deletedBlobstore, err := client.BlobStore.File.Get(bs.Name)
+	assert.NotNil(t, err)
+	assert.Nil(t, deletedBlobstore)
 }
 
 func TestBlobstoreRead(t *testing.T) {

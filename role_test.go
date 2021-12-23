@@ -1,6 +1,8 @@
 package client
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -22,7 +24,8 @@ func TestRoleRead(t *testing.T) {
 
 func TestRoleCreateReadUpdateDelete(t *testing.T) {
 	client := getTestClient()
-	testRole := testRole("test-role", "test-role-name", "test-role-description", []string{"nx-all"}, []string{"nx-admin"})
+	roleID := "test-role-" + strconv.Itoa(rand.Intn(1024))
+	testRole := testRole(roleID, "test-role-name", "test-role-description", []string{"nx-all"}, []string{"nx-admin"})
 
 	// Create
 	err := client.RoleCreate(*testRole)

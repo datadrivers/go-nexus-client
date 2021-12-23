@@ -38,46 +38,44 @@ func TestSecurityLDAP(t *testing.T) {
 	err := client.Security.LDAP.Create(ldap)
 	assert.Nil(t, err)
 
-	if err == nil {
-		createdLDAP, err := client.Security.LDAP.Get(ldap.Name)
-		assert.Nil(t, err)
-		assert.NotNil(t, createdLDAP)
-		assert.NotNil(t, createdLDAP.ID)
-		assert.Equal(t, ldap.AuthSchema, createdLDAP.AuthSchema)
-		assert.Equal(t, ldap.AuthUserName, createdLDAP.AuthUserName)
-		assert.Equal(t, ldap.Host, createdLDAP.Host)
-		assert.Equal(t, ldap.Port, createdLDAP.Port)
-		assert.Equal(t, ldap.ConnectionTimeoutSeconds, createdLDAP.ConnectionTimeoutSeconds)
-		// GroupType is not returned :-/
-		// assert.Equal(t, ldap.GroupType, createdLDAP.GroupType)
-		assert.Equal(t, ldap.Name, createdLDAP.Name)
-		assert.Equal(t, ldap.Protocol, createdLDAP.Protocol)
-		assert.Equal(t, ldap.SearchBase, createdLDAP.SearchBase)
-		assert.Equal(t, ldap.UserEmailAddressAttribute, createdLDAP.UserEmailAddressAttribute)
-		assert.Equal(t, ldap.UserIDAttribute, createdLDAP.UserIDAttribute)
-		assert.Equal(t, ldap.UserObjectClass, createdLDAP.UserObjectClass)
-		assert.Equal(t, ldap.UserRealNameAttribute, createdLDAP.UserRealNameAttribute)
+	createdLDAP, err := client.Security.LDAP.Get(ldap.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, createdLDAP)
+	assert.NotNil(t, createdLDAP.ID)
+	assert.Equal(t, ldap.AuthSchema, createdLDAP.AuthSchema)
+	assert.Equal(t, ldap.AuthUserName, createdLDAP.AuthUserName)
+	assert.Equal(t, ldap.Host, createdLDAP.Host)
+	assert.Equal(t, ldap.Port, createdLDAP.Port)
+	assert.Equal(t, ldap.ConnectionTimeoutSeconds, createdLDAP.ConnectionTimeoutSeconds)
+	// GroupType is not returned :-/
+	// assert.Equal(t, ldap.GroupType, createdLDAP.GroupType)
+	assert.Equal(t, ldap.Name, createdLDAP.Name)
+	assert.Equal(t, ldap.Protocol, createdLDAP.Protocol)
+	assert.Equal(t, ldap.SearchBase, createdLDAP.SearchBase)
+	assert.Equal(t, ldap.UserEmailAddressAttribute, createdLDAP.UserEmailAddressAttribute)
+	assert.Equal(t, ldap.UserIDAttribute, createdLDAP.UserIDAttribute)
+	assert.Equal(t, ldap.UserObjectClass, createdLDAP.UserObjectClass)
+	assert.Equal(t, ldap.UserRealNameAttribute, createdLDAP.UserRealNameAttribute)
 
-		createdLDAP.Host = "127.0.0.2"
-		createdLDAP.ID = ""
-		// As GroupType is not returned while read, it needs to be set again
-		createdLDAP.GroupType = "DYNAMIC"
-		// As AuthPassword is not returned while read, it needs to be set again
-		createdLDAP.AuthPassword = ldap.AuthPassword
-		err = client.Security.LDAP.Update(ldap.Name, *createdLDAP)
-		assert.Nil(t, err)
+	createdLDAP.Host = "127.0.0.2"
+	createdLDAP.ID = ""
+	// As GroupType is not returned while read, it needs to be set again
+	createdLDAP.GroupType = "DYNAMIC"
+	// As AuthPassword is not returned while read, it needs to be set again
+	createdLDAP.AuthPassword = ldap.AuthPassword
+	err = client.Security.LDAP.Update(ldap.Name, *createdLDAP)
+	assert.Nil(t, err)
 
-		updatedLDAP, err := client.Security.LDAP.Get(createdLDAP.Name)
-		assert.Nil(t, err)
-		assert.NotNil(t, updatedLDAP)
-		assert.Equal(t, createdLDAP.Host, updatedLDAP.Host)
+	updatedLDAP, err := client.Security.LDAP.Get(createdLDAP.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, updatedLDAP)
+	assert.Equal(t, createdLDAP.Host, updatedLDAP.Host)
 
-		err = client.Security.LDAP.Delete(ldap.Name)
-		assert.Nil(t, err)
+	err = client.Security.LDAP.Delete(ldap.Name)
+	assert.Nil(t, err)
 
-		deletedLDAP, err := client.Security.LDAP.Get(ldap.Name)
-		// If the server was delete we get 404 and therefore expect an error
-		assert.NotNil(t, err)
-		assert.Nil(t, deletedLDAP)
-	}
+	deletedLDAP, err := client.Security.LDAP.Get(ldap.Name)
+	// If the server was delete we get 404 and therefore expect an error
+	assert.NotNil(t, err)
+	assert.Nil(t, deletedLDAP)
 }

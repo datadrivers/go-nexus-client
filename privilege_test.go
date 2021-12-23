@@ -34,7 +34,7 @@ func TestPrivilegeTypeWildcardRead(t *testing.T) {
 	}
 }
 
-func TestPrivilegeTypeScriptCreateAndRead(t *testing.T) {
+func TestPrivilegeTypeScriptCreateReadAndDelete(t *testing.T) {
 	client := getTestClient()
 	testPrivilegeName := "test-script-privilege"
 	testScriptName := "test-script"
@@ -62,6 +62,14 @@ func TestPrivilegeTypeScriptCreateAndRead(t *testing.T) {
 		deleteScriptErr := client.ScriptDelete(testScriptName)
 		assert.Nil(t, deleteScriptErr)
 	}
+
+	err := client.PrivilegeDelete(testPrivilegeName)
+	assert.Nil(t, err)
+
+	deletedPrivilege, err := client.PrivilegeRead(testScriptPrivilege.Name)
+	assert.Nil(t, err)
+	assert.Nil(t, deletedPrivilege)
+	client.ScriptDelete(testScriptName)
 }
 
 func TestPrivilegeTypeAnalyticsRead(t *testing.T) {
@@ -149,38 +157,34 @@ func TestPrivilegeCreateReadUpdateDelete(t *testing.T) {
 	err := client.PrivilegeCreate(privilege)
 	assert.Nil(t, err)
 
-	if err != nil {
-		createdPrivilege, err := client.PrivilegeRead(privilege.Name)
-		assert.Nil(t, err)
-		assert.NotNil(t, createdPrivilege)
+	createdPrivilege, err := client.PrivilegeRead(privilege.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, createdPrivilege)
 
-		if createdPrivilege != nil {
-			assert.Equal(t, privilege.Name, createdPrivilege.Name)
-			assert.Equal(t, privilege.Description, createdPrivilege.Description)
-			assert.Equal(t, privilege.Domain, createdPrivilege.Domain)
-			assert.Equal(t, privilege.Type, createdPrivilege.Type)
+	assert.Equal(t, privilege.Name, createdPrivilege.Name)
+	assert.Equal(t, privilege.Description, createdPrivilege.Description)
+	assert.Equal(t, privilege.Domain, createdPrivilege.Domain)
+	assert.Equal(t, privilege.Type, createdPrivilege.Type)
 
-			// Update
-			createdPrivilege.Description = "updated"
-			createdPrivilege.Domain = "datastores"
+	// Update
+	createdPrivilege.Description = "updated"
+	createdPrivilege.Domain = "datastores"
 
-			err = client.PrivilegeUpdate(privilege.Name, *createdPrivilege)
-			assert.Nil(t, err)
+	err = client.PrivilegeUpdate(privilege.Name, *createdPrivilege)
+	assert.Nil(t, err)
 
-			updatedPrivilege, err := client.PrivilegeRead(privilege.Name)
-			assert.Nil(t, err)
-			assert.NotNil(t, updatedPrivilege)
-			assert.Equal(t, createdPrivilege.Description, updatedPrivilege.Description)
-			assert.Equal(t, createdPrivilege.Domain, updatedPrivilege.Domain)
-		}
+	updatedPrivilege, err := client.PrivilegeRead(privilege.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, updatedPrivilege)
+	assert.Equal(t, createdPrivilege.Description, updatedPrivilege.Description)
+	assert.Equal(t, createdPrivilege.Domain, updatedPrivilege.Domain)
 
-		err = client.PrivilegeDelete(privilege.Name)
-		assert.Nil(t, err)
+	err = client.PrivilegeDelete(privilege.Name)
+	assert.Nil(t, err)
 
-		deletedPrivilege, err := client.PrivilegeRead(privilege.Name)
-		assert.Nil(t, err)
-		assert.Nil(t, deletedPrivilege)
-	}
+	deletedPrivilege, err := client.PrivilegeRead(privilege.Name)
+	assert.Nil(t, err)
+	assert.Nil(t, deletedPrivilege)
 }
 
 func testScriptPrivilege(name string, scriptName string) Privilege {
