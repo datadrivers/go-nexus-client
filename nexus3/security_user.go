@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	securityUsersAPIEndpoint = basePath + "v1/security/users"
+	securityUsersAPIEndpoint = securityAPIEndpoint + "/users"
 )
 
 type SecurityUserService service

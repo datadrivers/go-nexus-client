@@ -1,19 +1,27 @@
 version: '3'
 services:
-  nexus:
-    container_name: nexus
+  nexus-oss:
     image: "sonatype/nexus3:${NEXUS_VERSION}"
     ports:
       - "${NEXUS_PORT}:8081"
     volumes:
-      - "${PWD}/license.lic:/nexus-data/etc/license.lic"
-      - "${PWD}/nexus.properties:/nexus-data/etc/nexus.properties"
+      - "${PWD}/oss-nexus.properties:/nexus-data/etc/nexus.properties:ro"
+    profiles:
+      - oss
+  nexus-pro:
+    image: "sonatype/nexus3:${NEXUS_VERSION}"
+    ports:
+      - "${NEXUS_PORT}:8081"
+    volumes:
+      - "${PWD}/pro-nexus.properties:/nexus-data/etc/nexus.properties:ro"
+      - "${PWD}/license.lic:/nexus-data/etc/license.lic:ro"
+    profiles:
+      - pro
   minio:
-    container_name: minio
     image: "minio/minio:latest"
     ports:
       - "9000:9000"
-    command: "server /data"
+    command: "server --address :9000 /data"
     environment:
       - MINIO_ACCESS_KEY=minioadmin
       - MINIO_SECRET_KEY=minioadmin
