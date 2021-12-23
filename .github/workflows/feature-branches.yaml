@@ -17,11 +17,13 @@ jobs:
       - name: Test client with nexus3 instance
         env:
           NEXUS3_LICENSE_B64_ENCODED: ${{ secrets.NEXUS3_LICENSE_B64_ENCODED }}
+          AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
         run: |
           cd scripts
           echo "${NEXUS3_LICENSE_B64_ENCODED}" | base64 -d > license.lic
           ./start-services.sh
           cd -
+          if [[ -z ${AZURE_STORAGE_ACCOUNT_KEY} ]]; then export SKIP_AZURE_TESTS="true"; fi
           make test
           cd scripts
           ./stop-services.sh
