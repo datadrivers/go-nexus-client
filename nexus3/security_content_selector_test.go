@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -41,9 +42,9 @@ func TestSecurityContentSelector(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func testContentSelector(name string) *SecurityContentSelector {
+func testContentSelector(name string) *security.ContentSelector {
 	time := time.Now().Unix()
-	return &SecurityContentSelector{
+	return &security.ContentSelector{
 		Name:        name,
 		Description: fmt.Sprintf("Go client content selector %d", time),
 		Expression:  fmt.Sprintf("path == \"%d/\"", time),

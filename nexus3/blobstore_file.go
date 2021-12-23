@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
 )
 
 type BlobStoreFileService service
@@ -16,16 +18,7 @@ func NewBlobStoreFileService(c *client) *BlobStoreFileService {
 	return s
 }
 
-type FileBlobStore struct {
-	// Name of the BlobStore
-	Name string `json:"name"`
-	// Settings to control the soft quota
-	SoftQuota *BlobStoreSoftQuota `json:"softQuota,omitempty"`
-	// The path to the blobstore contents. This can be an absolute path to anywhere on the system Nexus Repository Manager has access to or it can be a path relative to the sonatype-work directory.
-	Path string `json:"path,omitempty"`
-}
-
-func (s *BlobStoreFileService) Create(bs *FileBlobStore) error {
+func (s *BlobStoreFileService) Create(bs *blobstore.File) error {
 	ioReader, err := jsonMarshalInterfaceToIOReader(bs)
 	if err != nil {
 		return err
@@ -43,7 +36,7 @@ func (s *BlobStoreFileService) Create(bs *FileBlobStore) error {
 	return nil
 }
 
-func (s *BlobStoreFileService) Get(name string) (*FileBlobStore, error) {
+func (s *BlobStoreFileService) Get(name string) (*blobstore.File, error) {
 	body, resp, err := s.client.Get(fmt.Sprintf("%s/file/%s", blobstoreAPIEndpoint, name), nil)
 	if err != nil {
 		return nil, err
@@ -53,7 +46,7 @@ func (s *BlobStoreFileService) Get(name string) (*FileBlobStore, error) {
 		return nil, fmt.Errorf("could not read file blobstores: HTTP: %d, %s", resp.StatusCode, string(body))
 	}
 
-	var bs FileBlobStore
+	var bs blobstore.File
 	if err := json.Unmarshal(body, &bs); err != nil {
 		return nil, fmt.Errorf("could not unmarshal blobstore \"%s\": %v", name, err)
 	}
@@ -61,7 +54,7 @@ func (s *BlobStoreFileService) Get(name string) (*FileBlobStore, error) {
 	return &bs, nil
 }
 
-func (s *BlobStoreFileService) Update(name string, bs *FileBlobStore) error {
+func (s *BlobStoreFileService) Update(name string, bs *blobstore.File) error {
 	ioReader, err := jsonMarshalInterfaceToIOReader(bs)
 	if err != nil {
 		return err

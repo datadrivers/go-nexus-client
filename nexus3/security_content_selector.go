@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 )
 
 const (
@@ -20,19 +22,7 @@ func NewSecurityContentSelectorService(c *client) *SecurityContentSelectorServic
 	return s
 }
 
-// SecurityContentSelector data
-type SecurityContentSelector struct {
-	// A human-readable description
-	Description string `json:"description"`
-
-	// The expression used to identify content
-	Expression string `json:"expression"`
-
-	// The content selector name cannot be changed after creation
-	Name string `json:"name"`
-}
-
-func (s SecurityContentSelectorService) Create(cs SecurityContentSelector) error {
+func (s SecurityContentSelectorService) Create(cs security.ContentSelector) error {
 	ioReader, err := jsonMarshalInterfaceToIOReader(cs)
 	if err != nil {
 		return err
@@ -50,7 +40,7 @@ func (s SecurityContentSelectorService) Create(cs SecurityContentSelector) error
 	return nil
 }
 
-func (s SecurityContentSelectorService) List() ([]SecurityContentSelector, error) {
+func (s SecurityContentSelectorService) List() ([]security.ContentSelector, error) {
 	body, resp, err := s.client.Get(securityContentSelectorAPIEndpoint, nil)
 	if err != nil {
 		return nil, err
@@ -60,7 +50,7 @@ func (s SecurityContentSelectorService) List() ([]SecurityContentSelector, error
 		return nil, fmt.Errorf("could not read content selectors: HTTP: %d, %s", resp.StatusCode, string(body))
 	}
 
-	var contentSelectors []SecurityContentSelector
+	var contentSelectors []security.ContentSelector
 	if err := json.Unmarshal(body, &contentSelectors); err != nil {
 		return nil, fmt.Errorf("could not unmarshal content selector list: %v", err)
 	}
@@ -68,7 +58,7 @@ func (s SecurityContentSelectorService) List() ([]SecurityContentSelector, error
 	return contentSelectors, nil
 }
 
-func (s SecurityContentSelectorService) Get(name string) (*SecurityContentSelector, error) {
+func (s SecurityContentSelectorService) Get(name string) (*security.ContentSelector, error) {
 	contentSelectors, err := s.List()
 	if err != nil {
 		return nil, err
@@ -83,7 +73,7 @@ func (s SecurityContentSelectorService) Get(name string) (*SecurityContentSelect
 	return nil, nil
 }
 
-func (s SecurityContentSelectorService) Update(name string, cs SecurityContentSelector) error {
+func (s SecurityContentSelectorService) Update(name string, cs security.ContentSelector) error {
 	ioReader, err := jsonMarshalInterfaceToIOReader(cs)
 	if err != nil {
 		return err

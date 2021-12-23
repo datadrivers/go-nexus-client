@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 )
 
 const (
@@ -20,20 +22,8 @@ func NewSecurityAnonymousService(c *client) *SecurityAnonymousService {
 	return s
 }
 
-// Anonymous config
-type SecurityAnonymousAccessSettings struct {
-	// Whether or not Anonymous Access is enabled
-	Enabled bool `json:"enabled"`
-
-	// The username of the anonymous account
-	UserID string `json:"userId"`
-
-	// The name of the authentication realm for the anonymous account
-	RealmName string `json:"realmName"`
-}
-
 // Get Anonymous Access settings
-func (s *SecurityAnonymousService) Read() (*SecurityAnonymousAccessSettings, error) {
+func (s *SecurityAnonymousService) Read() (*security.AnonymousAccessSettings, error) {
 	body, resp, err := s.client.Get(securityAnonymousAPIEndpoint, nil)
 	if err != nil {
 		return nil, err
@@ -43,7 +33,7 @@ func (s *SecurityAnonymousService) Read() (*SecurityAnonymousAccessSettings, err
 		return nil, fmt.Errorf("could not read anonymous config: HTTP: %d, %s", resp.StatusCode, string(body))
 	}
 
-	var anonymous SecurityAnonymousAccessSettings
+	var anonymous security.AnonymousAccessSettings
 	if err := json.Unmarshal(body, &anonymous); err != nil {
 		return nil, fmt.Errorf("could not unmarshal anonymous config: %v", err)
 	}
@@ -51,7 +41,7 @@ func (s *SecurityAnonymousService) Read() (*SecurityAnonymousAccessSettings, err
 	return &anonymous, nil
 }
 
-func (s *SecurityAnonymousService) Update(anonymous SecurityAnonymousAccessSettings) error {
+func (s *SecurityAnonymousService) Update(anonymous security.AnonymousAccessSettings) error {
 	ioReader, err := jsonMarshalInterfaceToIOReader(anonymous)
 	if err != nil {
 		return err

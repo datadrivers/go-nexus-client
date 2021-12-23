@@ -4,11 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-)
 
-const (
-	BlobstoreGroupFillPolicyRoundRobin   = "roundRobin"
-	BlobstoreGroupFillPolicyWriteToFirst = "writeToFirst"
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
 )
 
 type BlobStoreGroupService service
@@ -21,20 +18,7 @@ func NewBlobStoreGroupService(c *client) *BlobStoreGroupService {
 	return s
 }
 
-type GroupBlobStore struct {
-	// The name of the Group blob store
-	Name string `json:"name"`
-	// Settings to control the soft quota
-	SoftQuota *BlobStoreSoftQuota `json:"softQuota,omitempty"`
-
-	// List of the names of blob stores that are members of this group
-	Members []string `json:"members,omitempty"`
-
-	// Possible values: roundRobin,writeToFirst
-	FillPolicy string `json:"fillPolicy"`
-}
-
-func (s *BlobStoreGroupService) Create(bs *GroupBlobStore) error {
+func (s *BlobStoreGroupService) Create(bs *blobstore.Group) error {
 	ioReader, err := jsonMarshalInterfaceToIOReader(bs)
 	if err != nil {
 		return err
@@ -52,7 +36,7 @@ func (s *BlobStoreGroupService) Create(bs *GroupBlobStore) error {
 	return nil
 }
 
-func (s *BlobStoreGroupService) Get(name string) (*GroupBlobStore, error) {
+func (s *BlobStoreGroupService) Get(name string) (*blobstore.Group, error) {
 	body, resp, err := s.client.Get(fmt.Sprintf("%s/group/%s", blobstoreAPIEndpoint, name), nil)
 	if err != nil {
 		return nil, err
@@ -62,7 +46,7 @@ func (s *BlobStoreGroupService) Get(name string) (*GroupBlobStore, error) {
 		return nil, fmt.Errorf("could not read file blobstores: HTTP: %d, %s", resp.StatusCode, string(body))
 	}
 
-	var bs GroupBlobStore
+	var bs blobstore.Group
 	if err := json.Unmarshal(body, &bs); err != nil {
 		return nil, fmt.Errorf("could not unmarshal blobstore \"%s\": %v", name, err)
 	}
@@ -70,7 +54,7 @@ func (s *BlobStoreGroupService) Get(name string) (*GroupBlobStore, error) {
 	return &bs, nil
 }
 
-func (s *BlobStoreGroupService) Update(name string, bs *GroupBlobStore) error {
+func (s *BlobStoreGroupService) Update(name string, bs *blobstore.Group) error {
 	ioReader, err := jsonMarshalInterfaceToIOReader(bs)
 	if err != nil {
 		return err

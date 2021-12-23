@@ -3,13 +3,14 @@ package nexus3
 import (
 	"testing"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestBlobstoreGroup(t *testing.T) {
 	client := getTestClient()
 
-	bs := FileBlobStore{
+	bs := blobstore.File{
 		Name: "test-member-name",
 		Path: "test-member-path",
 	}
@@ -17,12 +18,12 @@ func TestBlobstoreGroup(t *testing.T) {
 	err := client.BlobStore.File.Create(&bs)
 	assert.Nil(t, err)
 
-	group := GroupBlobStore{
+	group := blobstore.Group{
 		Name: "test-group",
 		Members: []string{
 			bs.Name,
 		},
-		FillPolicy: BlobstoreGroupFillPolicyRoundRobin,
+		FillPolicy: blobstore.GroupFillPolicyRoundRobin,
 	}
 
 	err = client.BlobStore.Group.Create(&group)
@@ -35,7 +36,7 @@ func TestBlobstoreGroup(t *testing.T) {
 		assert.Equal(t, BlobstoreGroupFillPolicyRoundRobin, createdGroup.FillPolicy)
 		assert.Nil(t, createdGroup.SoftQuota)
 
-		createdGroup.SoftQuota = &BlobStoreSoftQuota{
+		createdGroup.SoftQuota = &blobstore.SoftQuota{
 			Type:  "spaceRemainingQuota",
 			Limit: 100000000,
 		}

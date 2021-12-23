@@ -3,6 +3,7 @@ package nexus3
 import (
 	"testing"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,7 +13,7 @@ func TestBlobstoreFile(t *testing.T) {
 	bsName := "test-blobstore-name"
 	bsPath := "test-blobstore-path"
 
-	bs := FileBlobStore{
+	bs := blobstore.File{
 		Name: bsName,
 		Path: bsPath,
 	}
@@ -27,7 +28,7 @@ func TestBlobstoreFile(t *testing.T) {
 		assert.Equal(t, bsPath, createdBlobstore.Path)
 		assert.Nil(t, createdBlobstore.SoftQuota)
 
-		createdBlobstore.SoftQuota = &BlobStoreSoftQuota{
+		createdBlobstore.SoftQuota = &blobstore.SoftQuota{
 			Type:  "spaceRemainingQuota",
 			Limit: 100000000,
 		}

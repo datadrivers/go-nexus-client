@@ -33,19 +33,6 @@ func NewBlobStoreService(c *client) *BlobStoreService {
 	}
 }
 
-type BlobStoreSoftQuota struct {
-	// The type to use such as spaceRemainingQuota, or spaceUsedQuota
-	Type string `json:"type,omitempty"`
-	// The limit in MB.
-	Limit int64 `json:"limit,omitempty"`
-}
-
-type BlobStoreQuotaStatus struct {
-	IsViolation   bool   `json:"isViolation"`
-	Message       string `json:"message,omitempty"`
-	BlobStoreName string `json:"blobStoreName"`
-}
-
 func (s *BlobStoreService) Delete(name string) error {
 	return deleteBlobstore(s.client, name)
 }

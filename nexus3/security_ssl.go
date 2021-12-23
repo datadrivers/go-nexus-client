@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 	"github.com/google/go-querystring/query"
 )
 
@@ -24,31 +25,16 @@ func NewSecuritySSLService(c *client) *SecuritySSLService {
 	return s
 }
 
-type SecuritySSLCertificate struct {
-	Id                      string `json:"id"`
-	Fingerprint             string `json:"fingerprint"`
-	SerialNumber            string `json:"serialNumber"`
-	IssuerCommonName        string `json:"issuerCommonName"`
-	IssuerOrganization      string `json:"issuerOrganization"`
-	IssuerOrganizationUnit  string `json:"issuerOrganizationalUnit"`
-	SubjectCommonName       string `json:"subjectCommonName"`
-	SubjectOrganization     string `json:"subjectOrganization"`
-	SubjectOrganizationUnit string `json:"subjectOrganizationalUnit"`
-	Pem                     string `json:"pem"`
-	IssuedOn                int64  `json:"issuedOn"`
-	ExpiresOn               int64  `json:"expiresOn"`
-}
-
-func jsonUnmarshalCertificate(data []byte) (*SecuritySSLCertificate, error) {
-	var certificate = SecuritySSLCertificate{}
+func jsonUnmarshalCertificate(data []byte) (*security.SSLCertificate, error) {
+	var certificate = security.SSLCertificate{}
 	if err := json.Unmarshal(data, &certificate); err != nil {
 		return nil, fmt.Errorf("could not unmarshal certificate: %v", err)
 	}
 	return &certificate, nil
 }
 
-func jsonUnmarshalCertificateList(data []byte) (*[]SecuritySSLCertificate, error) {
-	var certificates []SecuritySSLCertificate
+func jsonUnmarshalCertificateList(data []byte) (*[]security.SSLCertificate, error) {
+	var certificates []security.SSLCertificate
 	if err := json.Unmarshal(data, &certificates); err != nil {
 		return nil, fmt.Errorf("could not unmarshal certificates: %v", err)
 	}
@@ -56,7 +42,7 @@ func jsonUnmarshalCertificateList(data []byte) (*[]SecuritySSLCertificate, error
 }
 
 // Add a certificate to the trust store
-func (s *SecuritySSLService) AddCertificate(certificate *SecuritySSLCertificate) error {
+func (s *SecuritySSLService) AddCertificate(certificate *security.SSLCertificate) error {
 	data := strings.NewReader(certificate.Pem)
 
 	body, resp, err := s.client.Post(fmt.Sprintf("%s/truststore", securitySslAPIEndpoint), data)
@@ -83,7 +69,7 @@ func (s *SecuritySSLService) RemoveCertificate(id string) error {
 }
 
 // Retrieve a list of certificates added to the trust store
-func (s *SecuritySSLService) ListCertificates() (*[]SecuritySSLCertificate, error) {
+func (s *SecuritySSLService) ListCertificates() (*[]security.SSLCertificate, error) {
 	body, resp, err := s.client.Get(fmt.Sprintf("%s/truststore", securitySslAPIEndpoint), nil)
 	if err != nil {
 		return nil, err
@@ -102,7 +88,7 @@ func (s *SecuritySSLService) ListCertificates() (*[]SecuritySSLCertificate, erro
 }
 
 // Get a certificate in the trust store
-func (s *SecuritySSLService) GetCertificate(params *CertificateRequest) (*SecuritySSLCertificate, error) {
+func (s *SecuritySSLService) GetCertificate(params *CertificateRequest) (*security.SSLCertificate, error) {
 	values, _ := query.Values(&params)
 
 	body, resp, err := s.client.Get(fmt.Sprintf("%s?%s", securitySslAPIEndpoint, values.Encode()), nil)

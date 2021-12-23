@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
 	minio "github.com/minio/minio-go/v7"
 	credentials "github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/stretchr/testify/assert"
@@ -25,18 +26,18 @@ func TestBlobstoreS3(t *testing.T) {
 
 	bsName := "test-blobstore-s3"
 
-	bs := &S3BlobStore{
+	bs := &blobstore.S3{
 		Name: bsName,
-		BucketConfiguration: BlobStoreS3BucketConfiguration{
-			Bucket: BlobStoreS3Bucket{
+		BucketConfiguration: blobstore.S3BucketConfiguration{
+			Bucket: blobstore.S3Bucket{
 				Name:   bucketName,
 				Region: bucketLocation,
 			},
-			BucketSecurity: &BlobStoreS3BucketSecurity{
+			BucketSecurity: &blobstore.S3BucketSecurity{
 				AccessKeyID:     minioAccessKeyID,
 				SecretAccessKey: minioSecretAccessKey,
 			},
-			AdvancedBucketConnection: &BlobStoreS3AdvancedBucketConnection{
+			AdvancedBucketConnection: &blobstore.S3AdvancedBucketConnection{
 				Endpoint:       minioNexusEndpoint,
 				ForcePathStyle: true,
 			},

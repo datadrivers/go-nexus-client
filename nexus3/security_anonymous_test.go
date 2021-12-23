@@ -3,6 +3,7 @@ package nexus3
 import (
 	"testing"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -13,7 +14,7 @@ func TestSecurityAnonymous(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, oldAnonymous)
 
-	newAnonymous := SecurityAnonymousAccessSettings{
+	newAnonymous := security.AnonymousAccessSettings{
 		Enabled:   true,
 		UserID:    "anonymous",
 		RealmName: "NexusAuthorizingRealm",

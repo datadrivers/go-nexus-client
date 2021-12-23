@@ -3,6 +3,7 @@ package nexus3
 import (
 	"testing"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,7 +19,7 @@ func TestSecurityLDAP(t *testing.T) {
 	client := getTestClient()
 
 	// https://hub.docker.com/r/mwaeckerlin/openldap/
-	ldap := SecurityLDAP{
+	ldap := security.LDAP{
 		AuthPassword:              "1234567890",
 		AuthSchema:                "SIMPLE",
 		AuthUserName:              "admin",

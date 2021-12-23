@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
 )
 
 const (
@@ -21,48 +23,7 @@ func NewBlobStoreAzureService(c *client) *BlobStoreAzureService {
 	return s
 }
 
-type AzureBlobStore struct {
-	// Name of the BlobStore
-	Name string `json:"name"`
-	// Settings to control the soft quota
-	SoftQuota *BlobStoreSoftQuota `json:"softQuota,omitempty"`
-	// The Azure specific configuration details for the Azure object that'll contain the blob store.
-	BucketConfiguration BlobStoreAzureBucketConfiguration `json:"bucketConfiguration,omitempty"`
-}
-
-type BlobStoreAzureBucketConfiguration struct {
-	// Account name found under Access keys for the storage account.
-	AccountName string `json:"accountName"`
-
-	// The Azure specific authentication details.
-	Authentication BlobStoreAzureBucketConfigurationAuthentication `json:"authentication"`
-
-	// The name of an existing container to be used for storage.
-	ContainerName string `json:"containerName"`
-}
-
-type blobStoreAzureConnection struct {
-	// Account name found under Access keys for the storage account.
-	AccountName string `json:"accountName"`
-
-	// The type of Azure authentication to use.
-	AuthenticationMethod string `json:"authenticationMethod"`
-
-	// The account key.
-	AccountKey string `json:"accountKey,omitempty"`
-	// The name of an existing container to be used for storage.
-	ContainerName string `json:"containerName"`
-}
-
-type BlobStoreAzureBucketConfigurationAuthentication struct {
-	// The type of Azure authentication to use.
-	AuthenticationMethod string `json:"authenticationMethod"`
-
-	// The account key.
-	AccountKey string `json:"accountKey,omitempty"`
-}
-
-func (s *BlobStoreAzureService) Create(bs *AzureBlobStore) error {
+func (s *BlobStoreAzureService) Create(bs *blobstore.Azure) error {
 	ioReader, err := jsonMarshalInterfaceToIOReader(bs)
 	if err != nil {
 		return err
@@ -80,7 +41,7 @@ func (s *BlobStoreAzureService) Create(bs *AzureBlobStore) error {
 	return nil
 }
 
-func (s *BlobStoreAzureService) Get(name string) (*AzureBlobStore, error) {
+func (s *BlobStoreAzureService) Get(name string) (*blobstore.Azure, error) {
 	body, resp, err := s.client.Get(fmt.Sprintf("%s/azure/%s", blobstoreAPIEndpoint, name), nil)
 	if err != nil {
 		return nil, err
@@ -90,7 +51,7 @@ func (s *BlobStoreAzureService) Get(name string) (*AzureBlobStore, error) {
 		return nil, fmt.Errorf("could not read azure blobstores: HTTP: %d, %s", resp.StatusCode, string(body))
 	}
 
-	var bs AzureBlobStore
+	var bs blobstore.Azure
 	if err := json.Unmarshal(body, &bs); err != nil {
 		return nil, fmt.Errorf("could not unmarshal blobstore \"%s\": %v", name, err)
 	}
@@ -98,7 +59,7 @@ func (s *BlobStoreAzureService) Get(name string) (*AzureBlobStore, error) {
 	return &bs, nil
 }
 
-func (s *BlobStoreAzureService) Update(name string, bs *AzureBlobStore) error {
+func (s *BlobStoreAzureService) Update(name string, bs *blobstore.Azure) error {
 	ioReader, err := jsonMarshalInterfaceToIOReader(bs)
 	if err != nil {
 		return err
@@ -124,8 +85,8 @@ func (s *BlobStoreAzureService) GetQuotaStatus(name string) error {
 	return getBlobstoreQuotaStatus(s.client, name)
 }
 
-func (s *BlobStoreAzureService) TestConnection(bs *AzureBlobStore) error {
-	con := &blobStoreAzureConnection{
+func (s *BlobStoreAzureService) TestConnection(bs *blobstore.Azure) error {
+	con := &blobstore.AzureConnection{
 		AccountName:          bs.BucketConfiguration.AccountName,
 		ContainerName:        bs.BucketConfiguration.ContainerName,
 		AuthenticationMethod: bs.BucketConfiguration.Authentication.AuthenticationMethod,

@@ -4,6 +4,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,11 +16,11 @@ func TestBlobstoreAzure(t *testing.T) {
 
 	client := getTestClient()
 
-	bs := &AzureBlobStore{
+	bs := &blobstore.Azure{
 		Name: bsName,
-		BucketConfiguration: BlobStoreAzureBucketConfiguration{
+		BucketConfiguration: blobstore.AzureBucketConfiguration{
 			AccountName: azureAccountName,
-			Authentication: BlobStoreAzureBucketConfigurationAuthentication{
+			Authentication: blobstore.AzureBucketConfigurationAuthentication{
 				AuthenticationMethod: BlobstoreAzureAuthenticationMethodAccountKey,
 				AccountKey:           azureAccountKey,
 			},
@@ -39,7 +40,7 @@ func TestBlobstoreAzure(t *testing.T) {
 		assert.Equal(t, azureAccountName, azureBS.BucketConfiguration.AccountName)
 		assert.Equal(t, azureContainerName, azureBS.BucketConfiguration.ContainerName)
 
-		azureBS.SoftQuota = &BlobStoreSoftQuota{
+		azureBS.SoftQuota = &blobstore.SoftQuota{
 			Type:  "spaceRemainingQuota",
 			Limit: 100000000,
 		}
@@ -68,11 +69,11 @@ func TestBlobstoreAzureTestConnection(t *testing.T) {
 
 	client := getTestClient()
 
-	bs := &AzureBlobStore{
+	bs := &blobstore.Azure{
 		Name: bsName,
-		BucketConfiguration: BlobStoreAzureBucketConfiguration{
+		BucketConfiguration: blobstore.AzureBucketConfiguration{
 			AccountName: azureAccountName,
-			Authentication: BlobStoreAzureBucketConfigurationAuthentication{
+			Authentication: blobstore.AzureBucketConfigurationAuthentication{
 				AuthenticationMethod: BlobstoreAzureAuthenticationMethodAccountKey,
 				AccountKey:           azureAccountKey,
 			},
