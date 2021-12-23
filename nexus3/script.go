@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema"
 )
 
@@ -12,18 +14,18 @@ const (
 	scriptsAPIEndpoint = basePath + "v1/script"
 )
 
-type ScriptService service
+type ScriptService client.Service
 
-func NewScriptService(c *client) *ScriptService {
+func NewScriptService(c *client.Client) *ScriptService {
 
 	s := &ScriptService{
-		client: c,
+		Client: c,
 	}
 	return s
 }
 
 func (s *ScriptService) List() ([]schema.Script, error) {
-	body, resp, err := s.client.Get(scriptsAPIEndpoint, nil)
+	body, resp, err := s.Client.Get(scriptsAPIEndpoint, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +42,7 @@ func (s *ScriptService) List() ([]schema.Script, error) {
 }
 
 func (s *ScriptService) Get(name string) (*schema.Script, error) {
-	body, resp, err := s.client.Get(fmt.Sprintf("%s/%s", scriptsAPIEndpoint, name), nil)
+	body, resp, err := s.Client.Get(fmt.Sprintf("%s/%s", scriptsAPIEndpoint, name), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -56,11 +58,11 @@ func (s *ScriptService) Get(name string) (*schema.Script, error) {
 }
 
 func (s *ScriptService) Create(script *schema.Script) error {
-	ioReader, err := jsonMarshalInterfaceToIOReader(script)
+	ioReader, err := tools.JsonMarshalInterfaceToIOReader(script)
 	if err != nil {
 		return err
 	}
-	body, resp, err := s.client.Post(scriptsAPIEndpoint, ioReader)
+	body, resp, err := s.Client.Post(scriptsAPIEndpoint, ioReader)
 	if err != nil {
 		return err
 	}
@@ -73,12 +75,12 @@ func (s *ScriptService) Create(script *schema.Script) error {
 }
 
 func (s *ScriptService) Update(script *schema.Script) error {
-	ioReader, err := jsonMarshalInterfaceToIOReader(script)
+	ioReader, err := tools.JsonMarshalInterfaceToIOReader(script)
 	if err != nil {
 		return err
 	}
 
-	body, resp, err := s.client.Put(fmt.Sprintf("%s/%s", scriptsAPIEndpoint, script.Name), ioReader)
+	body, resp, err := s.Client.Put(fmt.Sprintf("%s/%s", scriptsAPIEndpoint, script.Name), ioReader)
 	if err != nil {
 		return err
 	}
@@ -91,7 +93,7 @@ func (s *ScriptService) Update(script *schema.Script) error {
 }
 
 func (s *ScriptService) Delete(name string) error {
-	body, resp, err := s.client.Delete(fmt.Sprintf("%s/%s", scriptsAPIEndpoint, name))
+	body, resp, err := s.Client.Delete(fmt.Sprintf("%s/%s", scriptsAPIEndpoint, name))
 	if err != nil {
 		return err
 	}
@@ -103,7 +105,7 @@ func (s *ScriptService) Delete(name string) error {
 }
 
 func (s *ScriptService) Run(name string) error {
-	body, resp, err := s.client.Post(fmt.Sprintf("%s/%s/run", scriptsAPIEndpoint, name), nil)
+	body, resp, err := s.Client.Post(fmt.Sprintf("%s/%s/run", scriptsAPIEndpoint, name), nil)
 	if err != nil {
 		return err
 	}

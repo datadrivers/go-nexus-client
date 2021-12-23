@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema"
 	"github.com/stretchr/testify/assert"
 )
@@ -53,7 +54,7 @@ func TestScriptList(t *testing.T) {
 	// Close the server when test finishes
 	defer testserver.Close()
 
-	client := NewClient(Config{
+	client := NewClient(client.Config{
 		URL:      testserver.URL,
 		Username: "admin",
 		Password: "admin123",
@@ -91,7 +92,7 @@ func TestScriptRead(t *testing.T) {
 	// Close the server when test finishes
 	defer testserver.Close()
 
-	client := NewClient(Config{
+	client := NewClient(client.Config{
 		URL:      testserver.URL,
 		Username: "admin",
 		Password: "admin123",
@@ -123,7 +124,7 @@ func TestScriptCreate(t *testing.T) {
 	// Close the server when test finishes
 	defer testserver.Close()
 
-	client := NewClient(Config{
+	client := NewClient(client.Config{
 		URL:      testserver.URL,
 		Username: "admin",
 		Password: "admin123",
@@ -149,7 +150,7 @@ func TestScriptUpdate(t *testing.T) {
 	}))
 	// Close the server when test finishes
 
-	client := NewClient(Config{
+	client := NewClient(client.Config{
 		URL:      testserver.URL,
 		Username: "admin",
 		Password: "admin123",
@@ -174,7 +175,7 @@ func TestScriptRUN(t *testing.T) {
 	// Close the server when test finishes
 	defer testserver.Close()
 
-	client := NewClient(Config{
+	client := NewClient(client.Config{
 		URL:      testserver.URL,
 		Username: "admin",
 		Password: "admin123",
@@ -195,7 +196,7 @@ func TestScriptDelete(t *testing.T) {
 	// Close the server when test finishes
 	defer testserver.Close()
 
-	client := NewClient(Config{
+	client := NewClient(client.Config{
 		URL:      testserver.URL,
 		Username: "admin",
 		Password: "admin123",

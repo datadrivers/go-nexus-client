@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema"
 )
 
@@ -12,17 +14,17 @@ const (
 	routingRulesAPIEndpoint = basePath + "v1/routing-rules"
 )
 
-type RoutingRuleService service
+type RoutingRuleService client.Service
 
-func NewRoutingRuleService(c *client) *RoutingRuleService {
+func NewRoutingRuleService(c *client.Client) *RoutingRuleService {
 
 	s := &RoutingRuleService{
-		client: c,
+		Client: c,
 	}
 	return s
 }
 func (s *RoutingRuleService) Lists() ([]schema.RoutingRule, error) {
-	body, resp, err := s.client.Get(routingRulesAPIEndpoint, nil)
+	body, resp, err := s.Client.Get(routingRulesAPIEndpoint, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +41,7 @@ func (s *RoutingRuleService) Lists() ([]schema.RoutingRule, error) {
 }
 
 func (s *RoutingRuleService) Get(name string) (*schema.RoutingRule, error) {
-	body, resp, err := s.client.Get(fmt.Sprintf("%s/%s", routingRulesAPIEndpoint, name), nil)
+	body, resp, err := s.Client.Get(fmt.Sprintf("%s/%s", routingRulesAPIEndpoint, name), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -58,11 +60,11 @@ func (s *RoutingRuleService) Create(rule *schema.RoutingRule) error {
 	if err := rule.Mode.IsValid(); err != nil {
 		return err
 	}
-	ioReader, err := jsonMarshalInterfaceToIOReader(rule)
+	ioReader, err := tools.JsonMarshalInterfaceToIOReader(rule)
 	if err != nil {
 		return err
 	}
-	body, resp, err := s.client.Post(routingRulesAPIEndpoint, ioReader)
+	body, resp, err := s.Client.Post(routingRulesAPIEndpoint, ioReader)
 	if err != nil {
 		return err
 	}
@@ -75,12 +77,12 @@ func (s *RoutingRuleService) Create(rule *schema.RoutingRule) error {
 }
 
 func (s *RoutingRuleService) Update(rule *schema.RoutingRule) error {
-	ioReader, err := jsonMarshalInterfaceToIOReader(rule)
+	ioReader, err := tools.JsonMarshalInterfaceToIOReader(rule)
 	if err != nil {
 		return err
 	}
 
-	body, resp, err := s.client.Put(fmt.Sprintf("%s/%s", routingRulesAPIEndpoint, rule.Name), ioReader)
+	body, resp, err := s.Client.Put(fmt.Sprintf("%s/%s", routingRulesAPIEndpoint, rule.Name), ioReader)
 	if err != nil {
 		return err
 	}
@@ -93,7 +95,7 @@ func (s *RoutingRuleService) Update(rule *schema.RoutingRule) error {
 }
 
 func (s *RoutingRuleService) Delete(name string) error {
-	body, resp, err := s.client.Delete(fmt.Sprintf("%s/%s", routingRulesAPIEndpoint, name))
+	body, resp, err := s.Client.Delete(fmt.Sprintf("%s/%s", routingRulesAPIEndpoint, name))
 	if err != nil {
 		return err
 	}
