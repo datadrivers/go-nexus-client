@@ -14,6 +14,7 @@ type SecurityService struct {
 	Privilege       *SecurityPrivilegeService
 	Realm           *SecurityRealmService
 	Role            *SecurityRoleService
+	SAML            *SecuritySamlService
 	SSL             *SecuritySSLService
 	User            *SecurityUserService
 	UserTokens      *SecurityUserTokensService
@@ -29,6 +30,7 @@ func NewSecurityService(c *client) *SecurityService {
 		Privilege:       NewSecurityPrivilegeService(c),
 		Realm:           NewSecurityRealmService(c),
 		Role:            NewSecurityRoleService(c),
+		SAML:            NewSecuritySamlService(c),
 		SSL:             NewSecuritySSLService(c),
 		User:            NewSecurityUserService(c),
 		UserTokens:      NewSecurityUserTokensService(c),
