@@ -21,8 +21,8 @@ func getTestLegacyRepositoryAptHosted(name string) repository.LegacyRepository {
 			Distribution: "bionic",
 		},
 		AptSigning: &repository.AptSigning{
-			Keypair:    "string",
-			Passphrase: "string",
+			Keypair:    tools.GetStringPointer("string"),
+			Passphrase: tools.GetStringPointer("string"),
 		},
 		Cleanup: &repository.Cleanup{
 			PolicyNames: []string{"weekly-cleanup"},

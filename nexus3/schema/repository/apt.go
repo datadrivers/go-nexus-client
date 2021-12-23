@@ -41,7 +41,7 @@ type AptHosted struct {
 // AptSigning contains signing data of hosted repositores of format Apt
 type AptSigning struct {
 	// PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
-	Keypair string `json:"keypair"`
+	Keypair *string `json:"keypair,omitempty"`
 	// Passphrase to access PGP signing key
-	Passphrase string `json:"passphrase"`
+	Passphrase *string `json:"passphrase,omitempty"`
 }

@@ -31,7 +31,8 @@ func TestLegacyRepositoryYumHosted(t *testing.T) {
 		assert.Equal(t, repo.Yum.DeployPolicy, createdRepo.Yum.DeployPolicy)
 		assert.Equal(t, repo.Yum.RepodataDepth, createdRepo.Yum.RepodataDepth)
 
-		createdRepo.Yum.DeployPolicy = "PERMISSIVE"
+		deployPolicy := repository.YumDeployPolicyPermissive
+		createdRepo.Yum.DeployPolicy = &deployPolicy
 		err = service.Legacy.Update(createdRepo.Name, *createdRepo)
 		assert.Nil(t, err)
 
@@ -41,6 +42,7 @@ func TestLegacyRepositoryYumHosted(t *testing.T) {
 }
 
 func getTestLegacyRepositoryYumHosted(name string) repository.LegacyRepository {
+	deployPolicy := repository.YumDeployPolicyStrict
 	return repository.LegacyRepository{
 		Name:   name,
 		Format: repository.RepositoryFormatYum,
@@ -53,7 +55,7 @@ func getTestLegacyRepositoryYumHosted(name string) repository.LegacyRepository {
 		},
 
 		Yum: &repository.Yum{
-			DeployPolicy:  "STRICT",
+			DeployPolicy:  &deployPolicy,
 			RepodataDepth: 1,
 		},
 	}
