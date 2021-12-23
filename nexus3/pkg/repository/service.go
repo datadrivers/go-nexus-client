@@ -10,10 +10,13 @@ type RepositoryService struct {
 	client *client.Client
 
 	// API Services
+	Legacy *RepositoryLegacyService
 }
 
 func NewRepositoryService(c *client.Client) *RepositoryService {
 	return &RepositoryService{
 		client: c,
+
+		Legacy: NewRepositoryLegacyService(c),
 	}
 }
