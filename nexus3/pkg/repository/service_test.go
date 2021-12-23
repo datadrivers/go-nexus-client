@@ -1,4 +1,4 @@
-package security
+package repository
 
 import (
 	"testing"
@@ -19,8 +19,8 @@ func getTestClient() *client.Client {
 	return client.NewClient(getDefaultConfig())
 }
 
-func getTestService() *SecurityService {
-	return NewSecurityService(getTestClient())
+func getTestService() *RepositoryService {
+	return NewRepositoryService(getTestClient())
 }
 
 func getDefaultConfig() client.Config {
@@ -32,8 +32,8 @@ func getDefaultConfig() client.Config {
 	}
 }
 
-func TestNewSecurityService(t *testing.T) {
+func TestNewRepositoryService(t *testing.T) {
 	s := getTestService()
 
-	assert.NotNil(t, s, "NewSecurityService() must not return nil")
+	assert.NotNil(t, s, "NewRepositoryService() must not return nil")
 }
