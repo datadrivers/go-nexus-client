@@ -20,16 +20,13 @@ type BlobStoreService struct {
 }
 
 func NewBlobStoreService(c *client) *BlobStoreService {
-	a := NewBlobStoreAzureService(c)
-	f := NewBlobStoreFileService(c)
-	g := NewBlobStoreGroupService(c)
-	s := NewBlobStoreS3Service(c)
 	return &BlobStoreService{
 		client: c,
-		Azure:  a,
-		File:   f,
-		Group:  g,
-		S3:     s,
+
+		Azure: NewBlobStoreAzureService(c),
+		File:  NewBlobStoreFileService(c),
+		Group: NewBlobStoreGroupService(c),
+		S3:    NewBlobStoreS3Service(c),
 	}
 }
 

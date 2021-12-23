@@ -29,6 +29,7 @@ type client struct {
 	// API Services
 	BlobStore *BlobStoreService
 	Security  *SecurityService
+	Script    *ScriptService
 }
 
 // NewClient returns an instance of client that implements the Client interface
@@ -48,6 +49,7 @@ func NewClient(config Config) *client {
 	}
 	c.BlobStore = NewBlobStoreService(c)
 	c.Security = NewSecurityService(c)
+	c.Script = NewScriptService(c)
 	return c
 }
 

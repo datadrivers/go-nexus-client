@@ -14,3 +14,8 @@ type SSLCertificate struct {
 	IssuedOn                int64  `json:"issuedOn"`
 	ExpiresOn               int64  `json:"expiresOn"`
 }
+
+type CertificateRequest struct {
+	Host string `url:"host"`
+	Port int    `url:"port"`
+}

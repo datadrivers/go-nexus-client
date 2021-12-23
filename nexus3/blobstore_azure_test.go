@@ -78,7 +78,7 @@ func TestBlobstoreAzureTestConnection(t *testing.T) {
 		BucketConfiguration: blobstore.AzureBucketConfiguration{
 			AccountName: azureAccountName,
 			Authentication: blobstore.AzureBucketConfigurationAuthentication{
-				AuthenticationMethod: BlobstoreAzureAuthenticationMethodAccountKey,
+				AuthenticationMethod: blobstore.AzureAuthenticationMethodAccountKey,
 				AccountKey:           azureAccountKey,
 			},
 			ContainerName: azureContainerName,

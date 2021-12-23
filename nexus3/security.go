@@ -11,23 +11,22 @@ type SecurityService struct {
 	Anonymous       *SecurityAnonymousService
 	ContentSelector *SecurityContentSelectorService
 	LDAP            *SecurityLdapService
+	Privilege       *SecurityPrivilegeService
 	SSL             *SecuritySSLService
 	User            *SecurityUserService
+	UserTokens      *SecurityUserTokensService
 }
 
 func NewSecurityService(c *client) *SecurityService {
-	a := NewSecurityAnonymousService(c)
-	cs := NewSecurityContentSelectorService(c)
-	l := NewSecurityLdapService(c)
-	s := NewSecuritySSLService(c)
-	u := NewSecurityUserService(c)
 	return &SecurityService{
 		client: c,
 
-		Anonymous:       a,
-		ContentSelector: cs,
-		LDAP:            l,
-		SSL:             s,
-		User:            u,
+		Anonymous:       NewSecurityAnonymousService(c),
+		ContentSelector: NewSecurityContentSelectorService(c),
+		LDAP:            NewSecurityLdapService(c),
+		Privilege:       NewSecurityPrivilegeService(c),
+		SSL:             NewSecuritySSLService(c),
+		User:            NewSecurityUserService(c),
+		UserTokens:      NewSecurityUserTokensService(c),
 	}
 }

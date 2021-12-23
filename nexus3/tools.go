@@ -8,12 +8,9 @@ import (
 	"net/url"
 	"os"
 	"strconv"
-)
 
-type CertificateRequest struct {
-	Host string `url:"host"`
-	Port int    `url:"port"`
-}
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
+)
 
 func jsonMarshalInterfaceToIOReader(data interface{}) (io.Reader, error) {
 	b, err := json.Marshal(data)
@@ -31,7 +28,7 @@ func getEnv(key string, fallback interface{}) interface{} {
 	return fallback
 }
 
-func NewCertificateRequest(proxyUrl string) (*CertificateRequest, error) {
+func NewCertificateRequest(proxyUrl string) (*security.CertificateRequest, error) {
 	data, err := url.Parse(proxyUrl)
 	if err != nil {
 		return nil, err
@@ -43,6 +40,18 @@ func NewCertificateRequest(proxyUrl string) (*CertificateRequest, error) {
 			return nil, err
 		}
 	}
-	request := &CertificateRequest{data.Hostname(), port}
+	request := &security.CertificateRequest{data.Hostname(), port}
 	return request, nil
+}
+
+func getIntPointer(number int) *int {
+	return &number
+}
+
+func getStringPointer(s string) *string {
+	return &s
+}
+
+func getBoolPointer(b bool) *bool {
+	return &b
 }

@@ -88,7 +88,7 @@ func (s *SecuritySSLService) ListCertificates() (*[]security.SSLCertificate, err
 }
 
 // Get a certificate in the trust store
-func (s *SecuritySSLService) GetCertificate(params *CertificateRequest) (*security.SSLCertificate, error) {
+func (s *SecuritySSLService) GetCertificate(params *security.CertificateRequest) (*security.SSLCertificate, error) {
 	values, _ := query.Values(&params)
 
 	body, resp, err := s.client.Get(fmt.Sprintf("%s?%s", securitySslAPIEndpoint, values.Encode()), nil)

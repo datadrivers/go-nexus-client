@@ -8,11 +8,6 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
 )
 
-const (
-	BlobstoreAzureAuthenticationMethodAccountKey      = "ACCOUNTKEY"
-	BlobstoreAzureAuthenticationMethodManagedIdentity = "MANAGEDIDENTITY"
-)
-
 type BlobStoreAzureService service
 
 func NewBlobStoreAzureService(c *client) *BlobStoreAzureService {
