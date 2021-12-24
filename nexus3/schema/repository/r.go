@@ -1,13 +1,13 @@
 package repository
 
-type BowerGroupRepository struct {
+type RGroupRepository struct {
 	Name    string `json:"name"`
 	Online  bool   `json:"online"`
 	Group   `json:"group"`
 	Storage `json:"storage"`
 }
 
-type BowerHostedRepository struct {
+type RHostedRepository struct {
 	Name    string        `json:"name"`
 	Online  bool          `json:"online"`
 	Storage HostedStorage `json:"storage"`
@@ -16,7 +16,7 @@ type BowerHostedRepository struct {
 	*Component `json:"component,omitempty"`
 }
 
-type BowerProxyRepository struct {
+type RProxyRepository struct {
 	Name          string `json:"name"`
 	Online        bool   `json:"online"`
 	Storage       `json:"storage"`
@@ -26,10 +26,5 @@ type BowerProxyRepository struct {
 
 	RoutingRule *string `json:"routingRule,omitempty"`
 	*Cleanup    `json:"cleanup,omitempty"`
-	*Bower      `json:"bower,omitempty"`
-}
-
-type Bower struct {
-	// Whether to force Bower to retrieve packages through this proxy repository
-	RewritePackageUrls bool `json:"rewritePackageUrls"`
+	*Npm        `json:"npm,omitempty"`
 }

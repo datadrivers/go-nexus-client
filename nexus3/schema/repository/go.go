@@ -1,22 +1,13 @@
 package repository
 
-type PypiGroupRepository struct {
+type GoGroupRepository struct {
 	Name    string `json:"name"`
 	Online  bool   `json:"online"`
 	Group   `json:"group"`
 	Storage `json:"storage"`
 }
 
-type PypiHostedRepository struct {
-	Name    string        `json:"name"`
-	Online  bool          `json:"online"`
-	Storage HostedStorage `json:"storage"`
-
-	*Cleanup   `json:"cleanup,omitempty"`
-	*Component `json:"component,omitempty"`
-}
-
-type PypiProxyRepository struct {
+type GoProxyRepository struct {
 	Name          string `json:"name"`
 	Online        bool   `json:"online"`
 	Storage       `json:"storage"`
@@ -26,4 +17,5 @@ type PypiProxyRepository struct {
 
 	RoutingRule *string `json:"routingRule,omitempty"`
 	*Cleanup    `json:"cleanup,omitempty"`
+	*Npm        `json:"npm,omitempty"`
 }

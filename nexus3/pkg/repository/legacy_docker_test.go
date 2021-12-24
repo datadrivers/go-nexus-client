@@ -108,6 +108,7 @@ func TestLegacyRepositoryDockerProxy(t *testing.T) {
 }
 
 func getTestLegacyRepositoryDockerProxy(name string) repository.LegacyRepository {
+	dockerIndexType := repository.DockerProxyIndexTypeHub
 	return repository.LegacyRepository{
 		Name:   name,
 		Online: true,
@@ -121,7 +122,7 @@ func getTestLegacyRepositoryDockerProxy(name string) repository.LegacyRepository
 			ForceBasicAuth: true,
 		},
 		DockerProxy: &repository.DockerProxy{
-			IndexType: "HUB",
+			IndexType: &dockerIndexType,
 		},
 		HTTPClient: &repository.HTTPClient{
 			Connection: &repository.HTTPClientConnection{
