@@ -16,6 +16,7 @@ type RepositoryService struct {
 
 	// API Services
 	Apt    *RepositoryAptService
+	Bower  *RepositoryBowerService
 	Legacy *RepositoryLegacyService
 }
 
@@ -24,6 +25,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		client: c,
 
 		Apt:    NewRepositoryAptService(c),
+		Bower:  NewRepositoryBowerService(c),
 		Legacy: NewRepositoryLegacyService(c),
 	}
 }
