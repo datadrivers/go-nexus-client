@@ -26,7 +26,7 @@ func getTestLegacyRepositoryDockerHostedWithPorts(name string) repository.Legacy
 		Storage: &repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 tools.GetStringPointer("ALLOW"),
+			WritePolicy:                 (*repository.StorageWritePolicy)(tools.GetStringPointer("ALLOW")),
 		},
 	}
 }
@@ -64,7 +64,7 @@ func getTestLegacyRepositoryDockerHostedWithoutPorts(name string) repository.Leg
 		Storage: &repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 tools.GetStringPointer("ALLOW_ONCE"),
+			WritePolicy:                 (*repository.StorageWritePolicy)(tools.GetStringPointer("ALLOW_ONCE")),
 		},
 	}
 }

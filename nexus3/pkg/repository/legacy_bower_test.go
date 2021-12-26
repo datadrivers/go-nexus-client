@@ -48,7 +48,7 @@ func getTestLegacyRepositoryBowerHosted(name string) repository.LegacyRepository
 		Format: repository.RepositoryFormatBower,
 		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
-			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
+			WritePolicy:   (*repository.StorageWritePolicy)(tools.GetStringPointer("ALLOW_ONCE")),
 		},
 	}
 }

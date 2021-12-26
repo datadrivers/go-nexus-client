@@ -38,7 +38,7 @@ func TestLegacyRepositoryMavenHosted(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, createdRepo)
 
-	writePolicy := "ALLOW"
+	writePolicy := (repository.StorageWritePolicy)("ALLOW")
 	layoutPolicy = repository.MavenLayoutPolicyPermissive
 	createdRepo.Maven.LayoutPolicy = &layoutPolicy
 	createdRepo.Storage.WritePolicy = &writePolicy
@@ -48,8 +48,8 @@ func TestLegacyRepositoryMavenHosted(t *testing.T) {
 	updatedRepo, err := service.Legacy.Get(createdRepo.Name)
 	assert.Nil(t, err)
 	assert.NotNil(t, updatedRepo)
-	assert.Equal(t, *updatedRepo.Maven.LayoutPolicy, repository.MavenLayoutPolicyPermissive)
-	assert.Equal(t, *updatedRepo.Storage.WritePolicy, "ALLOW")
+	assert.Equal(t, repository.MavenLayoutPolicyPermissive, *updatedRepo.Maven.LayoutPolicy)
+	assert.Equal(t, repository.StorageWritePolicyAllow, *updatedRepo.Storage.WritePolicy)
 
 	err = service.Legacy.Delete(createdRepo.Name)
 	assert.Nil(t, err)
@@ -70,7 +70,7 @@ func getTestLegacyRepositoryMavenHosted(name string, layoutPolicy *repository.Ma
 
 		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
-			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
+			WritePolicy:   (*repository.StorageWritePolicy)(tools.GetStringPointer("ALLOW_ONCE")),
 		},
 	}
 }

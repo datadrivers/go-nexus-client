@@ -51,7 +51,7 @@ func getTestLegacyRepositoryYumHosted(name string) repository.LegacyRepository {
 
 		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
-			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
+			WritePolicy:   (*repository.StorageWritePolicy)(tools.GetStringPointer("ALLOW_ONCE")),
 		},
 
 		Yum: &repository.Yum{

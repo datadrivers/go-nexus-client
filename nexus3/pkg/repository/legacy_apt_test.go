@@ -30,7 +30,7 @@ func getTestLegacyRepositoryAptHosted(name string) repository.LegacyRepository {
 		Storage: &repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 tools.GetStringPointer("ALLOW"),
+			WritePolicy:                 (*repository.StorageWritePolicy)(tools.GetStringPointer("ALLOW")),
 		},
 	}
 }

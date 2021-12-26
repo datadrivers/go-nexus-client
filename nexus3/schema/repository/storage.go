@@ -1,12 +1,12 @@
 package repository
 
 const (
-	StorageWritePolicyAllow     RespositoryStorageWritePolicy = "allow"
-	StorageWritePolicyAllowOnce RespositoryStorageWritePolicy = "allow_once"
-	StorageWritePolicyAllowDeny RespositoryStorageWritePolicy = "deny"
+	StorageWritePolicyAllow     StorageWritePolicy = "ALLOW"
+	StorageWritePolicyAllowOnce StorageWritePolicy = "ALLOW_ONCE"
+	StorageWritePolicyAllowDeny StorageWritePolicy = "DENY"
 )
 
-type RespositoryStorageWritePolicy string
+type StorageWritePolicy string
 
 // HostedStorage contains repository storage for hosted
 type HostedStorage struct {
@@ -17,7 +17,7 @@ type HostedStorage struct {
 	StrictContentTypeValidation bool `json:"strictContentTypeValidation"`
 
 	// WritePolicy controls if deployments of and updates to assets are allowed
-	WritePolicy *string `json:"writePolicy,omitempty"`
+	WritePolicy *StorageWritePolicy `json:"writePolicy,omitempty"`
 }
 
 // Storage contains repository storage

@@ -45,7 +45,7 @@ func getTestLegacyRepositoryRubyHosted(name string) repository.LegacyRepository 
 		Type:   repository.RepositoryTypeHosted,
 		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
-			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
+			WritePolicy:   (*repository.StorageWritePolicy)(tools.GetStringPointer("ALLOW_ONCE")),
 		},
 		Cleanup: &repository.Cleanup{
 			PolicyNames: []string{"weekly-cleanup"},

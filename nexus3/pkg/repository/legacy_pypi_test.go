@@ -46,7 +46,7 @@ func getTestLegacyRepositoryPyPiHosted(name string) repository.LegacyRepository 
 		Type:   repository.RepositoryTypeHosted,
 		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
-			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
+			WritePolicy:   (*repository.StorageWritePolicy)(tools.GetStringPointer("ALLOW_ONCE")),
 		},
 		Cleanup: &repository.Cleanup{
 			PolicyNames: []string{"weekly-cleanup"},
@@ -72,7 +72,7 @@ func getTestLegacyRepositoryPyPiProxy(name string) repository.LegacyRepository {
 		},
 		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
-			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
+			WritePolicy:   (*repository.StorageWritePolicy)(tools.GetStringPointer("ALLOW_ONCE")),
 		},
 	}
 }
@@ -87,7 +87,7 @@ func getTestLegacyRepositoryPyPiGroup(name string, memberNames []string) reposit
 		},
 		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",
-			WritePolicy:   tools.GetStringPointer("ALLOW_ONCE"),
+			WritePolicy:   (*repository.StorageWritePolicy)(tools.GetStringPointer("ALLOW_ONCE")),
 		},
 	}
 }
