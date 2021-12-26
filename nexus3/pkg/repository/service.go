@@ -21,6 +21,7 @@ type RepositoryService struct {
 	Conan     *RepositoryConanService
 	Conda     *RepositoryCondaService
 	GitLfs    *RepositoryGitLfsService
+	Go        *RepositoryGoService
 	Helm      *RepositoryHelmService
 	P2        *RepositoryP2Service
 	Legacy    *RepositoryLegacyService
@@ -36,6 +37,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		Conan:     NewRepositoryConanService(c),
 		Conda:     NewRepositoryCondaService(c),
 		GitLfs:    NewRepositoryGitLfsService(c),
+		Go:        NewRepositoryGoService(c),
 		Helm:      NewRepositoryHelmService(c),
 		P2:        NewRepositoryP2Service(c),
 		Legacy:    NewRepositoryLegacyService(c),
