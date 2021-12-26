@@ -15,18 +15,20 @@ type RepositoryService struct {
 	client *client.Client
 
 	// API Services
-	Apt    *RepositoryAptService
-	Bower  *RepositoryBowerService
-	Legacy *RepositoryLegacyService
+	Apt       *RepositoryAptService
+	Bower     *RepositoryBowerService
+	Cocoapods *RepositoryCocoapodsService
+	Legacy    *RepositoryLegacyService
 }
 
 func NewRepositoryService(c *client.Client) *RepositoryService {
 	return &RepositoryService{
 		client: c,
 
-		Apt:    NewRepositoryAptService(c),
-		Bower:  NewRepositoryBowerService(c),
-		Legacy: NewRepositoryLegacyService(c),
+		Apt:       NewRepositoryAptService(c),
+		Bower:     NewRepositoryBowerService(c),
+		Cocoapods: NewRepositoryCocoapodsService(c),
+		Legacy:    NewRepositoryLegacyService(c),
 	}
 }
 
