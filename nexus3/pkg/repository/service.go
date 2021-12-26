@@ -18,6 +18,8 @@ type RepositoryService struct {
 	Apt       *RepositoryAptService
 	Bower     *RepositoryBowerService
 	Cocoapods *RepositoryCocoapodsService
+	Conan     *RepositoryConanService
+	Conda     *RepositoryCondaService
 	Legacy    *RepositoryLegacyService
 }
 
@@ -28,6 +30,8 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		Apt:       NewRepositoryAptService(c),
 		Bower:     NewRepositoryBowerService(c),
 		Cocoapods: NewRepositoryCocoapodsService(c),
+		Conan:     NewRepositoryConanService(c),
+		Conda:     NewRepositoryCondaService(c),
 		Legacy:    NewRepositoryLegacyService(c),
 	}
 }
