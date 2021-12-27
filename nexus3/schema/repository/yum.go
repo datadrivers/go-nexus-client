@@ -20,6 +20,7 @@ type YumHostedRepository struct {
 	Name    string        `json:"name"`
 	Online  bool          `json:"online"`
 	Storage HostedStorage `json:"storage"`
+	Yum     `json:"yum"`
 
 	*Cleanup   `json:"cleanup,omitempty"`
 	*Component `json:"component,omitempty"`
@@ -35,6 +36,7 @@ type YumProxyRepository struct {
 
 	RoutingRule *string `json:"routingRule,omitempty"`
 	*Cleanup    `json:"cleanup,omitempty"`
+	*YumSigning `json:"yumSigning,omitempty"`
 }
 
 // Yum contains data of hosted repositories of format Yum
