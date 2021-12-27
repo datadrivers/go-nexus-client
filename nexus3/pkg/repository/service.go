@@ -24,6 +24,7 @@ type RepositoryService struct {
 	GitLfs    *RepositoryGitLfsService
 	Go        *RepositoryGoService
 	Helm      *RepositoryHelmService
+	Maven     *RepositoryMavenService
 	P2        *RepositoryP2Service
 	Legacy    *RepositoryLegacyService
 }
@@ -41,6 +42,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		GitLfs:    NewRepositoryGitLfsService(c),
 		Go:        NewRepositoryGoService(c),
 		Helm:      NewRepositoryHelmService(c),
+		Maven:     NewRepositoryMavenService(c),
 		P2:        NewRepositoryP2Service(c),
 		Legacy:    NewRepositoryLegacyService(c),
 	}
