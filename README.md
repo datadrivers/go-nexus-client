@@ -1,11 +1,12 @@
-Golang Nexus Client
-==========
+# Golang Nexus Client
 
-# Introduction
+![codeql workflow](https://github.com/datadrivers/go-nexus-client/actions/workflows/codeql-analysis.yml/badge.svg)
+
+## Introduction
 
 Sonatype Nexus Golang Client
 
-# Development and testing
+## Development and testing
 
 Start a Nexus Docker container
 
@@ -39,6 +40,6 @@ The tests assume Nexus Pro features. If you do not have a Nexus Pro license you 
 $ export SKIP_PRO_TESTS=true
 ```
 
-# Author
+## Author
 
 [Datadrivers GmbH](https://www.datadrivers.de)
