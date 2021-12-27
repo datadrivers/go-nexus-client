@@ -9,10 +9,10 @@ import (
 )
 
 var (
-	testClient *nexusClient = nil
+	testClient *NexusClient = nil
 )
 
-func getTestClient() *nexusClient {
+func getTestClient() *NexusClient {
 	if testClient != nil {
 		return testClient
 	}
