@@ -26,5 +26,4 @@ type RProxyRepository struct {
 
 	RoutingRule *string `json:"routingRule,omitempty"`
 	*Cleanup    `json:"cleanup,omitempty"`
-	*Npm        `json:"npm,omitempty"`
 }
