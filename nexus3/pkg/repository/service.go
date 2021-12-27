@@ -1,62 +1,57 @@
 package repository
 
 import (
-	"fmt"
-	"net/http"
-
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
-)
-
-const (
-	repositoryAPIEndpoint = client.BasePath + "v1/repositories"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/apt"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/bower"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/cocoapods"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/conan"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/conda"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/docker"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/gitlfs"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/golang"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/helm"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/legacy"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/maven"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/npm"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/p2"
 )
 
 type RepositoryService struct {
 	client *client.Client
 
 	// API Services
-	Apt       *RepositoryAptService
-	Bower     *RepositoryBowerService
-	Cocoapods *RepositoryCocoapodsService
-	Conan     *RepositoryConanService
-	Conda     *RepositoryCondaService
-	Docker    *RepositoryDockerService
-	GitLfs    *RepositoryGitLfsService
-	Go        *RepositoryGoService
-	Helm      *RepositoryHelmService
-	Maven     *RepositoryMavenService
-	Npm       *RepositoryNpmService
-	P2        *RepositoryP2Service
-	Legacy    *RepositoryLegacyService
+	Apt       *apt.RepositoryAptService
+	Bower     *bower.RepositoryBowerService
+	Cocoapods *cocoapods.RepositoryCocoapodsService
+	Conan     *conan.RepositoryConanService
+	Conda     *conda.RepositoryCondaService
+	Docker    *docker.RepositoryDockerService
+	GitLfs    *gitlfs.RepositoryGitLfsService
+	Go        *golang.RepositoryGoService
+	Helm      *helm.RepositoryHelmService
+	Maven     *maven.RepositoryMavenService
+	Npm       *npm.RepositoryNpmService
+	P2        *p2.RepositoryP2Service
+	Legacy    *legacy.RepositoryLegacyService
 }
 
 func NewRepositoryService(c *client.Client) *RepositoryService {
 	return &RepositoryService{
 		client: c,
 
-		Apt:       NewRepositoryAptService(c),
-		Bower:     NewRepositoryBowerService(c),
-		Cocoapods: NewRepositoryCocoapodsService(c),
-		Conan:     NewRepositoryConanService(c),
-		Conda:     NewRepositoryCondaService(c),
-		Docker:    NewRepositoryDockerService(c),
-		GitLfs:    NewRepositoryGitLfsService(c),
-		Go:        NewRepositoryGoService(c),
-		Helm:      NewRepositoryHelmService(c),
-		Maven:     NewRepositoryMavenService(c),
-		Npm:       NewRepositoryNpmService(c),
-		P2:        NewRepositoryP2Service(c),
-		Legacy:    NewRepositoryLegacyService(c),
+		Apt:       apt.NewRepositoryAptService(c),
+		Bower:     bower.NewRepositoryBowerService(c),
+		Cocoapods: cocoapods.NewRepositoryCocoapodsService(c),
+		Conan:     conan.NewRepositoryConanService(c),
+		Conda:     conda.NewRepositoryCondaService(c),
+		Docker:    docker.NewRepositoryDockerService(c),
+		GitLfs:    gitlfs.NewRepositoryGitLfsService(c),
+		Go:        golang.NewRepositoryGoService(c),
+		Helm:      helm.NewRepositoryHelmService(c),
+		Maven:     maven.NewRepositoryMavenService(c),
+		Npm:       npm.NewRepositoryNpmService(c),
+		P2:        p2.NewRepositoryP2Service(c),
+		Legacy:    legacy.NewRepositoryLegacyService(c),
 	}
-}
-
-func deleteRepository(client *client.Client, id string) error {
-	body, resp, err := client.Delete(fmt.Sprintf("%s/%s", repositoryAPIEndpoint, id))
-	if err != nil {
-		return err
-	}
-	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("could not delete repository '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
-	}
-	return nil
 }
