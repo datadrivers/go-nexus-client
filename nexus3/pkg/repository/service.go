@@ -14,6 +14,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/legacy"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/maven"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/npm"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/nuget"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/p2"
 )
 
@@ -32,6 +33,7 @@ type RepositoryService struct {
 	Helm      *helm.RepositoryHelmService
 	Maven     *maven.RepositoryMavenService
 	Npm       *npm.RepositoryNpmService
+	Nuget     *nuget.RepositoryNugetService
 	P2        *p2.RepositoryP2Service
 	Legacy    *legacy.RepositoryLegacyService
 }
@@ -51,6 +53,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		Helm:      helm.NewRepositoryHelmService(c),
 		Maven:     maven.NewRepositoryMavenService(c),
 		Npm:       npm.NewRepositoryNpmService(c),
+		Nuget:     nuget.NewRepositoryNugetService(c),
 		P2:        p2.NewRepositoryP2Service(c),
 		Legacy:    legacy.NewRepositoryLegacyService(c),
 	}
