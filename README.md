@@ -8,27 +8,17 @@ Sonatype Nexus Golang Client
 
 ## Development and testing
 
-Start a Nexus Docker container
+**NOTE**: For testing Nexus Pro features, place the `license.lic` in `scripts/`.
+
+For testing start a local Docker containers using make
 
 ```shell
-$ docker run -d -p 8081:8081 --name nexus sonatype/nexus3
+make start-services
 ```
 
-Get the Admin password
+This will start a Docker and MinIO containers and expose ports 8081 and 9000.
 
-```shell
-$ docker exec -ti nexus /bin/bash -c 'cat /nexus-data/admin.password'
-```
-
-Set config as environment variables
-
-```shell
-$ export NEXUS_URL=http://127.0.0.1:8081
-$ export NEXUS_USERNAME=admin
-$ export NEXUS_PASSWORD=<random-password-from-above>
-```
-
-Run tests
+Now start the tests
 
 ```shell
 $ make test
@@ -37,7 +27,13 @@ $ make test
 The tests assume Nexus Pro features. If you do not have a Nexus Pro license you can skip the pro tests by setting the `SKIP_PRO_TESTS` environment variable:
 
 ```shell
-$ export SKIP_PRO_TESTS=true
+$ SKIP_PRO_TESTS=true make test
+```
+
+To `SKIP_AZURE_TESTS` environment variable:
+
+```shell
+$ SKIP_AZURE_TESTS=true make test
 ```
 
 ## Author
