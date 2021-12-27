@@ -2,6 +2,8 @@ package blobstore
 
 import (
 	"context"
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
@@ -11,7 +13,7 @@ import (
 )
 
 func TestBlobstoreS3(t *testing.T) {
-	bucketName := "s3test"
+	bucketName := "s3test-" + strconv.Itoa(rand.Intn(1024))
 	bucketLocation := "us-east-1"
 	minioGoEndpoint := "localhost:9000"
 	minioNexusEndpoint := "http://minio:9000"

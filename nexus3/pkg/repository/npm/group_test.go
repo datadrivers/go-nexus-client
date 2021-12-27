@@ -1,6 +1,8 @@
 package npm
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
@@ -24,9 +26,9 @@ func getTestNpmGroupRepository(name string) repository.NpmGroupRepository {
 
 func TestNpmGroupRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestNpmGroupRepository("test-npm-repo-group")
+	repo := getTestNpmGroupRepository("test-npm-repo-group-" + strconv.Itoa(rand.Intn(1024)))
 
-	testProxyRepo := getTestNpmProxyRepository("test-npm-group-proxy")
+	testProxyRepo := getTestNpmProxyRepository("test-npm-group-proxy-" + strconv.Itoa(rand.Intn(1024)))
 	defer service.Proxy.Delete(testProxyRepo.Name)
 	err := service.Proxy.Create(testProxyRepo)
 	assert.Nil(t, err)

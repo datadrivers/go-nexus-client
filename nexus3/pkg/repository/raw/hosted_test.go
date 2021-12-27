@@ -1,6 +1,8 @@
 package raw
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
@@ -30,7 +32,7 @@ func getTestRawHostedRepository(name string) repository.RawHostedRepository {
 
 func TestRawHostedRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestRawHostedRepository("test-raw-repo-hosted")
+	repo := getTestRawHostedRepository("test-raw-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Hosted.Create(repo)
 	assert.Nil(t, err)

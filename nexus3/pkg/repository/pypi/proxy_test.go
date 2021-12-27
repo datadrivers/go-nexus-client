@@ -1,6 +1,8 @@
 package pypi
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -38,7 +40,7 @@ func getTestPypiProxyRepository(name string) repository.PypiProxyRepository {
 
 func TestPypiProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestPypiProxyRepository("test-pypi-repo-hosted")
+	repo := getTestPypiProxyRepository("test-pypi-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

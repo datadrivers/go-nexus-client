@@ -1,6 +1,8 @@
 package gitlfs
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
@@ -26,7 +28,7 @@ func getTestGitLfsHostedRepository(name string) repository.GitLfsHostedRepositor
 
 func TestGitLfsHostedRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestGitLfsHostedRepository("test-gitlfs-repo-hosted")
+	repo := getTestGitLfsHostedRepository("test-gitlfs-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Hosted.Create(repo)
 	assert.Nil(t, err)

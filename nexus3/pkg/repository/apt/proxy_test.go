@@ -1,6 +1,8 @@
 package apt
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -42,7 +44,7 @@ func getTestAptProxyRepository(name string) repository.AptProxyRepository {
 
 func TestAptProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestAptProxyRepository("test-apt-repo-hosted")
+	repo := getTestAptProxyRepository("test-apt-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

@@ -1,6 +1,8 @@
 package bower
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -42,7 +44,7 @@ func getTestBowerProxyRepository(name string) repository.BowerProxyRepository {
 
 func TestBowerProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestBowerProxyRepository("test-bower-repo-hosted")
+	repo := getTestBowerProxyRepository("test-bower-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

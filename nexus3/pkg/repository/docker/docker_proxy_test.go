@@ -1,6 +1,8 @@
 package docker
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -48,7 +50,7 @@ func getTestDockerProxyRepository(name string) repository.DockerProxyRepository 
 
 func TestDockerProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestDockerProxyRepository("test-docker-repo-hosted")
+	repo := getTestDockerProxyRepository("test-docker-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

@@ -1,6 +1,8 @@
 package raw
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
@@ -24,9 +26,9 @@ func getTestRawGroupRepository(name string) repository.RawGroupRepository {
 
 func TestRawGroupRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestRawGroupRepository("test-raw-repo-group")
+	repo := getTestRawGroupRepository("test-raw-repo-group-" + strconv.Itoa(rand.Intn(1024)))
 
-	testProxyRepo := getTestRawProxyRepository("test-raw-group-proxy")
+	testProxyRepo := getTestRawProxyRepository("test-raw-group-proxy-" + strconv.Itoa(rand.Intn(1024)))
 	defer service.Proxy.Delete(testProxyRepo.Name)
 	err := service.Proxy.Create(testProxyRepo)
 	assert.Nil(t, err)

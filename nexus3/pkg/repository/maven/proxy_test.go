@@ -1,6 +1,8 @@
 package maven
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -46,7 +48,7 @@ func getTestMavenProxyRepository(name string) repository.MavenProxyRepository {
 
 func TestMavenProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestMavenProxyRepository("test-maven-repo-hosted")
+	repo := getTestMavenProxyRepository("test-maven-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

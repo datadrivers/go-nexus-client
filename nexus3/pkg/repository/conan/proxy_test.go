@@ -1,6 +1,8 @@
 package conan
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -38,7 +40,7 @@ func getTestConanProxyRepository(name string) repository.ConanProxyRepository {
 
 func TestConanProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestConanProxyRepository("test-conan-repo-hosted")
+	repo := getTestConanProxyRepository("test-conan-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

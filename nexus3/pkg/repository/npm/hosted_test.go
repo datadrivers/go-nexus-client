@@ -1,6 +1,8 @@
 package npm
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
@@ -29,7 +31,7 @@ func getTestNpmHostedRepository(name string) repository.NpmHostedRepository {
 
 func TestNpmHostedRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestNpmHostedRepository("test-npm-repo-hosted")
+	repo := getTestNpmHostedRepository("test-npm-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Hosted.Create(repo)
 	assert.Nil(t, err)

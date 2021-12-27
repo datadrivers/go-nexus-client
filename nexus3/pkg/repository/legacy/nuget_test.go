@@ -1,6 +1,8 @@
 package legacy
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -10,7 +12,7 @@ import (
 
 func TestLegacyRepositoryNugetProxy(t *testing.T) {
 	service := getTestService()
-	repo := getTestLegacyRepositoryNugetProxy("test-nuget-proxy-repo")
+	repo := getTestLegacyRepositoryNugetProxy("test-nuget-proxy-repo-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Create(repo)
 	assert.Nil(t, err)

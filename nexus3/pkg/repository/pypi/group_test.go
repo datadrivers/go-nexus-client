@@ -1,6 +1,8 @@
 package pypi
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
@@ -24,9 +26,9 @@ func getTestPypiGroupRepository(name string) repository.PypiGroupRepository {
 
 func TestPypiGroupRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestPypiGroupRepository("test-pypi-repo-group")
+	repo := getTestPypiGroupRepository("test-pypi-repo-group-" + strconv.Itoa(rand.Intn(1024)))
 
-	testProxyRepo := getTestPypiProxyRepository("test-pypi-group-proxy")
+	testProxyRepo := getTestPypiProxyRepository("test-pypi-group-proxy-" + strconv.Itoa(rand.Intn(1024)))
 	defer service.Proxy.Delete(testProxyRepo.Name)
 	err := service.Proxy.Create(testProxyRepo)
 	assert.Nil(t, err)

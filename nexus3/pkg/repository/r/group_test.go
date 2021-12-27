@@ -1,6 +1,8 @@
 package r
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
@@ -24,9 +26,9 @@ func getTestRGroupRepository(name string) repository.RGroupRepository {
 
 func TestRGroupRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestRGroupRepository("test-r-repo-group")
+	repo := getTestRGroupRepository("test-r-repo-group-" + strconv.Itoa(rand.Intn(1024)))
 
-	testProxyRepo := getTestRProxyRepository("test-r-group-proxy")
+	testProxyRepo := getTestRProxyRepository("test-r-group-proxy-" + strconv.Itoa(rand.Intn(1024)))
 	defer service.Proxy.Delete(testProxyRepo.Name)
 	err := service.Proxy.Create(testProxyRepo)
 	assert.Nil(t, err)

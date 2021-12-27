@@ -1,6 +1,8 @@
 package legacy
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -11,21 +13,21 @@ import (
 func TestLegacyRepositoryRubyHosted(t *testing.T) {
 	service := getTestService()
 
-	testHostedRepo := getTestLegacyRepositoryRubyHosted("test-repo-ruby-hosted")
+	testHostedRepo := getTestLegacyRepositoryRubyHosted("test-repo-ruby-hosted-" + strconv.Itoa(rand.Intn(1024)))
 	hostedCreateErr := service.Create(testHostedRepo)
 	assert.Nil(t, hostedCreateErr)
 	hostedRead, hostedReadErr := service.Get(testHostedRepo.Name)
 	assert.Nil(t, hostedReadErr)
 	assert.Equal(t, testHostedRepo.Type, hostedRead.Type)
 
-	testProxyRepo := getTestLegacyRepositoryRubyProxy("test-repo-ruby-proxy")
+	testProxyRepo := getTestLegacyRepositoryRubyProxy("test-repo-ruby-proxy-" + strconv.Itoa(rand.Intn(1024)))
 	proxyCreateErr := service.Create(testProxyRepo)
 	assert.Nil(t, proxyCreateErr)
 	proxyRead, proxyReadErr := service.Get(testProxyRepo.Name)
 	assert.Nil(t, proxyReadErr)
 	assert.Equal(t, testProxyRepo.Type, proxyRead.Type)
 
-	testGroupRepo := getTestLegacyRepositoryRubyGroup("test-repo-ruby-group", []string{testHostedRepo.Name, testProxyRepo.Name})
+	testGroupRepo := getTestLegacyRepositoryRubyGroup("test-repo-ruby-group-"+strconv.Itoa(rand.Intn(1024)), []string{testHostedRepo.Name, testProxyRepo.Name})
 	groupCreateErr := service.Create(testGroupRepo)
 	assert.Nil(t, groupCreateErr)
 	groupRead, groupReadErr := service.Get(testGroupRepo.Name)

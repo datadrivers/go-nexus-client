@@ -1,6 +1,8 @@
 package legacy
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -33,7 +35,7 @@ func getTestLegacyRepositoryDockerHostedWithPorts(name string) repository.Legacy
 
 func TestLegacyRepositoryDockerHostedWithPorts(t *testing.T) {
 	service := getTestService()
-	repo := getTestLegacyRepositoryDockerHostedWithPorts("test-docker-repo-hosted-with-ports")
+	repo := getTestLegacyRepositoryDockerHostedWithPorts("test-docker-repo-hosted-with-ports-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Create(repo)
 	assert.Nil(t, err)
@@ -71,7 +73,7 @@ func getTestLegacyRepositoryDockerHostedWithoutPorts(name string) repository.Leg
 
 func TestLegacyRepositoryDockerHostedWithoutPorts(t *testing.T) {
 	service := getTestService()
-	repo := getTestLegacyRepositoryDockerHostedWithoutPorts("test-docker-repo-hosted-with-ports")
+	repo := getTestLegacyRepositoryDockerHostedWithoutPorts("test-docker-repo-hosted-with-ports-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Create(repo)
 	assert.Nil(t, err)
@@ -88,7 +90,7 @@ func TestLegacyRepositoryDockerHostedWithoutPorts(t *testing.T) {
 
 func TestLegacyRepositoryDockerProxy(t *testing.T) {
 	service := getTestService()
-	repo := getTestLegacyRepositoryDockerProxy("test-docker-repo-proxy")
+	repo := getTestLegacyRepositoryDockerProxy("test-docker-repo-proxy-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Create(repo)
 	assert.Nil(t, err)

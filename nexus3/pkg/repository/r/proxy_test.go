@@ -1,6 +1,8 @@
 package r
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -38,7 +40,7 @@ func getTestRProxyRepository(name string) repository.RProxyRepository {
 
 func TestRProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestRProxyRepository("test-r-repo-hosted")
+	repo := getTestRProxyRepository("test-r-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

@@ -1,6 +1,8 @@
 package yum
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -29,9 +31,9 @@ func getTestYumGroupRepository(name string) repository.YumGroupRepository {
 
 func TestYumGroupRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestYumGroupRepository("test-yum-repo-group")
+	repo := getTestYumGroupRepository("test-yum-repo-group-" + strconv.Itoa(rand.Intn(1024)))
 
-	testProxyRepo := getTestYumProxyRepository("test-yum-group-proxy")
+	testProxyRepo := getTestYumProxyRepository("test-yum-group-proxy-" + strconv.Itoa(rand.Intn(1024)))
 	defer service.Proxy.Delete(testProxyRepo.Name)
 	err := service.Proxy.Create(testProxyRepo)
 	assert.Nil(t, err)

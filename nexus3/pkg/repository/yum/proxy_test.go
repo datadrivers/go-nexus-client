@@ -1,6 +1,8 @@
 package yum
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -42,7 +44,7 @@ func getTestYumProxyRepository(name string) repository.YumProxyRepository {
 
 func TestYumProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestYumProxyRepository("test-yum-repo-hosted")
+	repo := getTestYumProxyRepository("test-yum-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

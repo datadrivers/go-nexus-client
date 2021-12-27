@@ -1,6 +1,8 @@
 package conda
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -38,7 +40,7 @@ func getTestCondaProxyRepository(name string) repository.CondaProxyRepository {
 
 func TestCondaProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestCondaProxyRepository("test-conda-repo-hosted")
+	repo := getTestCondaProxyRepository("test-conda-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

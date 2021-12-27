@@ -1,6 +1,8 @@
 package blobstore
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
@@ -11,7 +13,7 @@ func TestBlobstoreGroup(t *testing.T) {
 	service := getTestService()
 
 	bs := blobstore.File{
-		Name: "test-member-name",
+		Name: "test-member-name-" + strconv.Itoa(rand.Intn(1024)),
 		Path: "test-member-path",
 	}
 

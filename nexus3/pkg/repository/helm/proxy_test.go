@@ -1,6 +1,8 @@
 package helm
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -38,7 +40,7 @@ func getTestHelmProxyRepository(name string) repository.HelmProxyRepository {
 
 func TestHelmProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestHelmProxyRepository("test-helm-repo-hosted")
+	repo := getTestHelmProxyRepository("test-helm-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

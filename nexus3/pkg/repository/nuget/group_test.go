@@ -1,6 +1,8 @@
 package nuget
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
@@ -24,9 +26,9 @@ func getTestNugetGroupRepository(name string) repository.NugetGroupRepository {
 
 func TestNugetGroupRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestNugetGroupRepository("test-nuget-repo-group")
+	repo := getTestNugetGroupRepository("test-nuget-repo-group-" + strconv.Itoa(rand.Intn(1024)))
 
-	testProxyRepo := getTestNugetProxyRepository("test-nuget-group-proxy")
+	testProxyRepo := getTestNugetProxyRepository("test-nuget-group-proxy-" + strconv.Itoa(rand.Intn(1024)))
 	defer service.Proxy.Delete(testProxyRepo.Name)
 	err := service.Proxy.Create(testProxyRepo)
 	assert.Nil(t, err)

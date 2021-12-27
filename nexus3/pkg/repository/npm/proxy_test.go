@@ -1,6 +1,8 @@
 package npm
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -43,7 +45,7 @@ func getTestNpmProxyRepository(name string) repository.NpmProxyRepository {
 
 func TestNpmProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestNpmProxyRepository("test-npm-repo-hosted")
+	repo := getTestNpmProxyRepository("test-npm-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

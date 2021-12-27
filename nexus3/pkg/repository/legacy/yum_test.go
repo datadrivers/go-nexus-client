@@ -1,6 +1,8 @@
 package legacy
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -11,7 +13,7 @@ import (
 func TestLegacyRepositoryYumHosted(t *testing.T) {
 	service := getTestService()
 
-	repoName := "tst-yum-repo-hosted"
+	repoName := "tst-yum-repo-hosted-" + strconv.Itoa(rand.Intn(1024))
 
 	repo := getTestLegacyRepositoryYumHosted(repoName)
 

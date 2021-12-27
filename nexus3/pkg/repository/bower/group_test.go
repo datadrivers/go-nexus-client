@@ -1,6 +1,8 @@
 package bower
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
@@ -24,9 +26,9 @@ func getTestBowerGroupRepository(name string) repository.BowerGroupRepository {
 
 func TestBowerGroupRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestBowerGroupRepository("test-bower-repo-group")
+	repo := getTestBowerGroupRepository("test-bower-repo-group-" + strconv.Itoa(rand.Intn(1024)))
 
-	testProxyRepo := getTestBowerProxyRepository("test-bower-group-proxy")
+	testProxyRepo := getTestBowerProxyRepository("test-bower-group-proxy-" + strconv.Itoa(rand.Intn(1024)))
 	defer service.Proxy.Delete(testProxyRepo.Name)
 	err := service.Proxy.Create(testProxyRepo)
 	assert.Nil(t, err)

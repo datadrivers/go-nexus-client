@@ -1,6 +1,8 @@
 package p2
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -38,7 +40,7 @@ func getTestP2ProxyRepository(name string) repository.P2ProxyRepository {
 
 func TestP2ProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestP2ProxyRepository("test-p2-repo-hosted")
+	repo := getTestP2ProxyRepository("test-p2-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)

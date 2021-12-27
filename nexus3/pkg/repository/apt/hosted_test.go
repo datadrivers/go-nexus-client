@@ -1,6 +1,8 @@
 package apt
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -34,7 +36,7 @@ func getTestAptHostedRepository(name string) repository.AptHostedRepository {
 
 func TestAptHostedRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestAptHostedRepository("test-apt-repo-hosted")
+	repo := getTestAptHostedRepository("test-apt-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Hosted.Create(repo)
 	assert.Nil(t, err)

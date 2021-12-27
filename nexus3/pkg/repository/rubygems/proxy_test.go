@@ -1,6 +1,8 @@
 package rubygems
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -38,7 +40,7 @@ func getTestRubyGemsProxyRepository(name string) repository.RubyGemsProxyReposit
 
 func TestRubyGemsProxyRepository(t *testing.T) {
 	service := getTestService()
-	repo := getTestRubyGemsProxyRepository("test-rubyGems-repo-hosted")
+	repo := getTestRubyGemsProxyRepository("test-rubyGems-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Proxy.Create(repo)
 	assert.Nil(t, err)
