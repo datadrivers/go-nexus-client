@@ -20,6 +20,7 @@ type RepositoryService struct {
 	Cocoapods *RepositoryCocoapodsService
 	Conan     *RepositoryConanService
 	Conda     *RepositoryCondaService
+	Docker    *RepositoryDockerService
 	GitLfs    *RepositoryGitLfsService
 	Go        *RepositoryGoService
 	Helm      *RepositoryHelmService
@@ -36,6 +37,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		Cocoapods: NewRepositoryCocoapodsService(c),
 		Conan:     NewRepositoryConanService(c),
 		Conda:     NewRepositoryCondaService(c),
+		Docker:    NewRepositoryDockerService(c),
 		GitLfs:    NewRepositoryGitLfsService(c),
 		Go:        NewRepositoryGoService(c),
 		Helm:      NewRepositoryHelmService(c),
