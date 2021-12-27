@@ -44,6 +44,8 @@ func TestYumGroupRepository(t *testing.T) {
 	assert.Equal(t, repo.Online, generatedRepo.Online)
 	assert.Equal(t, repo.Group, generatedRepo.Group)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
+	// ToDo: Add the following test after the implementation of this issue https://issues.sonatype.org/browse/NEXUS-30751
+	// assert.Equal(t, repo.YumSigning, generatedRepo.YumSigning)
 
 	updatedRepo := repo
 	updatedRepo.Online = false

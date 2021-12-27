@@ -56,6 +56,8 @@ func TestYumProxyRepository(t *testing.T) {
 	assert.Equal(t, repo.NegativeCache, generatedRepo.NegativeCache)
 	assert.Equal(t, repo.Proxy, generatedRepo.Proxy)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
+	// ToDo: Add the following test after the implementation of this issue https://issues.sonatype.org/browse/NEXUS-30751
+	// assert.Equal(t, repo.YumSigning, generatedRepo.YumSigning)
 
 	updatedRepo := repo
 	updatedRepo.Online = false
