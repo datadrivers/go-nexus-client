@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/google/go-querystring v1.1.0
-	github.com/minio/minio-go/v7 v7.0.18
+	github.com/minio/minio-go/v7 v7.0.19
 	github.com/stretchr/testify v1.7.0
 )
 
