@@ -13,7 +13,7 @@ func getTestDockerGroupRepository(name string) repository.DockerGroupRepository 
 		Name:   name,
 		Online: true,
 
-		Group: repository.Group{
+		Group: repository.GroupDeploy{
 			MemberNames: []string{},
 		},
 		Storage: repository.Storage{

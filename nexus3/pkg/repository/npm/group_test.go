@@ -12,7 +12,7 @@ func getTestNpmGroupRepository(name string) repository.NpmGroupRepository {
 		Name:   name,
 		Online: true,
 
-		Group: repository.Group{
+		Group: repository.GroupDeploy{
 			MemberNames: []string{},
 		},
 		Storage: repository.Storage{

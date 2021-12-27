@@ -9,9 +9,9 @@ const (
 type DockerProxyIndexType string
 
 type DockerGroupRepository struct {
-	Name    string `json:"name"`
-	Online  bool   `json:"online"`
-	Group   `json:"group"`
+	Name    string      `json:"name"`
+	Online  bool        `json:"online"`
+	Group   GroupDeploy `json:"group"`
 	Storage `json:"storage"`
 	Docker  `json:"docker"`
 }

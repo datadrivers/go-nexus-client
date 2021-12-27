@@ -6,11 +6,6 @@ type Cleanup struct {
 	PolicyNames []string `json:"policyNames"`
 }
 
-// Group contains repository group configuration data
-type Group struct {
-	MemberNames []string `json:"memberNames,omitempty"`
-}
-
 // NegativeCache ...
 type NegativeCache struct {
 	// Whether to cache responses for content not present in the proxied repository

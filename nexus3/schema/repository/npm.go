@@ -1,9 +1,9 @@
 package repository
 
 type NpmGroupRepository struct {
-	Name    string `json:"name"`
-	Online  bool   `json:"online"`
-	Group   `json:"group"`
+	Name    string      `json:"name"`
+	Online  bool        `json:"online"`
+	Group   GroupDeploy `json:"group"`
 	Storage `json:"storage"`
 }
 
