@@ -19,6 +19,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/pypi"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/r"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/raw"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/rubygems"
 )
 
 type RepositoryService struct {
@@ -41,6 +42,7 @@ type RepositoryService struct {
 	Pypi      *pypi.RepositoryPypiService
 	R         *r.RepositoryRService
 	Raw       *raw.RepositoryRawService
+	RubyGems  *rubygems.RepositoryRubyGemsService
 	Legacy    *legacy.RepositoryLegacyService
 }
 
@@ -64,6 +66,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		Pypi:      pypi.NewRepositoryPypiService(c),
 		R:         r.NewRepositoryRService(c),
 		Raw:       raw.NewRepositoryRawService(c),
+		RubyGems:  rubygems.NewRepositoryRubyGemsService(c),
 		Legacy:    legacy.NewRepositoryLegacyService(c),
 	}
 }
