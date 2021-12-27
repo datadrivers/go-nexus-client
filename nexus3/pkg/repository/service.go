@@ -16,6 +16,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/npm"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/nuget"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/p2"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/pypi"
 )
 
 type RepositoryService struct {
@@ -35,6 +36,7 @@ type RepositoryService struct {
 	Npm       *npm.RepositoryNpmService
 	Nuget     *nuget.RepositoryNugetService
 	P2        *p2.RepositoryP2Service
+	Pypi      *pypi.RepositoryPypiService
 	Legacy    *legacy.RepositoryLegacyService
 }
 
@@ -55,6 +57,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		Npm:       npm.NewRepositoryNpmService(c),
 		Nuget:     nuget.NewRepositoryNugetService(c),
 		P2:        p2.NewRepositoryP2Service(c),
+		Pypi:      pypi.NewRepositoryPypiService(c),
 		Legacy:    legacy.NewRepositoryLegacyService(c),
 	}
 }
