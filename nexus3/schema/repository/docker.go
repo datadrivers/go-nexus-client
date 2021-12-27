@@ -16,7 +16,7 @@ type DockerGroupRepository struct {
 	Docker  `json:"docker"`
 }
 
-type DocekrHostedRepository struct {
+type DockerHostedRepository struct {
 	Name    string        `json:"name"`
 	Online  bool          `json:"online"`
 	Storage HostedStorage `json:"storage"`
@@ -38,7 +38,6 @@ type DockerProxyRepository struct {
 
 	RoutingRuleName *string `json:"routingRuleName,omitempty"`
 	*Cleanup        `json:"cleanup,omitempty"`
-	*Npm            `json:"npm,omitempty"`
 }
 
 // Docker contains data of a Docker Repositoriy
