@@ -13,17 +13,17 @@ import (
 func TestLegacyRepositoryPyPiHosted(t *testing.T) {
 	service := getTestService()
 
-	hostedRepo := getTestLegacyRepositoryPyPiHosted("test-repo-pypi-hosted-" + strconv.Itoa(rand.Intn(1024)))
+	hostedRepo := getTestLegacyRepositoryPyPiHosted("test-legacy-pypi-hosted-" + strconv.Itoa(rand.Intn(1024)))
 	err := service.Create(hostedRepo)
 	assert.Nil(t, err)
 
 	if err == nil {
-		proxyRepo := getTestLegacyRepositoryPyPiProxy("test-repo-pypi-proxy-" + strconv.Itoa(rand.Intn(1024)))
+		proxyRepo := getTestLegacyRepositoryPyPiProxy("test-legacy-pypi-proxy-" + strconv.Itoa(rand.Intn(1024)))
 		err = service.Create(proxyRepo)
 		assert.Nil(t, err)
 
 		if err == nil {
-			groupRepo := getTestLegacyRepositoryPyPiGroup("test-repo-pypi-group-"+strconv.Itoa(rand.Intn(1024)), []string{hostedRepo.Name, proxyRepo.Name})
+			groupRepo := getTestLegacyRepositoryPyPiGroup("test-legacy-pypi-group-"+strconv.Itoa(rand.Intn(1024)), []string{hostedRepo.Name, proxyRepo.Name})
 			err = service.Create(groupRepo)
 			assert.Nil(t, err)
 
