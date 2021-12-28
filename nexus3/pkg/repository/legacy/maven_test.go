@@ -31,7 +31,7 @@ func TestLegacyRepositoryMavenHosted(t *testing.T) {
 	service := getTestService()
 	layoutPolicy := repository.MavenLayoutPolicyStrict
 	versionPolicy := repository.MavenVersionPolicyRelease
-	repo := getTestLegacyRepositoryMavenHosted("test-maven-repo-hosted-"+strconv.Itoa(rand.Intn(1024)), &layoutPolicy, &versionPolicy)
+	repo := getTestLegacyRepositoryMavenHosted("test-legacy-maven-hosted-"+strconv.Itoa(rand.Intn(1024)), &layoutPolicy, &versionPolicy)
 
 	err := service.Create(repo)
 	assert.Nil(t, err)

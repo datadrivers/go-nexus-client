@@ -15,7 +15,7 @@ const (
 	basePath             = "service/rest/"
 )
 
-type nexusClient struct {
+type NexusClient struct {
 	client *client.Client
 
 	// API Services
@@ -27,9 +27,9 @@ type nexusClient struct {
 }
 
 // NewClient returns an instance of client that implements the Client interface
-func NewClient(config client.Config) *nexusClient {
+func NewClient(config client.Config) *NexusClient {
 	client := client.NewClient(config)
-	return &nexusClient{
+	return &NexusClient{
 		client:      client,
 		BlobStore:   blobstore.NewBlobStoreService(client),
 		Repository:  repository.NewRepositoryService(client),

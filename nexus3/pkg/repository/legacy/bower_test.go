@@ -14,16 +14,16 @@ func TestLegacyRepositoryBowerHosted(t *testing.T) {
 	service := getTestService()
 
 	// Create hosted bower repo
-	repo := getTestLegacyRepositoryBowerHosted("test-repo-bower-hosted-" + strconv.Itoa(rand.Intn(1024)))
+	repo := getTestLegacyRepositoryBowerHosted("test-legacy-bower-hosted-" + strconv.Itoa(rand.Intn(1024)))
 	err := service.Create(repo)
 	assert.Nil(t, err)
 
-	proxyRepo := getTestLegacyRepositoryBowerProxy("test-repo-bower-proxy-" + strconv.Itoa(rand.Intn(1024)))
+	proxyRepo := getTestLegacyRepositoryBowerProxy("test-legacy-bower-proxy-" + strconv.Itoa(rand.Intn(1024)))
 	err = service.Create(proxyRepo)
 	assert.Nil(t, err)
 
 	// Create bower group repo
-	groupRepo := getTestLegacyRepositoryBowerGroup("test-repo-bower-group-"+strconv.Itoa(rand.Intn(1024)), []string{repo.Name, proxyRepo.Name})
+	groupRepo := getTestLegacyRepositoryBowerGroup("test-legacy-bower-group-"+strconv.Itoa(rand.Intn(1024)), []string{repo.Name, proxyRepo.Name})
 	err = service.Create(groupRepo)
 	assert.Nil(t, err)
 

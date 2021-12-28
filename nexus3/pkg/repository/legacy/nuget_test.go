@@ -12,7 +12,7 @@ import (
 
 func TestLegacyRepositoryNugetProxy(t *testing.T) {
 	service := getTestService()
-	repo := getTestLegacyRepositoryNugetProxy("test-nuget-proxy-repo-" + strconv.Itoa(rand.Intn(1024)))
+	repo := getTestLegacyRepositoryNugetProxy("test-legacy-nuget-repo-" + strconv.Itoa(rand.Intn(1024)))
 
 	err := service.Create(repo)
 	assert.Nil(t, err)
