@@ -1,10 +1,12 @@
 package blobstore
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
 )
 
 const (
@@ -36,6 +38,27 @@ func NewBlobStoreService(c *client.Client) *BlobStoreService {
 
 func (s *BlobStoreService) Delete(name string) error {
 	return deleteBlobstore(s.Client, name)
+}
+
+func (s *BlobStoreService) List() ([]blobstore.Generic, error) {
+	return listBlobstores(s.Client)
+}
+
+func listBlobstores(c *client.Client) ([]blobstore.Generic, error) {
+	body, resp, err := c.Get(blobstoreAPIEndpoint, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("could not list blobstores: HTTP: %d, %s", resp.StatusCode, string(body))
+	}
+
+	var genericBlobstores []blobstore.Generic
+	if err := json.Unmarshal(body, &genericBlobstores); err != nil {
+		return nil, fmt.Errorf("could not unmarshal list of generic blobstores: %v", err)
+	}
+	return genericBlobstores, nil
 }
 
 func deleteBlobstore(c *client.Client, name string) error {
