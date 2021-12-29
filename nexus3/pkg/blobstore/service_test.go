@@ -33,7 +33,18 @@ func getDefaultConfig() client.Config {
 }
 
 func TestNewBlobStoreService(t *testing.T) {
-	c := client.NewClient(getDefaultConfig())
+	service := getTestService()
 
-	assert.NotNil(t, c, "NewClient() must not return nil")
+	assert.NotNil(t, service, "NewBlobStoreService() must not return nil")
+}
+
+func TestListBlobstores(t *testing.T) {
+	service := getTestService()
+	blobstores, err := service.List()
+
+	assert.Nil(t, err)
+	assert.Equal(t, "default", blobstores[0].Name)
+	assert.Equal(t, "File", blobstores[0].Type)
+	assert.Equal(t, false, blobstores[0].Unavailable)
+	assert.Equal(t, 0, blobstores[0].BlobCount)
 }
