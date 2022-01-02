@@ -5,11 +5,16 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/blobstore"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestBlobstoreGroup(t *testing.T) {
+	if tools.GetEnv("SKIP_PRO_TESTS", "false") == "true" {
+		t.Skip("Skipping Nexus blobstore for Azure tests")
+	}
+
 	service := getTestService()
 
 	bs := blobstore.File{
