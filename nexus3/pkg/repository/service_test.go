@@ -37,3 +37,16 @@ func TestNewRepositoryService(t *testing.T) {
 
 	assert.NotNil(t, s, "NewRepositoryService() must not return nil")
 }
+
+func TestListRepositories(t *testing.T) {
+	service := getTestService()
+	assert.NotNil(t, service, "NewRepositoryService() must not return nil")
+
+	repoInfos, err := service.List()
+	assert.Nil(t, err)
+	assert.NotEmpty(t, repoInfos)
+	assert.NotEmpty(t, repoInfos[0].Name)
+	assert.NotEmpty(t, repoInfos[0].Type)
+	assert.NotEmpty(t, repoInfos[0].Format)
+	assert.NotEmpty(t, repoInfos[0].URL)
+}

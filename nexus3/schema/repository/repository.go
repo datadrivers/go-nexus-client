@@ -1,5 +1,12 @@
 package repository
 
+type RepositoryInfo struct {
+	Name   string `json:"name"`
+	Format string `json:"format"`
+	Type   string `json:"type"`
+	URL    string `json:"url"`
+}
+
 // Cleanup ...
 type Cleanup struct {
 	//  Components that match any of the applied policies will be deleted
