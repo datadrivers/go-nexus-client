@@ -53,7 +53,7 @@ func (s *SecurityRoleService) Create(role security.Role) error {
 }
 
 func (s *SecurityRoleService) Get(id string) (*security.Role, error) {
-	body, resp, err := s.Client.Get(securityrolesAPIEndpoint, nil)
+	body, resp, err := s.Client.Get(fmt.Sprintf("%s/%s", securityrolesAPIEndpoint, id), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -62,18 +62,12 @@ func (s *SecurityRoleService) Get(id string) (*security.Role, error) {
 		return nil, fmt.Errorf("%s", string(body))
 	}
 
-	var roles []security.Role
-	if err := json.Unmarshal(body, &roles); err != nil {
+	var role security.Role
+	if err := json.Unmarshal(body, &role); err != nil {
 		return nil, fmt.Errorf("could not unmarshal roles: %v", err)
 	}
+	return &role, nil
 
-	for _, role := range roles {
-		if role.ID == id {
-			return &role, nil
-		}
-	}
-
-	return nil, nil
 }
 
 func (s *SecurityRoleService) Update(id string, role security.Role) error {

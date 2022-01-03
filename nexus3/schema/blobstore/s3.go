@@ -67,8 +67,8 @@ type S3AdvancedBucketConnection struct {
 	SignerType string `json:"signerType,omitempty"`
 
 	// Setting this flag will result in path-style access being used for all requests
-	ForcePathStyle bool `json:"forcePathStyle,omitempty"`
+	ForcePathStyle *bool `json:"forcePathStyle,omitempty"`
 
 	// Setting this value will override the default connection pool size of Nexus of the s3 client for this blobstore.
-	MaxConnectionPoolSize int32 `json:"maxConnectionPoolSize,omitempty"`
+	MaxConnectionPoolSize *int32 `json:"maxConnectionPoolSize,omitempty"`
 }

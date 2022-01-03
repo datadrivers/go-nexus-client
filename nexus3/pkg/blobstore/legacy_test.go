@@ -86,6 +86,7 @@ func TestLegacyBlobstoreS3(t *testing.T) {
 
 	bsName := "test-blobstore-s3"
 	bsType := blobstore.BlobstoreTypeS3
+	forcePathStyle := true
 
 	bs := blobstore.Legacy{
 		Name: bsName,
@@ -101,7 +102,7 @@ func TestLegacyBlobstoreS3(t *testing.T) {
 			},
 			AdvancedBucketConnection: &blobstore.S3AdvancedBucketConnection{
 				Endpoint:       awsEndpoint,
-				ForcePathStyle: true,
+				ForcePathStyle: &forcePathStyle,
 			},
 		},
 	}

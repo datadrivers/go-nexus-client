@@ -15,6 +15,9 @@ func TestBlobstoreAzure(t *testing.T) {
 	if tools.GetEnv("SKIP_AZURE_TESTS", "false") == "true" {
 		t.Skip("Skipping Nexus blobstore for Azure tests")
 	}
+	if tools.GetEnv("SKIP_PRO_TESTS", "false") == "true" {
+		t.Skip("Skipping Nexus Pro tests")
+	}
 
 	azureAccountName := "terraformprovidernexus"
 	azureContainerName := "go-nexus-client"
