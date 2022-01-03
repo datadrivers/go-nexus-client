@@ -28,7 +28,7 @@ type S3Bucket struct {
 	Region string `json:"region"`
 
 	// The name of the S3 bucket
-	Name string `json:"name,omitempty"`
+	Name string `json:"name"`
 
 	// The S3 blob store (i.e S3 object) key prefix
 	Prefix string `json:"prefix,omitempty"`
@@ -39,36 +39,36 @@ type S3Bucket struct {
 
 type S3Encryption struct {
 	// The encryption key
-	Key string `json:"encryptionKey"`
+	Key string `json:"encryptionKey,omitempty"`
 
 	// The type of S3 server side encryption to use
-	Type string `json:"encryptionType"`
+	Type string `json:"encryptionType,omitempty"`
 }
 
 type S3BucketSecurity struct {
 	// An IAM access key ID for granting access to the S3 bucket
-	AccessKeyID string `json:"accessKeyId"`
+	AccessKeyID string `json:"accessKeyId,omitempty"`
 
 	// An IAM role to assume in order to access the S3 bucket
-	Role string `json:"role"`
+	Role string `json:"role,omitempty"`
 
 	// The secret access key associated with the specified IAM access key ID
-	SecretAccessKey string `json:"secretAccessKey"`
+	SecretAccessKey string `json:"secretAccessKey,omitempty"`
 
 	// An AWS STS session token associated with temporary security credentials which grant access to the S3 bucket
-	SessionToken string `json:"sessionToken"`
+	SessionToken string `json:"sessionToken,omitempty"`
 }
 
 type S3AdvancedBucketConnection struct {
 	// A custom endpoint URL for third party object stores using the S3 API
-	Endpoint string `json:"endpoint"`
+	Endpoint string `json:"endpoint,omitempty"`
 
 	// An API signature version which may be required for third party object stores using the S3 API
-	SignerType string `json:"signerType"`
+	SignerType string `json:"signerType,omitempty"`
 
 	// Setting this flag will result in path-style access being used for all requests
-	ForcePathStyle bool `json:"forcePathStyle"`
+	ForcePathStyle *bool `json:"forcePathStyle,omitempty"`
 
 	// Setting this value will override the default connection pool size of Nexus of the s3 client for this blobstore.
-	MaxConnectionPoolSize int32 `json:"maxConnectionPoolSize"`
+	MaxConnectionPoolSize *int32 `json:"maxConnectionPoolSize,omitempty"`
 }

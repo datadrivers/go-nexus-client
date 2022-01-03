@@ -20,6 +20,7 @@ func TestBlobstoreS3(t *testing.T) {
 	service := getTestService()
 
 	bsName := "test-blobstore-s3"
+	forcePathStyle := true
 
 	bs := &blobstore.S3{
 		Name: bsName,
@@ -34,7 +35,7 @@ func TestBlobstoreS3(t *testing.T) {
 			},
 			AdvancedBucketConnection: &blobstore.S3AdvancedBucketConnection{
 				Endpoint:       awsEndpoint,
-				ForcePathStyle: true,
+				ForcePathStyle: &forcePathStyle,
 			},
 		},
 	}
