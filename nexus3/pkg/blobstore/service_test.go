@@ -46,5 +46,5 @@ func TestListBlobstores(t *testing.T) {
 	assert.Equal(t, "default", blobstores[0].Name)
 	assert.Equal(t, "File", blobstores[0].Type)
 	assert.Equal(t, false, blobstores[0].Unavailable)
-	assert.Equal(t, 0, blobstores[0].BlobCount)
+	assert.NotNil(t, blobstores[0].BlobCount)
 }
