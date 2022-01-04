@@ -46,7 +46,7 @@ func TestListRepositories(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotEmpty(t, repoInfos)
 	assert.NotEmpty(t, repoInfos[0].Name)
-	assert.NotEmpty(t, repoInfos[0].Type)
 	assert.NotEmpty(t, repoInfos[0].Format)
+	assert.NotEmpty(t, repoInfos[0].Type)
 	assert.NotEmpty(t, repoInfos[0].URL)
 }
