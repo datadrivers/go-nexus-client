@@ -5,6 +5,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/apt"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/bower"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/cocoapods"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/common"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/conan"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/conda"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/docker"
@@ -21,6 +22,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/raw"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/rubygems"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/yum"
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
 )
 
 type RepositoryService struct {
@@ -72,4 +74,8 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		Yum:       yum.NewRepositoryYumService(c),
 		Legacy:    legacy.NewRepositoryLegacyService(c),
 	}
+}
+
+func (s *RepositoryService) List() ([]repository.RepositoryInfo, error) {
+	return common.ListRepositories(s.client)
 }
