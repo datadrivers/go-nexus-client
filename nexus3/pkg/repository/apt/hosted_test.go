@@ -20,7 +20,7 @@ func getTestAptHostedRepository(name string) repository.AptHostedRepository {
 			Distribution: "bionic",
 		},
 		AptSigning: repository.AptSigning{
-			Keypair:    tools.GetStringPointer("string"),
+			Keypair:    "string",
 			Passphrase: tools.GetStringPointer("string"),
 		},
 		Cleanup: &repository.Cleanup{
