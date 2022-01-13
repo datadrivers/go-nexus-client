@@ -29,7 +29,7 @@ func getTestRawProxyRepository(name string) repository.RawProxyRepository {
 		Proxy: repository.Proxy{
 			ContentMaxAge:  1440,
 			MetadataMaxAge: 1440,
-			RemoteURL:      tools.GetStringPointer("https://api.raw.org/v3/index.json"),
+			RemoteURL:      "https://api.raw.org/v3/index.json",
 		},
 		Storage: repository.Storage{
 			BlobStoreName:               "default",
@@ -57,7 +57,7 @@ func TestRawProxyRepository(t *testing.T) {
 
 	updatedRepo := repo
 	updatedRepo.Online = false
-	updatedRepo.Proxy.RemoteURL = tools.GetStringPointer("https://api.raw.org/v2/")
+	updatedRepo.Proxy.RemoteURL = "https://api.raw.org/v2/"
 
 	err = service.Proxy.Update(repo.Name, updatedRepo)
 	assert.Nil(t, err)

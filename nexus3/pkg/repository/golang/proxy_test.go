@@ -29,7 +29,7 @@ func getTestGoProxyRepository(name string) repository.GoProxyRepository {
 		Proxy: repository.Proxy{
 			ContentMaxAge:  1440,
 			MetadataMaxAge: 1440,
-			RemoteURL:      tools.GetStringPointer("https://archive.ubuntu.com/ubuntu/"),
+			RemoteURL:      "https://archive.ubuntu.com/ubuntu/",
 		},
 		Storage: repository.Storage{
 			BlobStoreName:               "default",

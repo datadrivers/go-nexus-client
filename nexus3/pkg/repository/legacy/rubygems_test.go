@@ -65,7 +65,7 @@ func getTestLegacyRepositoryRubyProxy(name string) repository.LegacyRepository {
 			Enabled: true,
 		},
 		Proxy: &repository.Proxy{
-			RemoteURL: tools.GetStringPointer("https://rubygems.org/"),
+			RemoteURL: "https://rubygems.org/",
 		},
 		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",

@@ -31,7 +31,7 @@ type Proxy struct {
 	MetadataMaxAge int `json:"metadataMaxAge"`
 
 	// Location of the remote repository being proxied
-	RemoteURL *string `json:"remoteUrl,omitempty"`
+	RemoteURL string `json:"remoteUrl"`
 }
 
 // Component ...
