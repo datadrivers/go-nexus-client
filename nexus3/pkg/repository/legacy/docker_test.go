@@ -133,7 +133,7 @@ func getTestLegacyRepositoryDockerProxy(name string) repository.LegacyRepository
 		},
 		NegativeCache: &repository.NegativeCache{},
 		Proxy: &repository.Proxy{
-			RemoteURL: tools.GetStringPointer("https://registry-1.docker.io"),
+			RemoteURL: "https://registry-1.docker.io",
 		},
 		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",

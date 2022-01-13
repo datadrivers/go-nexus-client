@@ -70,7 +70,7 @@ func getTestLegacyRepositoryPyPiProxy(name string) repository.LegacyRepository {
 			Enabled: true,
 		},
 		Proxy: &repository.Proxy{
-			RemoteURL: tools.GetStringPointer("https://pypi.org/"),
+			RemoteURL: "https://pypi.org/",
 		},
 		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",

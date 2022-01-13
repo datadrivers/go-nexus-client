@@ -29,7 +29,7 @@ func getTestNugetProxyRepository(name string) repository.NugetProxyRepository {
 		Proxy: repository.Proxy{
 			ContentMaxAge:  1440,
 			MetadataMaxAge: 1440,
-			RemoteURL:      tools.GetStringPointer("https://api.nuget.org/v3/index.json"),
+			RemoteURL:      "https://api.nuget.org/v3/index.json",
 		},
 		Storage: repository.Storage{
 			BlobStoreName:               "default",
@@ -63,7 +63,7 @@ func TestNugetProxyRepository(t *testing.T) {
 
 	updatedRepo := repo
 	updatedRepo.Online = false
-	updatedRepo.Proxy.RemoteURL = tools.GetStringPointer("https://api.nuget.org/v2/")
+	updatedRepo.Proxy.RemoteURL = "https://api.nuget.org/v2/"
 	updatedRepo.NugetProxy.NugetVersion = repository.NugetVersion2
 
 	err = service.Proxy.Update(repo.Name, updatedRepo)

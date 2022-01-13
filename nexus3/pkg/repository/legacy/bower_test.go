@@ -90,7 +90,7 @@ func getTestLegacyRepositoryBowerProxy(name string) repository.LegacyRepository 
 			Enabled: true,
 		},
 		Proxy: &repository.Proxy{
-			RemoteURL: tools.GetStringPointer("https://registry.bower.io"),
+			RemoteURL: "https://registry.bower.io",
 		},
 		Storage: &repository.HostedStorage{
 			BlobStoreName: "default",

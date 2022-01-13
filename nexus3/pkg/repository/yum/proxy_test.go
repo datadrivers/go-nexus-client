@@ -29,7 +29,7 @@ func getTestYumProxyRepository(name string) repository.YumProxyRepository {
 		Proxy: repository.Proxy{
 			ContentMaxAge:  1440,
 			MetadataMaxAge: 1440,
-			RemoteURL:      tools.GetStringPointer("https://api.yum.org/v3/index.json"),
+			RemoteURL:      "https://api.yum.org/v3/index.json",
 		},
 		Storage: repository.Storage{
 			BlobStoreName:               "default",
@@ -63,7 +63,7 @@ func TestYumProxyRepository(t *testing.T) {
 
 	updatedRepo := repo
 	updatedRepo.Online = false
-	updatedRepo.Proxy.RemoteURL = tools.GetStringPointer("https://api.yum.org/v2/")
+	updatedRepo.Proxy.RemoteURL = "https://api.yum.org/v2/"
 
 	err = service.Proxy.Update(repo.Name, updatedRepo)
 	assert.Nil(t, err)
