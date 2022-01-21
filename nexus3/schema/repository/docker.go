@@ -36,8 +36,14 @@ type DockerProxyRepository struct {
 	Docker        `json:"docker"`
 	DockerProxy   `json:"dockerProxy"`
 
+	// RoutingRule is used in POST Call and GET call returns RoutingRuleName. see issue: https://issues.sonatype.org/browse/NEXUS-30973
+
+	// The name of the routing rule assigned to this repository
+	RoutingRule *string `json:"routingRule,omitempty"`
+	// The name of the routing rule assigned to this repository
 	RoutingRuleName *string `json:"routingRuleName,omitempty"`
-	*Cleanup        `json:"cleanup,omitempty"`
+
+	*Cleanup `json:"cleanup,omitempty"`
 }
 
 // Docker contains data of a Docker Repositoriy

@@ -24,6 +24,7 @@ type PypiProxyRepository struct {
 	NegativeCache `json:"negativeCache"`
 	HTTPClient    `json:"httpClient"`
 
-	RoutingRule *string `json:"routingRule,omitempty"`
-	*Cleanup    `json:"cleanup,omitempty"`
+	RoutingRule     *string `json:"routingRule,omitempty"`
+	RoutingRuleName *string `json:"routingRuleName,omitempty"`
+	*Cleanup        `json:"cleanup,omitempty"`
 }
