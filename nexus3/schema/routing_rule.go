@@ -14,8 +14,8 @@ type RoutingRule struct {
 	// Name of the routing rule
 	Name string `json:"name"`
 
-	//Description of the routing rule
-	Description string `json:"description,omitempty"`
+	// Description of the routing rule
+	Description string `json:"description"`
 
 	// The mode describe how to hande with mathing requests
 	// Possible values: "BLOCK" or "ALLOW"

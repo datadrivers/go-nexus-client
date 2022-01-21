@@ -49,8 +49,9 @@ func TestAptProxyRepository(t *testing.T) {
 	service := getTestService()
 	routingRuleService := nexus3.NewRoutingRuleService(getTestClient())
 	routingRule := schema.RoutingRule{
-		Name: "test",
-		Mode: schema.RoutingRuleModeAllow,
+		Name:        "test",
+		Description: "test",
+		Mode:        schema.RoutingRuleModeAllow,
 		Matchers: []string{
 			"/",
 		},
