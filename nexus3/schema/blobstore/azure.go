@@ -13,7 +13,7 @@ type Azure struct {
 	// Settings to control the soft quota
 	SoftQuota *SoftQuota `json:"softQuota,omitempty"`
 	// The Azure specific configuration details for the Azure object that'll contain the blob store.
-	BucketConfiguration AzureBucketConfiguration `json:"bucketConfiguration,omitempty"`
+	BucketConfiguration AzureBucketConfiguration `json:"bucketConfiguration"`
 }
 
 type AzureBucketConfiguration struct {
