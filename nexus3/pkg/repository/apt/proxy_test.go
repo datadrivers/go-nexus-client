@@ -41,7 +41,6 @@ func getTestAptProxyRepository(name string) repository.AptProxyRepository {
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
 		},
-		RoutingRule: tools.GetStringPointer("test"),
 	}
 }
 
@@ -49,7 +48,7 @@ func TestAptProxyRepository(t *testing.T) {
 	service := getTestService()
 	routingRuleService := nexus3.NewRoutingRuleService(getTestClient())
 	routingRule := schema.RoutingRule{
-		Name:        "test",
+		Name:        strconv.Itoa(rand.Intn(1024)),
 		Description: "test",
 		Mode:        schema.RoutingRuleModeAllow,
 		Matchers: []string{
@@ -60,6 +59,7 @@ func TestAptProxyRepository(t *testing.T) {
 	defer routingRuleService.Delete(routingRule.Name)
 	assert.Nil(t, err)
 	repo := getTestAptProxyRepository("test-apt-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
+	repo.RoutingRule = &routingRule.Name
 
 	err = service.Proxy.Create(repo)
 	assert.Nil(t, err)
