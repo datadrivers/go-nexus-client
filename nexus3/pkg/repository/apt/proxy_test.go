@@ -1,11 +1,13 @@
-package apt
+package apt_test
 
 import (
 	"math/rand"
 	"strconv"
 	"testing"
 
+	"github.com/datadrivers/go-nexus-client/nexus3"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
+	"github.com/datadrivers/go-nexus-client/nexus3/schema"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
 	"github.com/stretchr/testify/assert"
 )
@@ -45,9 +47,20 @@ func getTestAptProxyRepository(name string) repository.AptProxyRepository {
 
 func TestAptProxyRepository(t *testing.T) {
 	service := getTestService()
+	routingRuleService := nexus3.NewRoutingRuleService(getTestClient())
+	routingRule := schema.RoutingRule{
+		Name: "test",
+		Mode: schema.RoutingRuleModeAllow,
+		Matchers: []string{
+			"/",
+		},
+	}
+	err := routingRuleService.Create(&routingRule)
+	defer routingRuleService.Delete(routingRule.Name)
+	assert.Nil(t, err)
 	repo := getTestAptProxyRepository("test-apt-repo-hosted-" + strconv.Itoa(rand.Intn(1024)))
 
-	err := service.Proxy.Create(repo)
+	err = service.Proxy.Create(repo)
 	assert.Nil(t, err)
 	generatedRepo, err := service.Proxy.Get(repo.Name)
 	assert.Nil(t, err)

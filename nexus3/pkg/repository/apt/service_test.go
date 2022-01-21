@@ -1,9 +1,10 @@
-package apt
+package apt_test
 
 import (
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/apt"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
 	"github.com/stretchr/testify/assert"
 )
@@ -19,8 +20,8 @@ func getTestClient() *client.Client {
 	return client.NewClient(getDefaultConfig())
 }
 
-func getTestService() *RepositoryAptService {
-	return NewRepositoryAptService(getTestClient())
+func getTestService() *apt.RepositoryAptService {
+	return apt.NewRepositoryAptService(getTestClient())
 }
 
 func getDefaultConfig() client.Config {

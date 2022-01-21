@@ -1,4 +1,4 @@
-package apt
+package apt_test
 
 import (
 	"math/rand"
