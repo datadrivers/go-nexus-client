@@ -39,6 +39,7 @@ func getTestAptProxyRepository(name string) repository.AptProxyRepository {
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
 		},
+		RoutingRule: tools.GetStringPointer("test"),
 	}
 }
 
@@ -58,6 +59,7 @@ func TestAptProxyRepository(t *testing.T) {
 	assert.Equal(t, repo.HTTPClient.Connection.UseTrustStore, generatedRepo.HTTPClient.Connection.UseTrustStore)
 	assert.Equal(t, repo.NegativeCache, generatedRepo.NegativeCache)
 	assert.Equal(t, repo.Proxy, generatedRepo.Proxy)
+	assert.Equal(t, repo.RoutingRule, generatedRepo.RoutingRuleName)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
 
 	updatedRepo := repo

@@ -24,9 +24,15 @@ type BowerProxyRepository struct {
 	NegativeCache `json:"negativeCache"`
 	HTTPClient    `json:"httpClient"`
 
+	// RoutingRule is used in POST Call and GET call returns RoutingRuleName. see issue: https://issues.sonatype.org/browse/NEXUS-30973
+
+	// The name of the routing rule assigned to this repository
 	RoutingRule *string `json:"routingRule,omitempty"`
-	*Cleanup    `json:"cleanup,omitempty"`
-	*Bower      `json:"bower,omitempty"`
+	// The name of the routing rule assigned to this repository
+	RoutingRuleName *string `json:"routingRuleName,omitempty"`
+
+	*Cleanup `json:"cleanup,omitempty"`
+	*Bower   `json:"bower,omitempty"`
 }
 
 type Bower struct {
