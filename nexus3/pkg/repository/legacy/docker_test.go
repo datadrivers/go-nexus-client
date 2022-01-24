@@ -22,8 +22,8 @@ func getTestLegacyRepositoryDockerHostedWithPorts(name string) repository.Legacy
 		Docker: &repository.Docker{
 			V1Enabled:      false,
 			ForceBasicAuth: true,
-			HTTPPort:       tools.GetIntPointer(8082),
-			HTTPSPort:      tools.GetIntPointer(8083),
+			HTTPPort:       8082,
+			HTTPSPort:      8083,
 		},
 		Storage: &repository.HostedStorage{
 			BlobStoreName:               "default",

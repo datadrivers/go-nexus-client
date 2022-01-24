@@ -12,7 +12,7 @@ type Group struct {
 	SoftQuota *SoftQuota `json:"softQuota,omitempty"`
 
 	// List of the names of blob stores that are members of this group
-	Members []string `json:"members,omitempty"`
+	Members []string `json:"members"`
 
 	// Possible values: roundRobin,writeToFirst
 	FillPolicy string `json:"fillPolicy"`

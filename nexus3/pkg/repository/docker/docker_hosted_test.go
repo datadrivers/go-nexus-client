@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
 	"github.com/stretchr/testify/assert"
 )
@@ -30,8 +29,8 @@ func getTestDockerHostedRepository(name string) repository.DockerHostedRepositor
 		Docker: repository.Docker{
 			ForceBasicAuth: true,
 			V1Enabled:      false,
-			HTTPPort:       tools.GetIntPointer(8180),
-			HTTPSPort:      tools.GetIntPointer(8543),
+			HTTPPort:       8180,
+			HTTPSPort:      8543,
 		},
 	}
 }
