@@ -46,14 +46,14 @@ type DockerProxyRepository struct {
 	*Cleanup `json:"cleanup,omitempty"`
 }
 
-// Docker contains data of a Docker Repositoriy
+// Docker contains data of a Docker Repository
 type Docker struct {
 	// Whether to force authentication (Docker Bearer Token Realm required if false)
 	ForceBasicAuth bool `json:"forceBasicAuth"`
 	// Create an HTTP connector at specified port
-	HTTPPort *int `json:"httpPort,omitempty"`
+	HTTPPort int `json:"httpPort"`
 	// Create an HTTPS connector at specified port
-	HTTPSPort *int `json:"httpsPort,omitempty"`
+	HTTPSPort int `json:"httpsPort"`
 	// Whether to allow clients to use the V1 API to interact with this repository
 	V1Enabled bool `json:"v1Enabled"`
 }
