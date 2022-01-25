@@ -11,7 +11,6 @@ import (
 )
 
 func getTestDockerProxyRepository(name string) repository.DockerProxyRepository {
-	proxyIndexType := repository.DockerProxyIndexTypeHub
 	return repository.DockerProxyRepository{
 		Name:   name,
 		Online: true,
@@ -43,7 +42,7 @@ func getTestDockerProxyRepository(name string) repository.DockerProxyRepository 
 			HTTPSPort:      tools.GetIntPointer(8643),
 		},
 		DockerProxy: repository.DockerProxy{
-			IndexType: &proxyIndexType,
+			IndexType: repository.DockerProxyIndexTypeHub,
 		},
 	}
 }

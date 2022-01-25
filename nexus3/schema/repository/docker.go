@@ -61,7 +61,7 @@ type Docker struct {
 // DockerProxy contains data of a Docker Proxy Repository
 type DockerProxy struct {
 	// Type of Docker Index
-	IndexType *DockerProxyIndexType `json:"indexType"`
+	IndexType DockerProxyIndexType `json:"indexType"`
 	// Url of Docker Index to use
 	IndexURL *string `json:"indexUrl,omitempty"`
 }
