@@ -71,8 +71,7 @@ func TestNugetProxyRepository(t *testing.T) {
 	generatedRepo, err = service.Proxy.Get(updatedRepo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, updatedRepo.Online, generatedRepo.Online)
-	// ToDO: Add Test after fixed issue https://issues.sonatype.org/browse/NEXUS-28791
-	// assert.Equal(t, updatedRepo.NugetProxy, generatedRepo.NugetProxy)
+	assert.Equal(t, updatedRepo.NugetProxy, generatedRepo.NugetProxy)
 
 	service.Proxy.Delete(repo.Name)
 	assert.Nil(t, err)
