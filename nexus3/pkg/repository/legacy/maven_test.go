@@ -29,9 +29,7 @@ func TestLegacyRepositoryMavenGroupRead(t *testing.T) {
 
 func TestLegacyRepositoryMavenHosted(t *testing.T) {
 	service := getTestService()
-	layoutPolicy := repository.MavenLayoutPolicyStrict
-	versionPolicy := repository.MavenVersionPolicyRelease
-	repo := getTestLegacyRepositoryMavenHosted("test-legacy-maven-hosted-"+strconv.Itoa(rand.Intn(1024)), &layoutPolicy, &versionPolicy)
+	repo := getTestLegacyRepositoryMavenHosted("test-legacy-maven-hosted-"+strconv.Itoa(rand.Intn(1024)), repository.MavenLayoutPolicyStrict, repository.MavenVersionPolicyRelease)
 
 	err := service.Create(repo)
 	assert.Nil(t, err)
@@ -41,8 +39,7 @@ func TestLegacyRepositoryMavenHosted(t *testing.T) {
 	assert.NotNil(t, createdRepo)
 
 	writePolicy := (repository.StorageWritePolicy)("ALLOW")
-	layoutPolicy = repository.MavenLayoutPolicyPermissive
-	createdRepo.Maven.LayoutPolicy = &layoutPolicy
+	createdRepo.Maven.LayoutPolicy = repository.MavenLayoutPolicyPermissive
 	createdRepo.Storage.WritePolicy = &writePolicy
 	err = service.Update(createdRepo.Name, *createdRepo)
 	assert.Nil(t, err)
@@ -50,7 +47,7 @@ func TestLegacyRepositoryMavenHosted(t *testing.T) {
 	updatedRepo, err := service.Get(createdRepo.Name)
 	assert.Nil(t, err)
 	assert.NotNil(t, updatedRepo)
-	assert.Equal(t, repository.MavenLayoutPolicyPermissive, *updatedRepo.Maven.LayoutPolicy)
+	assert.Equal(t, repository.MavenLayoutPolicyPermissive, updatedRepo.Maven.LayoutPolicy)
 	assert.Equal(t, repository.StorageWritePolicyAllow, *updatedRepo.Storage.WritePolicy)
 
 	err = service.Delete(createdRepo.Name)
@@ -58,7 +55,7 @@ func TestLegacyRepositoryMavenHosted(t *testing.T) {
 
 }
 
-func getTestLegacyRepositoryMavenHosted(name string, layoutPolicy *repository.MavenLayoutPolicy, versionPolicy *repository.MavenVersionPolicy) repository.LegacyRepository {
+func getTestLegacyRepositoryMavenHosted(name string, layoutPolicy repository.MavenLayoutPolicy, versionPolicy repository.MavenVersionPolicy) repository.LegacyRepository {
 	return repository.LegacyRepository{
 		Name:   name,
 		Format: repository.RepositoryFormatMaven2,
