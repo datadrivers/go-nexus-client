@@ -63,7 +63,7 @@ type MavenProxyRepository struct {
 
 // Maven contains additional data of maven repository
 type Maven struct {
-	VersionPolicy      *MavenVersionPolicy      `json:"versionPolicy,omitempty"`
-	LayoutPolicy       *MavenLayoutPolicy       `json:"layoutPolicy,omitempty"`
+	VersionPolicy      MavenVersionPolicy       `json:"versionPolicy"`
+	LayoutPolicy       MavenLayoutPolicy        `json:"layoutPolicy"`
 	ContentDisposition *MavenContentDisposition `json:"contentDisposition,omitempty"`
 }
