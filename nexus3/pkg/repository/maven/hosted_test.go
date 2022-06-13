@@ -11,8 +11,6 @@ import (
 
 func getTestMavenHostedRepository(name string) repository.MavenHostedRepository {
 	writePolicy := repository.StorageWritePolicyAllow
-	versionPolicy := repository.MavenVersionPolicySnapshot
-	layoutPolicy := repository.MavenLayoutPolicyStrict
 	return repository.MavenHostedRepository{
 		Name:   name,
 		Online: true,
@@ -26,8 +24,8 @@ func getTestMavenHostedRepository(name string) repository.MavenHostedRepository 
 			WritePolicy:                 &writePolicy,
 		},
 		Maven: repository.Maven{
-			VersionPolicy: &versionPolicy,
-			LayoutPolicy:  &layoutPolicy,
+			VersionPolicy: repository.MavenVersionPolicySnapshot,
+			LayoutPolicy:  repository.MavenLayoutPolicyStrict,
 		},
 	}
 }
@@ -47,8 +45,7 @@ func TestMavenHostedRepository(t *testing.T) {
 
 	updatedRepo := repo
 	updatedRepo.Online = false
-	newVersionPolicy := repository.MavenVersionPolicyMixed
-	updatedRepo.VersionPolicy = &newVersionPolicy
+	updatedRepo.VersionPolicy = repository.MavenVersionPolicyMixed
 
 	err = service.Hosted.Update(repo.Name, updatedRepo)
 	assert.Nil(t, err)

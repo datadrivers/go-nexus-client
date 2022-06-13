@@ -11,8 +11,6 @@ import (
 )
 
 func getTestMavenProxyRepository(name string) repository.MavenProxyRepository {
-	versionPolicy := repository.MavenVersionPolicyRelease
-	layoutPolicy := repository.MavenLayoutPolicyStrict
 	return repository.MavenProxyRepository{
 		Name:   name,
 		Online: true,
@@ -40,8 +38,8 @@ func getTestMavenProxyRepository(name string) repository.MavenProxyRepository {
 			StrictContentTypeValidation: true,
 		},
 		Maven: repository.Maven{
-			VersionPolicy: &versionPolicy,
-			LayoutPolicy:  &layoutPolicy,
+			VersionPolicy: repository.MavenVersionPolicyRelease,
+			LayoutPolicy:  repository.MavenLayoutPolicyStrict,
 		},
 	}
 }
@@ -65,11 +63,10 @@ func TestMavenProxyRepository(t *testing.T) {
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
 	assert.Equal(t, repo.Maven, generatedRepo.Maven)
 
-	newLayoutPolicy := repository.MavenLayoutPolicyPermissive
 	updatedRepo := repo
 	updatedRepo.Online = false
 	updatedRepo.HTTPClient.Authentication.Preemptive = tools.GetBoolPointer(true)
-	updatedRepo.LayoutPolicy = &newLayoutPolicy
+	updatedRepo.LayoutPolicy = repository.MavenLayoutPolicyPermissive
 
 	err = service.Proxy.Update(repo.Name, updatedRepo)
 	assert.Nil(t, err)
