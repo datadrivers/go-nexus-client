@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
 	"github.com/stretchr/testify/assert"
 )
@@ -32,7 +33,19 @@ func TestNpmGroupRepository(t *testing.T) {
 	defer service.Proxy.Delete(testProxyRepo.Name)
 	err := service.Proxy.Create(testProxyRepo)
 	assert.Nil(t, err)
-	repo.Group.MemberNames = append(repo.Group.MemberNames, testProxyRepo.Name)
+
+	if tools.GetEnv("SKIP_PRO_TESTS", "false") == "false" {
+		testHostedRepo := getTestNpmHostedRepository("test-npm-group-hosted-" + strconv.Itoa(rand.Intn(1024)))
+		defer service.Hosted.Delete(testHostedRepo.Name)
+		err = service.Hosted.Create(testHostedRepo)
+		assert.Nil(t, err)
+
+		repo.Group.MemberNames = append(repo.Group.MemberNames, testProxyRepo.Name, testHostedRepo.Name)
+		repo.Group.WritableMember = &testHostedRepo.Name
+	} else {
+		repo.Group.MemberNames = append(repo.Group.MemberNames, testProxyRepo.Name)
+	}
+
 
 	err = service.Group.Create(repo)
 	assert.Nil(t, err)
