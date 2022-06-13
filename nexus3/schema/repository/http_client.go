@@ -54,11 +54,11 @@ type HTTPClientAuthentication struct {
 
 // HTTPClientAuthenticationWithPreemptive ...
 type HTTPClientAuthenticationWithPreemptive struct {
-	NTLMDomain *string                      `json:"ntlmDomain,omitempty"`
-	NTLMHost   *string                      `json:"ntlmHost,omitempty"`
-	Password   *string                      `json:"password,omitempty"`
+	NTLMDomain string                      `json:"ntlmDomain,omitempty"`
+	NTLMHost   string                      `json:"ntlmHost,omitempty"`
+	Password   string                      `json:"password,omitempty"`
 	Type       HTTPClientAuthenticationType `json:"type"`
-	Username   *string                      `json:"username,omitempty"`
+	Username   string                      `json:"username,omitempty"`
 	// Whether to use pre-emptive authentication. Use with caution. Defaults to false.
 	Preemptive *bool `json:"preemptive,omitempty"`
 }

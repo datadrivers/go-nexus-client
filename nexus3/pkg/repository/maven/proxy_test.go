@@ -19,8 +19,8 @@ func getTestMavenProxyRepository(name string) repository.MavenProxyRepository {
 			AutoBlock: true,
 			Authentication: &repository.HTTPClientAuthenticationWithPreemptive{
 				Type:       repository.HTTPClientAuthenticationTypeUsername,
-				Username:   tools.GetStringPointer("user"),
-				Password:   tools.GetStringPointer("password"),
+				Username:   "user",
+				Password:   "password",
 				Preemptive: tools.GetBoolPointer(false),
 			},
 		},
