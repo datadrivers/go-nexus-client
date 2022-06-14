@@ -32,7 +32,7 @@ type BowerProxyRepository struct {
 	RoutingRuleName *string `json:"routingRuleName,omitempty"`
 
 	*Cleanup `json:"cleanup,omitempty"`
-	*Bower   `json:"bower,omitempty"`
+	Bower   `json:"bower"`
 }
 
 type Bower struct {
