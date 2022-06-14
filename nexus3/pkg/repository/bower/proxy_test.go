@@ -36,7 +36,7 @@ func getTestBowerProxyRepository(name string) repository.BowerProxyRepository {
 			StrictContentTypeValidation: true,
 		},
 
-		Bower: &repository.Bower{
+		Bower: repository.Bower{
 			RewritePackageUrls: true,
 		},
 	}
