@@ -12,13 +12,15 @@ const (
 type RepositoryHelmService struct {
 	client *client.Client
 
-	Proxy *RepositoryHelmProxyService
+	Hosted *RepositoryHelmHostedService
+	Proxy  *RepositoryHelmProxyService
 }
 
 func NewRepositoryHelmService(c *client.Client) *RepositoryHelmService {
 	return &RepositoryHelmService{
 		client: c,
 
-		Proxy: NewRepositoryHelmProxyService(c),
+		Hosted: NewRepositoryHelmHostedService(c),
+		Proxy:  NewRepositoryHelmProxyService(c),
 	}
 }
