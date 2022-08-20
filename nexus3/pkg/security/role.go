@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
@@ -53,7 +54,9 @@ func (s *SecurityRoleService) Create(role security.Role) error {
 }
 
 func (s *SecurityRoleService) Get(id string) (*security.Role, error) {
-	body, resp, err := s.Client.Get(fmt.Sprintf("%s/%s", securityrolesAPIEndpoint, id), nil)
+	encodedID := url.PathEscape(id)
+
+	body, resp, err := s.Client.Get(fmt.Sprintf("%s/%s", securityrolesAPIEndpoint, encodedID), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -71,12 +74,14 @@ func (s *SecurityRoleService) Get(id string) (*security.Role, error) {
 }
 
 func (s *SecurityRoleService) Update(id string, role security.Role) error {
+	encodedID := url.PathEscape(id)
+
 	ioReader, err := roleIOReader(role)
 	if err != nil {
 		return err
 	}
 
-	body, resp, err := s.Client.Put(fmt.Sprintf("%s/%s", securityrolesAPIEndpoint, id), ioReader)
+	body, resp, err := s.Client.Put(fmt.Sprintf("%s/%s", securityrolesAPIEndpoint, encodedID), ioReader)
 	if err != nil {
 		return err
 	}
@@ -89,7 +94,9 @@ func (s *SecurityRoleService) Update(id string, role security.Role) error {
 }
 
 func (s *SecurityRoleService) Delete(id string) error {
-	body, resp, err := s.Client.Delete(fmt.Sprintf("%s/%s", securityrolesAPIEndpoint, id))
+	encodedID := url.PathEscape(id)
+
+	body, resp, err := s.Client.Delete(fmt.Sprintf("%s/%s", securityrolesAPIEndpoint, encodedID))
 	if err != nil {
 		return err
 	}
