@@ -1,5 +1,9 @@
 package repository
 
+import (
+	"encoding/json"
+)
+
 const (
 	HTTPClientAuthenticationTypeUsername HTTPClientAuthenticationType = "username"
 	HTTPClientAuthenticationTypeNtlm     HTTPClientAuthenticationType = "ntlm"
