@@ -17,21 +17,6 @@ func JsonMarshalInterfaceToIOReader(data interface{}) (io.Reader, error) {
 	return bytes.NewReader(b), nil
 }
 
-func (hcc *HTTPClientConnection) MarshalJSON() ([]byte, error) {
-	type HTTPClientConnectionAlias HTTPClientConnection
-	
-	// Assign nil if timeout has the default value so JSON marshaler omits it
-	if *hcc.Timeout == 0 {
-		hcc.Timeout = nil
-	}
-	
-	return json.Marshal(&struct{
-		*HTTPClientConnectionAlias
-	}{
-		HTTPClientConnectionAlias: (*HTTPClientConnectionAlias)(hcc),
-	})
-}
-
 func GetEnv(key string, fallback interface{}) interface{} {
 	if value, exists := os.LookupEnv(key); exists {
 		return value

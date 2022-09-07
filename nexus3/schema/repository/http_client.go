@@ -43,6 +43,21 @@ type HTTPClientConnection struct {
 	UseTrustStore *bool `json:"useTrustStore,omitempty"`
 }
 
+func (hcc *HTTPClientConnection) MarshalJSON() ([]byte, error) {
+	type HTTPClientConnectionAlias HTTPClientConnection
+	
+	// Assign nil if timeout has the default value so JSON marshaler omits it
+	if *hcc.Timeout == 0 {
+		hcc.Timeout = nil
+	}
+	
+	return json.Marshal(&struct{
+		*HTTPClientConnectionAlias
+	}{
+		HTTPClientConnectionAlias: (*HTTPClientConnectionAlias)(hcc),
+	})
+}
+
 // HTTPClientAuthentication ...
 type HTTPClientAuthentication struct {
 	NTLMDomain string                       `json:"ntlmDomain,omitempty"`
