@@ -13,6 +13,7 @@ const (
 	RepositoryFormatNuget  = "nuget"
 	RepositoryFormatP2     = "p2"
 	RepositoryFormatPyPi   = "pypi"
+	RepositoryFormatR      = "r"
 	RepositoryFormatRAW    = "raw"
 	RepositoryFormatRuby   = "rubygems"
 	RepositoryFormatYum    = "yum"
@@ -37,6 +38,7 @@ var (
 		RepositoryFormatNuget,
 		RepositoryFormatP2,
 		RepositoryFormatPyPi,
+		RepositoryFormatR,
 		RepositoryFormatRAW,
 		RepositoryFormatRuby,
 		RepositoryFormatYum,
