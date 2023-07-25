@@ -115,3 +115,15 @@ func (s *ScriptService) Run(name string) error {
 	}
 	return err
 }
+func (s *ScriptService) RunWithPayload(name, payload string) error {
+	r := strings.NewReader(payload)
+	body, resp, err := s.Client.Post(fmt.Sprintf("%s/%s/run", scriptsAPIEndpoint, name), r)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("%s", string(body))
+	}
+	return err
+}
