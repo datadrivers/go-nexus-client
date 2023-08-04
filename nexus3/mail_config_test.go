@@ -7,10 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// When reading the mail config Nexus does not return the password but this value
-var emptyPasswordValue = ""
+func testMailConfig(enabled *bool, host string, port int, username *string, password *string, fromAddress string, subjectPrefix *string) *schema.MailConfig {
+	b := new(bool)
+	*b = false
 
-func testMailConfig(enabled bool, host string, port int, username string, password string, fromAddress string, subjectPrefix string) *schema.MailConfig {
 	return &schema.MailConfig{
 		Enabled:                       enabled,
 		Host:                          host,
@@ -19,33 +19,39 @@ func testMailConfig(enabled bool, host string, port int, username string, passwo
 		Password:                      password,
 		FromAddress:                   fromAddress,
 		SubjectPrefix:                 subjectPrefix,
-		StartTlsEnabled:               false,
-		StartTlsRequired:              false,
-		SslOnConnectEnabled:           false,
-		SslServerIdentityCheckEnabled: false,
-		NexusTrustStoreEnabled:        false,
+		StartTlsEnabled:               b,
+		StartTlsRequired:              b,
+		SslOnConnectEnabled:           b,
+		SslServerIdentityCheckEnabled: b,
+		NexusTrustStoreEnabled:        b,
 	}
 }
 
 func TestMailConfigCreateReadUpdateDelete(t *testing.T) {
 	client := getTestClient()
 
+	enabled := true
+	username := "uname"
+	usernameUpdated := "username"
+	password := "secret"
+	subjectPrefix := "prefix"
+
 	// Create
-	err := client.MailConfig.Create(testMailConfig(true, "example.org", 42, "uname", "secret", "sender@example.org", "SubjectPrefix"))
+	err := client.MailConfig.Create(testMailConfig(&enabled, "example.org", 42, &username, &password, "sender@example.org", &subjectPrefix))
 	assert.Nil(t, err)
 
 	// Read
 	readMailConfig, err := client.MailConfig.Get()
 	assert.Nil(t, err)
-	assert.Equal(t, readMailConfig, testMailConfig(true, "example.org", 42, "uname", emptyPasswordValue, "sender@example.org", "SubjectPrefix"))
+	assert.Equal(t, readMailConfig, testMailConfig(&enabled, "example.org", 42, &username, nil, "sender@example.org", &subjectPrefix))
 
 	// Update
-	err = client.MailConfig.Update(testMailConfig(true, "example.org", 42, "username", emptyPasswordValue, "sender@example.org", "SubjectPrefix"))
+	err = client.MailConfig.Update(testMailConfig(&enabled, "example.org", 42, &usernameUpdated, nil, "sender@example.org", &subjectPrefix))
 	assert.Nil(t, err)
 
 	// Check updated value
 	readMailConfig, _ = client.MailConfig.Get()
-	assert.Equal(t, readMailConfig, testMailConfig(true, "example.org", 42, "username", emptyPasswordValue, "sender@example.org", "SubjectPrefix"))
+	assert.Equal(t, readMailConfig, testMailConfig(&enabled, "example.org", 42, &usernameUpdated, nil, "sender@example.org", &subjectPrefix))
 
 	// Delete
 	err = client.MailConfig.Delete()
