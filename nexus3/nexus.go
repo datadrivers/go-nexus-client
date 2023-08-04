@@ -24,6 +24,7 @@ type NexusClient struct {
 	RoutingRule *RoutingRuleService
 	Security    *security.SecurityService
 	Script      *ScriptService
+	MailConfig  *MailConfigService
 }
 
 // NewClient returns an instance of client that implements the Client interface
@@ -36,5 +37,6 @@ func NewClient(config client.Config) *NexusClient {
 		RoutingRule: NewRoutingRuleService(client),
 		Security:    security.NewSecurityService(client),
 		Script:      NewScriptService(client),
+		MailConfig:  NewMailConfigService(client),
 	}
 }
