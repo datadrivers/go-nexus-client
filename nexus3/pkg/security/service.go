@@ -1,6 +1,9 @@
 package security
 
-import "github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
+import (
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/security/privilege"
+)
 
 const (
 	securityAPIEndpoint = client.BasePath + "v1/security"
@@ -13,7 +16,7 @@ type SecurityService struct {
 	Anonymous       *SecurityAnonymousService
 	ContentSelector *SecurityContentSelectorService
 	LDAP            *SecurityLdapService
-	Privilege       *SecurityPrivilegeService
+	Privilege       *privilege.SecurityPrivilegeService
 	Realm           *SecurityRealmService
 	Role            *SecurityRoleService
 	SAML            *SecuritySamlService
@@ -29,7 +32,7 @@ func NewSecurityService(c *client.Client) *SecurityService {
 		Anonymous:       NewSecurityAnonymousService(c),
 		ContentSelector: NewSecurityContentSelectorService(c),
 		LDAP:            NewSecurityLdapService(c),
-		Privilege:       NewSecurityPrivilegeService(c),
+		Privilege:       privilege.NewSecurityPrivilegeService(c),
 		Realm:           NewSecurityRealmService(c),
 		Role:            NewSecurityRoleService(c),
 		SAML:            NewSecuritySamlService(c),

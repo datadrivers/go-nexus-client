@@ -93,3 +93,10 @@ type Privilege struct {
 	Repository      string   `json:"repository,omitempty"`
 	Type            string   `json:"type"`
 }
+
+type PrivilegeScript struct {
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Actions     []string `json:"actions,omitempty"`
+	ScriptName  string   `json:"scriptName,omitempty"`
+}
