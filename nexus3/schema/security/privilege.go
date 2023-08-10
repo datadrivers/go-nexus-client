@@ -79,6 +79,7 @@ var (
 	}
 )
 
+// ToDo: Refactor privilege structs?
 // Privilege data
 type Privilege struct {
 	Actions         []string `json:"actions,omitempty"`
@@ -113,4 +114,12 @@ type PrivilegeWildcard struct {
 	Name        string `json:"name"`
 	Pattern     string `json:"pattern"`
 	Description string `json:"description,omitempty"`
+}
+
+type PrivilegeRepositoryAdmin struct {
+	Name        string   `json:"name"`
+	Description string   `json:"description,omitempty"`
+	Actions     []string `json:"actions"`
+	Format      string   `json:"format"`
+	Repository  string   `json:"repository"`
 }
