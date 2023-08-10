@@ -123,3 +123,19 @@ type PrivilegeRepositoryAdmin struct {
 	Format      string   `json:"format"`
 	Repository  string   `json:"repository"`
 }
+
+type PrivilegeRepositoryContentSelector struct {
+	Name            string   `json:"name"`
+	Description     string   `json:"description,omitempty"`
+	Actions         []string `json:"actions"`
+	Format          string   `json:"format"`
+	Repository      string   `json:"repository"`
+	ContentSelector string   `json:"contentSelector"`
+}
+
+type PrivilegeApplication struct {
+	Name        string   `json:"name"`
+	Description string   `json:"description,omitempty"`
+	Actions     []string `json:"actions"`
+	Domain      string   `json:"domain"`
+}
