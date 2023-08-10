@@ -48,4 +48,13 @@ func TestRepositoryPrivilegeSecurity(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, privilegeRepositoryName, repositoryPrivilegeFetched.Name)
 	assert.Equal(t, []string{"BROWSE", "READ", "EDIT", "ADD", "DELETE"}, repositoryPrivilegeFetched.Actions)
+
+	// Delete repository-privilege-object
+	err = privilegeService.Delete(privilegeRepositoryName)
+	assert.Nil(t, err)
+
+	// Check for successful deletion
+	repositoryPrivilegeFetched, err = privilegeService.Get(privilegeRepositoryName)
+	assert.Error(t, err)
+	assert.Nil(t, repositoryPrivilegeFetched)
 }

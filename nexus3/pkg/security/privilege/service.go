@@ -67,19 +67,15 @@ func (s SecurityPrivilegeService) Get(name string) (*security.Privilege, error) 
 	return &privilege, nil
 }
 
-func (s SecurityPrivilegeService) Delete(name string) (*security.Privilege, error) {
-	var privilege security.Privilege
+func (s SecurityPrivilegeService) Delete(name string) error {
 	body, resp, err := s.client.Delete(fmt.Sprintf("%s/%s", securityPrivilegesAPIEndpoint, name))
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("could not delete privilege '%s': HTTP: %d, %s", name, resp.StatusCode, string(body))
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
+		return fmt.Errorf("%s", string(body))
 	}
-	if err := json.Unmarshal(body, &privilege); err != nil {
-		return nil, fmt.Errorf("could not unmarshal privilege: %v", err)
-	}
-	return &privilege, nil
+	return err
 }
