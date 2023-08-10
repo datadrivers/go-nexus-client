@@ -100,3 +100,11 @@ type PrivilegeScript struct {
 	Actions     []string `json:"actions,omitempty"`
 	ScriptName  string   `json:"scriptName,omitempty"`
 }
+
+type PrivilegeRepositoryView struct {
+	Name        string   `json:"name"`
+	Description string   `json:"description,omitempty"`
+	Actions     []string `json:"actions"`
+	Format      string   `json:"format"`
+	Repository  string   `json:"repository"`
+}
