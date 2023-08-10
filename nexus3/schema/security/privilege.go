@@ -108,3 +108,9 @@ type PrivilegeRepositoryView struct {
 	Format      string   `json:"format"`
 	Repository  string   `json:"repository"`
 }
+
+type PrivilegeWildcard struct {
+	Name        string `json:"name"`
+	Pattern     string `json:"pattern"`
+	Description string `json:"description,omitempty"`
+}
