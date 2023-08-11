@@ -17,14 +17,24 @@ type SecurityPrivilegeService struct {
 	client *client.Client
 
 	// API Services
-	Script *SecurityPrivilegeScriptService
+	Script                    *SecurityPrivilegeScriptService
+	Application               *SecurityPrivilegeApplicationService
+	RepositoryAdmin           *SecurityPrivilegeRepositoryAdminService
+	RepositoryContentSelector *SecurityPrivilegeContentSelectorService
+	RepositoryView            *SecurityPrivilegeRepositoryViewService
+	Wildcard                  *SecurityPrivilegeWildcardService
 }
 
 func NewSecurityPrivilegeService(c *client.Client) *SecurityPrivilegeService {
 	return &SecurityPrivilegeService{
 		client: c,
 
-		Script: NewSecurityPrivilegeScriptService(c),
+		Script:                    NewSecurityPrivilegeScriptService(c),
+		Application:               NewSecurityPrivilegeApplicationService(c),
+		RepositoryAdmin:           NewSecurityPrivilegeRepositoryAdminService(c),
+		RepositoryContentSelector: NewSecurityPrivilegeContentSelectorService(c),
+		RepositoryView:            NewSecurityPrivilegeRepositoryViewService(c),
+		Wildcard:                  NewSecurityPrivilegeWildcardService(c),
 	}
 }
 
