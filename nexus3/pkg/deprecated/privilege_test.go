@@ -1,28 +1,53 @@
-package security
+package deprecated
 
 import (
 	"fmt"
 	"testing"
 	"time"
 
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 	"github.com/stretchr/testify/assert"
 )
 
+var (
+	testClient *client.Client = nil
+)
+
+func getDefaultConfig() client.Config {
+	return client.Config{
+		Insecure: tools.GetEnv("NEXUS_INSECURE_SKIP_VERIFY", true).(bool),
+		Password: tools.GetEnv("NEXUS_PASSWORD", "admin123").(string),
+		URL:      tools.GetEnv("NEXUS_URL", "http://127.0.0.1:8081").(string),
+		Username: tools.GetEnv("NEXUS_USRNAME", "admin").(string),
+	}
+}
+
+func getTestClient() *client.Client {
+	if testClient != nil {
+		return testClient
+	}
+	return client.NewClient(getDefaultConfig())
+}
+
+func getTestService() *SecurityPrivilegeService {
+	return NewSecurityPrivilegeService(getTestClient())
+}
+
 func TestPrivileges(t *testing.T) {
 	service := getTestService()
 
-	privs, err := service.Privilege.List()
+	privs, err := service.List()
 	assert.Nil(t, err)
 	assert.NotNil(t, privs)
 	assert.Greater(t, len(privs), 0)
 }
-
 func TestPrivilegeTypeWildcardRead(t *testing.T) {
 	service := getTestService()
 	privName := "nx-all"
 
-	priv, err := service.Privilege.Get(privName)
+	priv, err := service.Get(privName)
 	assert.Nil(t, err)
 	assert.NotNil(t, priv)
 	if priv != nil {
@@ -39,7 +64,7 @@ func TestPrivilegeTypeAnalyticsRead(t *testing.T) {
 	service := getTestService()
 	privName := "nx-analytics-all"
 
-	priv, err := service.Privilege.Get(privName)
+	priv, err := service.Get(privName)
 	assert.Nil(t, err)
 	assert.NotNil(t, priv)
 	if priv != nil {
@@ -59,7 +84,7 @@ func TestPrivilegeTypeApplicationRead(t *testing.T) {
 	service := getTestService()
 	privName := "nx-apikey-all"
 
-	priv, err := service.Privilege.Get(privName)
+	priv, err := service.Get(privName)
 	assert.Nil(t, err)
 	assert.NotNil(t, priv)
 	if priv != nil {
@@ -79,7 +104,7 @@ func TestPrivilegeTypeRepositoryAdminRead(t *testing.T) {
 	service := getTestService()
 	privName := "nx-repository-admin-*-*-*"
 
-	priv, err := service.Privilege.Get(privName)
+	priv, err := service.Get(privName)
 	assert.Nil(t, err)
 	assert.NotNil(t, priv)
 	if priv != nil {
@@ -98,7 +123,7 @@ func TestPrivilegeTypeRepositoryViewRead(t *testing.T) {
 	service := getTestService()
 	privName := "nx-repository-view-*-*-*"
 
-	priv, err := service.Privilege.Get(privName)
+	priv, err := service.Get(privName)
 	assert.Nil(t, err)
 	assert.NotNil(t, priv)
 	if priv != nil {
@@ -117,10 +142,10 @@ func TestPrivilegeCreateReadUpdateDelete(t *testing.T) {
 	service := getTestService()
 	privilege := testPrivilege("test-privilege")
 
-	err := service.Privilege.Create(privilege)
+	err := service.Create(privilege)
 	assert.Nil(t, err)
 
-	createdPrivilege, err := service.Privilege.Get(privilege.Name)
+	createdPrivilege, err := service.Get(privilege.Name)
 	assert.Nil(t, err)
 	assert.NotNil(t, createdPrivilege)
 
@@ -133,19 +158,19 @@ func TestPrivilegeCreateReadUpdateDelete(t *testing.T) {
 	createdPrivilege.Description = "updated"
 	createdPrivilege.Domain = "datastores"
 
-	err = service.Privilege.Update(privilege.Name, *createdPrivilege)
+	err = service.Update(privilege.Name, *createdPrivilege)
 	assert.Nil(t, err)
 
-	updatedPrivilege, err := service.Privilege.Get(privilege.Name)
+	updatedPrivilege, err := service.Get(privilege.Name)
 	assert.Nil(t, err)
 	assert.NotNil(t, updatedPrivilege)
 	assert.Equal(t, createdPrivilege.Description, updatedPrivilege.Description)
 	assert.Equal(t, createdPrivilege.Domain, updatedPrivilege.Domain)
 
-	err = service.Privilege.Delete(privilege.Name)
+	err = service.Delete(privilege.Name)
 	assert.Nil(t, err)
 
-	deletedPrivilege, err := service.Privilege.Get(privilege.Name)
+	deletedPrivilege, err := service.Get(privilege.Name)
 	assert.Nil(t, err)
 	assert.Nil(t, deletedPrivilege)
 }
@@ -159,5 +184,3 @@ func testPrivilege(name string) security.Privilege {
 		Type:        "application",
 	}
 }
-
-// Testfunction TestPrivilegeTypeScriptCreateReadAndDelete located in main client folder, because this test function use multiple services

@@ -79,6 +79,7 @@ var (
 	}
 )
 
+// ToDo: Refactor privilege structs?
 // Privilege data
 type Privilege struct {
 	Actions         []string `json:"actions,omitempty"`
@@ -92,4 +93,49 @@ type Privilege struct {
 	ReadOnly        bool     `json:"readOnly"`
 	Repository      string   `json:"repository,omitempty"`
 	Type            string   `json:"type"`
+}
+
+type PrivilegeScript struct {
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Actions     []string `json:"actions,omitempty"`
+	ScriptName  string   `json:"scriptName,omitempty"`
+}
+
+type PrivilegeRepositoryView struct {
+	Name        string   `json:"name"`
+	Description string   `json:"description,omitempty"`
+	Actions     []string `json:"actions"`
+	Format      string   `json:"format"`
+	Repository  string   `json:"repository"`
+}
+
+type PrivilegeWildcard struct {
+	Name        string `json:"name"`
+	Pattern     string `json:"pattern"`
+	Description string `json:"description,omitempty"`
+}
+
+type PrivilegeRepositoryAdmin struct {
+	Name        string   `json:"name"`
+	Description string   `json:"description,omitempty"`
+	Actions     []string `json:"actions"`
+	Format      string   `json:"format"`
+	Repository  string   `json:"repository"`
+}
+
+type PrivilegeRepositoryContentSelector struct {
+	Name            string   `json:"name"`
+	Description     string   `json:"description,omitempty"`
+	Actions         []string `json:"actions"`
+	Format          string   `json:"format"`
+	Repository      string   `json:"repository"`
+	ContentSelector string   `json:"contentSelector"`
+}
+
+type PrivilegeApplication struct {
+	Name        string   `json:"name"`
+	Description string   `json:"description,omitempty"`
+	Actions     []string `json:"actions"`
+	Domain      string   `json:"domain"`
 }
