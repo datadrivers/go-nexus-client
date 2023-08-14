@@ -8,6 +8,7 @@ import (
 const (
 	repositoryBowerAPIEndpoint = common.RepositoryAPIEndpoint + "/bower"
 )
+
 type RepositoryBowerService struct {
 	client *client.Client
 
