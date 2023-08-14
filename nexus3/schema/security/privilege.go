@@ -71,14 +71,12 @@ const (
 	SecurityPrivilegeRepositoryViewAdd    SecurityPrivilegeRepositoryViewActions = ActionAdd
 	SecurityPrivilegeRepositoryViewDelete SecurityPrivilegeRepositoryViewActions = ActionDelete
 
-	SecurityPrivilegeWildcardCreate SecurityPrivilegeWildcardActions = ActionCreate
-	SecurityPrivilegeWildcardAdd    SecurityPrivilegeWildcardActions = ActionAdd
-	SecurityPrivilegeWildcardRead   SecurityPrivilegeWildcardActions = ActionRead
-	SecurityPrivilegeWildcardUpdate SecurityPrivilegeWildcardActions = ActionUpdate
-	SecurityPrivilegeWildcardDelete SecurityPrivilegeWildcardActions = ActionDelete
-	SecurityPrivilegeWildcardBrowse SecurityPrivilegeWildcardActions = ActionBrowse
-	SecurityPrivilegeWildcardRun    SecurityPrivilegeWildcardActions = ActionRun
-	SecurityPrivilegeWildcardEdit   SecurityPrivilegeWildcardActions = ActionEdit
+	SecurityPrivilegeScriptAdd    SecurityPrivilegeScriptActions = ActionAdd
+	SecurityPrivilegeScriptRead   SecurityPrivilegeScriptActions = ActionRead
+	SecurityPrivilegeScriptDelete SecurityPrivilegeScriptActions = ActionDelete
+	SecurityPrivilegeScriptBrowse SecurityPrivilegeScriptActions = ActionBrowse
+	SecurityPrivilegeScriptRun    SecurityPrivilegeScriptActions = ActionRun
+	SecurityPrivilegeScriptEdit   SecurityPrivilegeScriptActions = ActionEdit
 )
 
 type SecurityPrivilegeApplicationActions string
@@ -86,7 +84,6 @@ type SecurityPrivilegeRepositoryAdminActions string
 type SecurityPrivilegeRepositoryContentSelectorActions string
 type SecurityPrivilegeRepositoryViewActions string
 type SecurityPrivilegeScriptActions string
-type SecurityPrivilegeWildcardActions string
 
 var (
 	// PrivilegeDomains represents a string slice of supported privilege domains
@@ -146,10 +143,10 @@ type Privilege struct {
 }
 
 type PrivilegeScript struct {
-	Name        string                                `json:"name"`
-	Description string                                `json:"description"`
-	Actions     []SecurityPrivilegeApplicationActions `json:"actions,omitempty"`
-	ScriptName  string                                `json:"scriptName,omitempty"`
+	Name        string                           `json:"name"`
+	Description string                           `json:"description"`
+	Actions     []SecurityPrivilegeScriptActions `json:"actions,omitempty"`
+	ScriptName  string                           `json:"scriptName,omitempty"`
 }
 
 type PrivilegeRepositoryView struct {
