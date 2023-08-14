@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math/rand"
 	"os"
+	"time"
 )
 
 func JsonMarshalInterfaceToIOReader(data interface{}) (io.Reader, error) {
@@ -34,4 +36,9 @@ func GetStringPointer(s string) *string {
 
 func GetBoolPointer(b bool) *bool {
 	return &b
+}
+
+func GetSeededRandomInteger(max int) int {
+	rand.Seed(time.Now().UnixNano())
+	return rand.Intn(max)
 }

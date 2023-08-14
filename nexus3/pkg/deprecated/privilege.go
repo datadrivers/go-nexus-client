@@ -1,4 +1,4 @@
-package security
+package deprecated
 
 import (
 	"encoding/json"
