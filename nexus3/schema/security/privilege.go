@@ -1,5 +1,7 @@
 package security
 
+import "fmt"
+
 const (
 	// PrivilegeDomains
 	PrivilegeDomainAll                = "*"
@@ -36,7 +38,20 @@ const (
 	PrivilegeTypeRepositoryView  = "repository-view"
 	PrivilegeTypeScript          = "script"
 	PrivilegeTypeWildcard        = "wildcard"
+
+	// See https://help.sonatype.com/repomanager3/nexus-repository-administration/access-control/privileges#Privileges-PrivilegeActions for reference
+	ActionCreatePrivilege ActionPrivilege = "CREATE"
+	ActionAddPrivilege    ActionPrivilege = "ADD"
+	ActionReadPrivileg    ActionPrivilege = "READ"
+	ActionUpdatePrivilege ActionPrivilege = "UPDATE"
+	ActionDeletePrivilege ActionPrivilege = "DELETE"
+	ActionBrowsePrivilege ActionPrivilege = "BROWSE"
+	ActionRunPrivilege    ActionPrivilege = "RUN"
+	ActionEditPrivilege   ActionPrivilege = "EDIT"
 )
+
+type SecurityPrivilegeScriptActions string
+type ActionPrivilege string
 
 var (
 	// PrivilegeDomains represents a string slice of supported privilege domains
@@ -138,4 +153,12 @@ type PrivilegeApplication struct {
 	Description string   `json:"description,omitempty"`
 	Actions     []string `json:"actions"`
 	Domain      string   `json:"domain"`
+}
+
+func (a ActionPrivilege) IsValid() error {
+	switch a {
+	case ActionDeletePrivilege, ActionBrowsePrivilege, ActionRunPrivilege, ActionUpdatePrivilege, ActionCreatePrivilege, ActionAddPrivilege, ActionReadPrivileg, ActionEditPrivilege:
+		return nil
+	}
+	return fmt.Errorf("invalid action. for a list of possible types see https://help.sonatype.com/repomanager3/nexus-repository-administration/access-control/privileges#Privileges-PrivilegeActions")
 }

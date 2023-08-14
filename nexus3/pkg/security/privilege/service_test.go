@@ -5,6 +5,7 @@ import (
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -81,4 +82,31 @@ func TestGetPrivilegesForRepository(t *testing.T) {
 	assert.Equal(t, "Browse privilege for all 'yum'-format repository views", privilege.Description)
 	assert.Equal(t, []string{"BROWSE"}, privilege.Actions)
 	assert.Equal(t, "*", privilege.Repository)
+}
+
+func TestPrivilegeActionIsValid(t *testing.T) {
+	const errorMessage = "Invalid action privilege. See https://help.sonatype.com/repomanager3/nexus-repository-administration/access-control/privileges#Privileges-PrivilegeActions for possible values"
+	var action security.ActionPrivilege
+
+	action = "add"
+	assert.Error(t, action.IsValid(), errorMessage)
+	action = "add   "
+	assert.Error(t, action.IsValid(), errorMessage)
+	action = ""
+	assert.Error(t, action.IsValid(), errorMessage)
+
+	action = "ADD"
+	assert.Nil(t, action.IsValid(), errorMessage)
+	action = "BROWSE"
+	assert.Nil(t, action.IsValid(), errorMessage)
+	action = "CREATE"
+	assert.Nil(t, action.IsValid(), errorMessage)
+	action = "DELETE"
+	assert.Nil(t, action.IsValid(), errorMessage)
+	action = "EDIT"
+	assert.Nil(t, action.IsValid(), errorMessage)
+	action = "READ"
+	assert.Nil(t, action.IsValid(), errorMessage)
+	action = "UPDATE"
+	assert.Nil(t, action.IsValid(), errorMessage)
 }
