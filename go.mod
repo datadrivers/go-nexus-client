@@ -1,10 +1,10 @@
 module github.com/datadrivers/go-nexus-client
 
-go 1.17
+go 1.21
 
 require (
 	github.com/google/go-querystring v1.1.0
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.8.4
 )
 
 require (
