@@ -1,6 +1,7 @@
 package nexus3
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -169,7 +170,7 @@ func TestScriptRUN(t *testing.T) {
 		// Send response
 		rw.Write([]byte(`{
 			"name" : "test-script-update",
-			"result" : "null"
+			"result" : "null",
 		  }`))
 	}))
 	// Close the server when test finishes
@@ -203,5 +204,40 @@ func TestScriptDelete(t *testing.T) {
 	})
 
 	err := client.Script.Delete("test-script-delete")
+	assert.Nil(t, err)
+}
+
+func TestScriptRunWithPayLoad(t *testing.T) {
+	// Start a local HTTP server
+	testserver := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		type ReqBody struct {
+			Data string `json:"data"`
+		}
+		var r ReqBody
+		err := json.NewDecoder(req.Body).Decode(&r)
+		assert.Nil(t, err)
+		assert.Equal(t, "testdata", r.Data)
+
+		testHTTPHeader(t, "POST", fmt.Sprintf("%s/test-script-update/run", testScriptsAPIEndpoint), req)
+		resp := fmt.Sprintf(`{
+			"name" : "test-script-update",
+			"result" : "null",
+			"data": %s,
+		  }`, r.Data)
+		// Send response
+		rw.Write([]byte(resp))
+	}))
+	// Close the server when test finishes
+	defer testserver.Close()
+
+	client := NewClient(client.Config{
+		URL:      testserver.URL,
+		Username: "admin",
+		Password: "admin123",
+	})
+
+	err := client.Script.RunWithPayload("test-script-update", `{
+		"data": "testdata"
+	}`)
 	assert.Nil(t, err)
 }
