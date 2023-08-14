@@ -15,8 +15,6 @@ const (
 
 type SecurityPrivilegeApplicationService struct {
 	client *client.Client
-
-	// Script *SecurityPrivilegeApplicationService
 }
 
 func NewSecurityPrivilegeApplicationService(c *client.Client) *SecurityPrivilegeApplicationService {

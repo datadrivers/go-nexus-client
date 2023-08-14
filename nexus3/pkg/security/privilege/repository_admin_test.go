@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func getTestPrivilegeRepositoryAdmin(name string, description string, actions []string, format string, repository string) *schemasecurity.PrivilegeRepositoryAdmin {
+func getTestPrivilegeRepositoryAdmin(name string, description string, actions []schemasecurity.SecurityPrivilegeRepositoryAdminActions, format string, repository string) *schemasecurity.PrivilegeRepositoryAdmin {
 	return &schemasecurity.PrivilegeRepositoryAdmin{
 		Name:        name,
 		Description: description,
@@ -26,7 +26,7 @@ func TestRepositoryAdminPrivilegeSecurity(t *testing.T) {
 	privilegeService := privilege.NewSecurityPrivilegeService(getTestClient())
 
 	// Create repository-admin-privilege object for already existing Maven repo (was created by Nexus itself)
-	repositoryPrivilege := getTestPrivilegeRepositoryAdmin(PrivilegeRepositoryAdminName, "demo descrp", []string{"BROWSE", "READ"}, "maven2", "maven-snapshots")
+	repositoryPrivilege := getTestPrivilegeRepositoryAdmin(PrivilegeRepositoryAdminName, "demo descrp", []schemasecurity.SecurityPrivilegeRepositoryAdminActions{"BROWSE", "READ"}, "maven2", "maven-snapshots")
 
 	err := testService.Create(*repositoryPrivilege)
 	assert.Nil(t, err)
@@ -41,7 +41,7 @@ func TestRepositoryAdminPrivilegeSecurity(t *testing.T) {
 	assert.Equal(t, "maven-snapshots", repositoryPrivilegeFetched.Repository)
 
 	// Update repository-admin-privilege object
-	repositoryPrivilege = getTestPrivilegeRepositoryAdmin(PrivilegeRepositoryAdminName, "demo descrp", []string{"BROWSE", "READ", "EDIT", "ADD", "DELETE"}, "maven2", "maven-snapshots")
+	repositoryPrivilege = getTestPrivilegeRepositoryAdmin(PrivilegeRepositoryAdminName, "demo descrp", []schemasecurity.SecurityPrivilegeRepositoryAdminActions{"BROWSE", "READ", "EDIT", "ADD", "DELETE"}, "maven2", "maven-snapshots")
 	err = testService.Update(PrivilegeRepositoryAdminName, *repositoryPrivilege)
 	assert.Nil(t, err)
 	repositoryPrivilegeFetched, err = privilegeService.Get(PrivilegeRepositoryAdminName)

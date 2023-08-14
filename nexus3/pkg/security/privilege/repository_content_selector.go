@@ -15,8 +15,6 @@ const (
 
 type SecurityPrivilegeContentSelectorService struct {
 	client *client.Client
-
-	// Script *SecurityPrivilegeContentSelectorService
 }
 
 func NewSecurityPrivilegeContentSelectorService(c *client.Client) *SecurityPrivilegeContentSelectorService {

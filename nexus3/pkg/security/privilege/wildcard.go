@@ -15,8 +15,6 @@ const (
 
 type SecurityPrivilegeWildcardService struct {
 	client *client.Client
-
-	// Script *SecurityPrivilegeWildcardService
 }
 
 func NewSecurityPrivilegeWildcardService(c *client.Client) *SecurityPrivilegeWildcardService {

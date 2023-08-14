@@ -36,7 +36,54 @@ const (
 	PrivilegeTypeRepositoryView  = "repository-view"
 	PrivilegeTypeScript          = "script"
 	PrivilegeTypeWildcard        = "wildcard"
+
+	// See https://help.sonatype.com/repomanager3/nexus-repository-administration/access-control/privileges#Privileges-PrivilegeActions for reference
+	ActionCreate = "CREATE"
+	ActionAdd    = "ADD"
+	ActionRead   = "READ"
+	ActionUpdate = "UPDATE"
+	ActionDelete = "DELETE"
+	ActionBrowse = "BROWSE"
+	ActionRun    = "RUN"
+	ActionEdit   = "EDIT"
+
+	SecurityPrivilegeApplicationActionBrowse SecurityPrivilegeApplicationActions = ActionBrowse
+	SecurityPrivilegeApplicationActionRead   SecurityPrivilegeApplicationActions = ActionRun
+	SecurityPrivilegeApplicationActionEdit   SecurityPrivilegeApplicationActions = ActionEdit
+	SecurityPrivilegeApplicationActionAdd    SecurityPrivilegeApplicationActions = ActionAdd
+	SecurityPrivilegeApplicationActionDelete SecurityPrivilegeApplicationActions = ActionDelete
+
+	SecurityPrivilegeRepositoryAdminBrowse SecurityPrivilegeRepositoryAdminActions = ActionBrowse
+	SecurityPrivilegeRepositoryAdminRead   SecurityPrivilegeRepositoryAdminActions = ActionRead
+	SecurityPrivilegeRepositoryAdminEdit   SecurityPrivilegeRepositoryAdminActions = ActionEdit
+	SecurityPrivilegeRepositoryAdminAdd    SecurityPrivilegeRepositoryAdminActions = ActionAdd
+	SecurityPrivilegeRepositoryAdminDelete SecurityPrivilegeRepositoryAdminActions = ActionDelete
+
+	SecurityPrivilegeRepositoryContentSelectorBrowse SecurityPrivilegeRepositoryContentSelectorActions = ActionBrowse
+	SecurityPrivilegeRepositoryContentSelectorRead   SecurityPrivilegeRepositoryContentSelectorActions = ActionRead
+	SecurityPrivilegeRepositoryContentSelectorEdit   SecurityPrivilegeRepositoryContentSelectorActions = ActionEdit
+	SecurityPrivilegeRepositoryContentSelectorAdd    SecurityPrivilegeRepositoryContentSelectorActions = ActionAdd
+	SecurityPrivilegeRepositoryContentSelectorDelete SecurityPrivilegeRepositoryContentSelectorActions = ActionDelete
+
+	SecurityPrivilegeRepositoryViewBrowse SecurityPrivilegeRepositoryViewActions = ActionBrowse
+	SecurityPrivilegeRepositoryViewRead   SecurityPrivilegeRepositoryViewActions = ActionRead
+	SecurityPrivilegeRepositoryViewEdit   SecurityPrivilegeRepositoryViewActions = ActionEdit
+	SecurityPrivilegeRepositoryViewAdd    SecurityPrivilegeRepositoryViewActions = ActionAdd
+	SecurityPrivilegeRepositoryViewDelete SecurityPrivilegeRepositoryViewActions = ActionDelete
+
+	SecurityPrivilegeScriptAdd    SecurityPrivilegeScriptActions = ActionAdd
+	SecurityPrivilegeScriptRead   SecurityPrivilegeScriptActions = ActionRead
+	SecurityPrivilegeScriptDelete SecurityPrivilegeScriptActions = ActionDelete
+	SecurityPrivilegeScriptBrowse SecurityPrivilegeScriptActions = ActionBrowse
+	SecurityPrivilegeScriptRun    SecurityPrivilegeScriptActions = ActionRun
+	SecurityPrivilegeScriptEdit   SecurityPrivilegeScriptActions = ActionEdit
 )
+
+type SecurityPrivilegeApplicationActions string
+type SecurityPrivilegeRepositoryAdminActions string
+type SecurityPrivilegeRepositoryContentSelectorActions string
+type SecurityPrivilegeRepositoryViewActions string
+type SecurityPrivilegeScriptActions string
 
 var (
 	// PrivilegeDomains represents a string slice of supported privilege domains
@@ -96,18 +143,18 @@ type Privilege struct {
 }
 
 type PrivilegeScript struct {
-	Name        string   `json:"name"`
-	Description string   `json:"description"`
-	Actions     []string `json:"actions,omitempty"`
-	ScriptName  string   `json:"scriptName,omitempty"`
+	Name        string                           `json:"name"`
+	Description string                           `json:"description"`
+	Actions     []SecurityPrivilegeScriptActions `json:"actions,omitempty"`
+	ScriptName  string                           `json:"scriptName,omitempty"`
 }
 
 type PrivilegeRepositoryView struct {
-	Name        string   `json:"name"`
-	Description string   `json:"description,omitempty"`
-	Actions     []string `json:"actions"`
-	Format      string   `json:"format"`
-	Repository  string   `json:"repository"`
+	Name        string                                   `json:"name"`
+	Description string                                   `json:"description,omitempty"`
+	Actions     []SecurityPrivilegeRepositoryViewActions `json:"actions"`
+	Format      string                                   `json:"format"`
+	Repository  string                                   `json:"repository"`
 }
 
 type PrivilegeWildcard struct {
@@ -117,25 +164,25 @@ type PrivilegeWildcard struct {
 }
 
 type PrivilegeRepositoryAdmin struct {
-	Name        string   `json:"name"`
-	Description string   `json:"description,omitempty"`
-	Actions     []string `json:"actions"`
-	Format      string   `json:"format"`
-	Repository  string   `json:"repository"`
+	Name        string                                    `json:"name"`
+	Description string                                    `json:"description,omitempty"`
+	Actions     []SecurityPrivilegeRepositoryAdminActions `json:"actions"`
+	Format      string                                    `json:"format"`
+	Repository  string                                    `json:"repository"`
 }
 
 type PrivilegeRepositoryContentSelector struct {
-	Name            string   `json:"name"`
-	Description     string   `json:"description,omitempty"`
-	Actions         []string `json:"actions"`
-	Format          string   `json:"format"`
-	Repository      string   `json:"repository"`
-	ContentSelector string   `json:"contentSelector"`
+	Name            string                                              `json:"name"`
+	Description     string                                              `json:"description,omitempty"`
+	Actions         []SecurityPrivilegeRepositoryContentSelectorActions `json:"actions"`
+	Format          string                                              `json:"format"`
+	Repository      string                                              `json:"repository"`
+	ContentSelector string                                              `json:"contentSelector"`
 }
 
 type PrivilegeApplication struct {
-	Name        string   `json:"name"`
-	Description string   `json:"description,omitempty"`
-	Actions     []string `json:"actions"`
-	Domain      string   `json:"domain"`
+	Name        string                                `json:"name"`
+	Description string                                `json:"description,omitempty"`
+	Actions     []SecurityPrivilegeApplicationActions `json:"actions"`
+	Domain      string                                `json:"domain"`
 }
