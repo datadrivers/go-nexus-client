@@ -6,6 +6,8 @@
 
 Sonatype Nexus Golang Client
 
+Implemented and tested with Sonatype Nexus `3.43.0-01`.
+
 ## Development and testing
 
 **NOTE**: For testing Nexus Pro features, place the `license.lic` in `scripts/`.
