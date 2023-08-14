@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	bowerProxyAPIEndpoint =  repositoryBowerAPIEndpoint + "/proxy"
+	bowerProxyAPIEndpoint = repositoryBowerAPIEndpoint + "/proxy"
 )
 
 type RepositoryBowerProxyService struct {
