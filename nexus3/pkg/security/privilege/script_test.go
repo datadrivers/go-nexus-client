@@ -6,7 +6,6 @@ import (
 
 	"github.com/datadrivers/go-nexus-client/nexus3"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/security"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/security/privilege"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema"
@@ -35,28 +34,12 @@ func getTestPrivilegeScript(name string) *schema.Script {
 	}
 }
 
-func getScriptService() *nexus3.ScriptService {
-	return nexus3.NewScriptService(getTestClient())
-}
-
-func getUserService() *security.SecurityUserService {
-	return security.NewSecurityUserService(getTestClient())
-}
-
 func getTestClient() *client.Client {
 	if testClient != nil {
 		return testClient
 	}
 	return client.NewClient(getDefaultConfig())
 }
-
-// func getPrivilegeScriptService() *schemasecurity.PrivilegeScript {
-// 	return privilege.NewSecurityPrivilegeScriptService(getTestClient())
-// }
-
-// func getPrivilegeService() *schemasecurity.Privilege {
-// 	return privilege.NewSecurityPrivilegeService(getTestClient())
-// }
 
 func getTestService() *privilege.SecurityPrivilegeScriptService {
 	return privilege.NewSecurityPrivilegeScriptService(getTestClient())
@@ -66,7 +49,7 @@ func getSecurityPrivilegeService() *privilege.SecurityPrivilegeService {
 	return privilege.NewSecurityPrivilegeService(getTestClient())
 }
 
-func getTestScriptPrivilege(name string, description string, actions []string, scriptName string) *schemasecurity.PrivilegeScript {
+func getTestScriptPrivilege(name string, description string, actions []schemasecurity.SecurityPrivilegeScriptActions, scriptName string) *schemasecurity.PrivilegeScript {
 	return &schemasecurity.PrivilegeScript{
 		Name:        name,
 		Description: description,
@@ -81,8 +64,8 @@ func TestScriptPrivilegeSecurity(t *testing.T) {
 	testService := getTestService()
 	securityPrivilegeService := getSecurityPrivilegeService()
 	scriptService := nexus3.NewScriptService(getTestClient())
-	scriptPrivilegePre := getTestScriptPrivilege(privilegeScriptName, "pre description", []string{"BROWSE"}, scriptName)
-	scriptPrivilegePost := getTestScriptPrivilege(privilegeScriptName, "post description", []string{"BROWSE", "READ", "EDIT", "ADD", "DELETE", "RUN"}, scriptName)
+	scriptPrivilegePre := getTestScriptPrivilege(privilegeScriptName, "pre description", []schemasecurity.SecurityPrivilegeScriptActions{"BROWSE"}, scriptName)
+	scriptPrivilegePost := getTestScriptPrivilege(privilegeScriptName, "post description", []schemasecurity.SecurityPrivilegeScriptActions{"BROWSE", "READ", "EDIT", "ADD", "DELETE", "RUN"}, scriptName)
 
 	// Create a test script
 	err := scriptService.Create(getTestPrivilegeScript(scriptName))

@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func getTestPrivilegeApplication(name string, description string, actions []string, domain string) *schemasecurity.PrivilegeApplication {
+func getTestPrivilegeApplication(name string, description string, actions []schemasecurity.SecurityPrivilegeApplicationActions, domain string) *schemasecurity.PrivilegeApplication {
 	return &schemasecurity.PrivilegeApplication{
 		Name:        name,
 		Description: description,
@@ -25,7 +25,7 @@ func TestApplicationPrivilegeSecurity(t *testing.T) {
 	privilegeService := privilege.NewSecurityPrivilegeService(getTestClient())
 
 	// Create application-privilege object
-	applicationPrivilege := getTestPrivilegeApplication(PrivilegeApplicationName, "demo descrp", []string{"READ"}, "domain")
+	applicationPrivilege := getTestPrivilegeApplication(PrivilegeApplicationName, "demo descrp", []schemasecurity.SecurityPrivilegeApplicationActions{"READ"}, "domain")
 	err := testService.Create(*applicationPrivilege)
 	assert.Nil(t, err)
 
@@ -37,7 +37,7 @@ func TestApplicationPrivilegeSecurity(t *testing.T) {
 	assert.Equal(t, []string{"READ"}, applicationPrivilegeFetched.Actions)
 
 	// Update application-privilege object
-	applicationPrivilege = getTestPrivilegeApplication(PrivilegeApplicationName, "demo descrp updated", []string{"ADD", "READ", "DELETE", "ASSOCIATE"}, "domain")
+	applicationPrivilege = getTestPrivilegeApplication(PrivilegeApplicationName, "demo descrp updated", []schemasecurity.SecurityPrivilegeApplicationActions{"ADD", "READ", "DELETE", "ASSOCIATE"}, "domain")
 	err = testService.Update(PrivilegeApplicationName, *applicationPrivilege)
 	assert.Nil(t, err)
 	applicationPrivilegeFetched, err = privilegeService.Get(PrivilegeApplicationName)
