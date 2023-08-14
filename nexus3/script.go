@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -106,6 +107,18 @@ func (s *ScriptService) Delete(name string) error {
 
 func (s *ScriptService) Run(name string) error {
 	body, resp, err := s.Client.Post(fmt.Sprintf("%s/%s/run", scriptsAPIEndpoint, name), nil)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("%s", string(body))
+	}
+	return err
+}
+func (s *ScriptService) RunWithPayload(name, payload string) error {
+	r := strings.NewReader(payload)
+	body, resp, err := s.Client.Post(fmt.Sprintf("%s/%s/run", scriptsAPIEndpoint, name), r)
 	if err != nil {
 		return err
 	}
