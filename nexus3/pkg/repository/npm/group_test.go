@@ -46,7 +46,6 @@ func TestNpmGroupRepository(t *testing.T) {
 		repo.Group.MemberNames = append(repo.Group.MemberNames, testProxyRepo.Name)
 	}
 
-
 	err = service.Group.Create(repo)
 	assert.Nil(t, err)
 	generatedRepo, err := service.Group.Get(repo.Name)
