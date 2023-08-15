@@ -47,10 +47,9 @@ const (
 	ActionRun    = "RUN"
 	ActionEdit   = "EDIT"
 
-	SecurityPrivilegeApplicationActionBrowse SecurityPrivilegeApplicationActions = ActionBrowse
-	SecurityPrivilegeApplicationActionRead   SecurityPrivilegeApplicationActions = ActionRun
-	SecurityPrivilegeApplicationActionEdit   SecurityPrivilegeApplicationActions = ActionEdit
-	SecurityPrivilegeApplicationActionAdd    SecurityPrivilegeApplicationActions = ActionAdd
+	SecurityPrivilegeApplicationActionCreate SecurityPrivilegeApplicationActions = ActionCreate
+	SecurityPrivilegeApplicationActionRead   SecurityPrivilegeApplicationActions = ActionRead
+	SecurityPrivilegeApplicationActionUpdate SecurityPrivilegeApplicationActions = ActionUpdate
 	SecurityPrivilegeApplicationActionDelete SecurityPrivilegeApplicationActions = ActionDelete
 
 	SecurityPrivilegeRepositoryAdminBrowse SecurityPrivilegeRepositoryAdminActions = ActionBrowse
