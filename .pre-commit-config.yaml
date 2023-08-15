@@ -12,9 +12,14 @@ repos:
 -   repo: https://github.com/tekwizely/pre-commit-golang
     rev: v1.0.0-rc.1
     hooks:
-      - id: go-fmt
+      - id: go-fmt-repo
+        args:
+          - "-w"
+          - "-s"
       - id: go-mod-tidy
-      - id: go-imports
+      - id: go-imports-repo
+        args:
+          - "-w"
       # FIX ME: See https://github.com/datadrivers/go-nexus-client/issues/122
       # - id: go-vet
       # - id: golangci-lint-mod

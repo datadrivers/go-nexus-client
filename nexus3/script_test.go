@@ -64,12 +64,12 @@ func TestScriptList(t *testing.T) {
 	scripts, err := client.Script.List()
 	assert.Nil(t, err)
 	expectedScripts := []schema.Script{
-		schema.Script{
+		{
 			Name:    "helloWorld",
 			Content: "log.info('Hello, World!')",
 			Type:    "groovy",
 		},
-		schema.Script{
+		{
 			Name:    "HelloTest",
 			Content: "log.info('Hello, Test!')",
 			Type:    "groovy",
