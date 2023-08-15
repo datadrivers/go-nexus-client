@@ -1,10 +1,14 @@
 # Golang Nexus Client
 
 ![codeql workflow](https://github.com/datadrivers/go-nexus-client/actions/workflows/codeql-analysis.yml/badge.svg)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+[![Go Report Card](https://goreportcard.com/badge/github.com/datadrivers/go-nexus-client)](https://goreportcard.com/report/github.com/datadrivers/go-nexus-client)
 
 ## Introduction
 
 Sonatype Nexus Golang Client
+
+Implemented and tested with Sonatype Nexus `3.43.0-01`.
 
 ## Development and testing
 
