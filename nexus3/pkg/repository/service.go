@@ -12,7 +12,6 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/gitlfs"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/golang"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/helm"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/legacy"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/maven"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/npm"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/nuget"
@@ -47,7 +46,6 @@ type RepositoryService struct {
 	Raw       *raw.RepositoryRawService
 	RubyGems  *rubygems.RepositoryRubyGemsService
 	Yum       *yum.RepositoryYumService
-	Legacy    *legacy.RepositoryLegacyService
 }
 
 func NewRepositoryService(c *client.Client) *RepositoryService {
@@ -72,7 +70,6 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		Raw:       raw.NewRepositoryRawService(c),
 		RubyGems:  rubygems.NewRepositoryRubyGemsService(c),
 		Yum:       yum.NewRepositoryYumService(c),
-		Legacy:    legacy.NewRepositoryLegacyService(c),
 	}
 }
 
