@@ -8,7 +8,7 @@
 
 Sonatype Nexus Golang Client
 
-Implemented and tested with Sonatype Nexus `3.43.0-01`.
+Implemented and tested with Sonatype Nexus `3.61.0-02`.
 
 ## Development and testing
 

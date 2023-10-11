@@ -23,7 +23,6 @@ func TestSecurityRealmsActive(t *testing.T) {
 	assert.NotNil(t, activeRealms)
 	assert.Greater(t, len(activeRealms), 0)
 	assert.Contains(t, activeRealms, "NexusAuthenticatingRealm")
-	assert.Contains(t, activeRealms, "NexusAuthorizingRealm")
 }
 
 func TestSecurityRealmsAvailable(t *testing.T) {
