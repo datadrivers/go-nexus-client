@@ -20,8 +20,7 @@ jobs:
           NEXUS3_LICENSE_B64_ENCODED: ${{ secrets.NEXUS3_LICENSE_B64_ENCODED }}
           AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
         run: |
-          # Temporarily disabled due to expired license. See https://github.com/datadrivers/terraform-provider-nexus/issues/358
-          # echo "${NEXUS3_LICENSE_B64_ENCODED}" | base64 -d > scripts/license.lic
+          echo "${NEXUS3_LICENSE_B64_ENCODED}" | base64 -d > scripts/license.lic
           make start-services
 
           test -s scripts/license.lic || export SKIP_PRO_TESTS="true"
