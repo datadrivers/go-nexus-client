@@ -63,14 +63,14 @@ func TestNpmProxyRepository(t *testing.T) {
 
 	updatedRepo := repo
 	updatedRepo.Online = false
-	updatedRepo.RemoveQuarantined = true
+	updatedRepo.RemoveNonCataloged = false
 
 	err = service.Proxy.Update(repo.Name, updatedRepo)
 	assert.Nil(t, err)
 	generatedRepo, err = service.Proxy.Get(updatedRepo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, updatedRepo.Online, generatedRepo.Online)
-	assert.Equal(t, updatedRepo.Npm, generatedRepo.Npm)
+	assert.Equal(t, updatedRepo.RemoveNonCataloged, generatedRepo.RemoveNonCataloged)
 
 	service.Proxy.Delete(repo.Name)
 	assert.Nil(t, err)
