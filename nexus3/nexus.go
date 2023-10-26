@@ -3,7 +3,6 @@ package nexus3
 import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/blobstore"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/deprecated"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/readonly"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/security"
@@ -28,7 +27,6 @@ type NexusClient struct {
 	Script      *ScriptService
 	ReadOnly    *readonly.ReadOnlyService
 	MailConfig  *MailConfigService
-	Deprecated  *deprecated.DeprecatedService
 }
 
 // NewClient returns an instance of client that implements the Client interface
@@ -43,6 +41,5 @@ func NewClient(config client.Config) *NexusClient {
 		Script:      NewScriptService(client),
 		ReadOnly:    readonly.NewReadOnlyService(client),
 		MailConfig:  NewMailConfigService(client),
-		Deprecated:  deprecated.NewDeprecatedService(client),
 	}
 }
