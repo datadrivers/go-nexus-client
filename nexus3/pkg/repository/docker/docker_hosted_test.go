@@ -32,6 +32,7 @@ func getTestDockerHostedRepository(name string) repository.DockerHostedRepositor
 			V1Enabled:      false,
 			HTTPPort:       tools.GetIntPointer(8180),
 			HTTPSPort:      tools.GetIntPointer(8543),
+			Subdomain:		tools.GetStringPointer(name),
 		},
 	}
 }

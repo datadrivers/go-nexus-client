@@ -27,6 +27,7 @@ func getTestDockerGroupRepository(name string) repository.DockerGroupRepository 
 			V1Enabled:      false,
 			HTTPPort:       tools.GetIntPointer(8080),
 			HTTPSPort:      tools.GetIntPointer(8443),
+			Subdomain:		tools.GetStringPointer(name),
 		},
 	}
 }
