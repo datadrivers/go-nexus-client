@@ -40,7 +40,7 @@ func getTestDockerProxyRepository(name string) repository.DockerProxyRepository 
 			V1Enabled:      false,
 			HTTPPort:       tools.GetIntPointer(8280),
 			HTTPSPort:      tools.GetIntPointer(8643),
-			Subdomain:		tools.GetStringPointer(name),
+			Subdomain:      tools.GetStringPointer(name),
 		},
 		DockerProxy: repository.DockerProxy{
 			IndexType: repository.DockerProxyIndexTypeHub,
