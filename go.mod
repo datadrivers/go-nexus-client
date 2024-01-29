@@ -1,6 +1,6 @@
 module github.com/datadrivers/go-nexus-client
 
-go 1.21
+go 1.19
 
 require (
 	github.com/google/go-querystring v1.1.0
