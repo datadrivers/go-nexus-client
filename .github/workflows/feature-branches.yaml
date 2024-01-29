@@ -12,13 +12,14 @@ jobs:
       - name: Checkout source codes
         uses: actions/checkout@v4
       - name: Install Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go-version }}
       - name: Test client with nexus3 instance
         env:
           NEXUS3_LICENSE_B64_ENCODED: ${{ secrets.NEXUS3_LICENSE_B64_ENCODED }}
           AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+          GOMAXPROCS: "1"
         run: |
           echo "${NEXUS3_LICENSE_B64_ENCODED}" | base64 -d > scripts/license.lic
           make start-services
