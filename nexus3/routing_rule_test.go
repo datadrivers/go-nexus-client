@@ -12,7 +12,7 @@ func testRoutingRule(name string, mode schema.RoutingRuleMode) *schema.RoutingRu
 	return &schema.RoutingRule{
 		Name:        name,
 		Mode:        mode,
-		Description: fmt.Sprintf("Go client routing roule %s", name),
+		Description: fmt.Sprintf("Go client routing rule %s", name),
 		Matchers: []string{
 			"match1",
 		},
