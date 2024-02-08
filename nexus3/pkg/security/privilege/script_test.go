@@ -19,6 +19,7 @@ func getDefaultConfig() client.Config {
 		Password: tools.GetEnv("NEXUS_PASSWORD", "admin123").(string),
 		URL:      tools.GetEnv("NEXUS_URL", "http://127.0.0.1:8081").(string),
 		Username: tools.GetEnv("NEXUS_USRNAME", "admin").(string),
+		Timeout:  tools.GetEnv("NEXUS_TIMEOUT", 30).(int),
 	}
 }
 

@@ -30,7 +30,7 @@ func NewClient(config Config) *Client {
 		config:      config,
 		contentType: ContentTypeApplicationJSON,
 		httpClient: &http.Client{
-			Timeout: 30 * time.Second,
+			Timeout: time.Duration(config.Timeout) * time.Second,
 			Transport: &http.Transport{
 				Proxy: http.ProxyFromEnvironment,
 				TLSClientConfig: &tls.Config{
