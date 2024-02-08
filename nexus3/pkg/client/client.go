@@ -26,11 +26,17 @@ type Client struct {
 
 // NewClient returns an instance of client that implements the Client interface
 func NewClient(config Config) *Client {
+	// Set default timeout value if not provided
+	if config.Timeout == nil {
+		defaultTimeout := 30
+		config.Timeout = &defaultTimeout
+	}
+
 	return &Client{
 		config:      config,
 		contentType: ContentTypeApplicationJSON,
 		httpClient: &http.Client{
-			Timeout: time.Duration(config.Timeout) * time.Second,
+			Timeout: time.Duration(*config.Timeout) * time.Second,
 			Transport: &http.Transport{
 				Proxy: http.ProxyFromEnvironment,
 				TLSClientConfig: &tls.Config{

@@ -24,12 +24,13 @@ func getTestService() *BlobStoreService {
 }
 
 func getDefaultConfig() client.Config {
+	timeout := tools.GetEnv("NEXUS_TIMEOUT", 30).(int)
 	return client.Config{
 		Insecure: tools.GetEnv("NEXUS_INSECURE_SKIP_VERIFY", true).(bool),
 		Password: tools.GetEnv("NEXUS_PASSWORD", "admin123").(string),
 		URL:      tools.GetEnv("NEXUS_URL", "http://127.0.0.1:8081").(string),
 		Username: tools.GetEnv("NEXUS_USRNAME", "admin").(string),
-		Timeout:  tools.GetEnv("NEXUS_TIMEOUT", 30).(int),
+		Timeout:  &timeout,
 	}
 }
 
