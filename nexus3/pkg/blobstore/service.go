@@ -71,18 +71,24 @@ func deleteBlobstore(c *client.Client, name string) error {
 	return nil
 }
 
-func (s *BlobStoreService) GetQuotaStatus(name string) error {
+func (s *BlobStoreService) GetQuotaStatus(name string) (*blobstore.QuotaStatus, error) {
 	return getBlobstoreQuotaStatus(s.Client, name)
 }
 
-func getBlobstoreQuotaStatus(c *client.Client, name string) error {
-	body, resp, err := c.Delete(fmt.Sprintf("%s/%s", blobstoreAPIEndpoint, name))
+func getBlobstoreQuotaStatus(c *client.Client, name string) (*blobstore.QuotaStatus, error) {
+	body, resp, err := c.Get(fmt.Sprintf("%s/%s/%s", blobstoreAPIEndpoint, name, "quota-status"), nil)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	if resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("could not delete blobstore \"%s\": HTTP: %d, %s", name, resp.StatusCode, string(body))
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("could not get quotastatus for blobstore %s", name)
 	}
-	return nil
+
+	var quotaStatus blobstore.QuotaStatus
+	if err := json.Unmarshal(body, &quotaStatus); err != nil {
+		return nil, fmt.Errorf("could not unmarshal of blobstore quotastatus: %v", err)
+	}
+
+	return &quotaStatus, nil
 }
