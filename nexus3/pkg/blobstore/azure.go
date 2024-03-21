@@ -78,7 +78,7 @@ func (s *BlobStoreAzureService) Delete(name string) error {
 	return deleteBlobstore(s.Client, name)
 }
 
-func (s *BlobStoreAzureService) GetQuotaStatus(name string) error {
+func (s *BlobStoreAzureService) GetQuotaStatus(name string) (*blobstore.QuotaStatus, error) {
 	return getBlobstoreQuotaStatus(s.Client, name)
 }
 

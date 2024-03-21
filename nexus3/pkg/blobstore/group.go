@@ -78,6 +78,6 @@ func (s *BlobStoreGroupService) Delete(name string) error {
 	return deleteBlobstore(s.Client, name)
 }
 
-func (s *BlobStoreGroupService) GetQuotaStatus(name string) error {
+func (s *BlobStoreGroupService) GetQuotaStatus(name string) (*blobstore.QuotaStatus, error) {
 	return getBlobstoreQuotaStatus(s.Client, name)
 }
