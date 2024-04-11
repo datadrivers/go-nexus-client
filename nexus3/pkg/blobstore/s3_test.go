@@ -50,6 +50,23 @@ func TestBlobstoreS3(t *testing.T) {
 	assert.NotNil(t, s3BS.BucketConfiguration.Bucket)
 	assert.NotNil(t, s3BS.BucketConfiguration.BucketSecurity)
 
+	s3BS.SoftQuota = &blobstore.SoftQuota{
+		Type:  "spaceRemainingQuota",
+		Limit: 100000000,
+	}
+
+	err = service.S3.Update(s3BS.Name, s3BS)
+	assert.Nil(t, err)
+
+	updatedBlobstore, err := service.S3.Get(s3BS.Name)
+	assert.Nil(t, err)
+	assert.NotNil(t, updatedBlobstore)
+	assert.NotNil(t, updatedBlobstore.SoftQuota)
+
+	quotaStatus, err := getBlobstoreQuotaStatus(service.Client, updatedBlobstore.Name)
+	assert.Nil(t, err)
+	assert.Equal(t, updatedBlobstore.Name, quotaStatus.BlobStoreName)
+
 	err = service.S3.Delete(bs.Name)
 	assert.Nil(t, err)
 }

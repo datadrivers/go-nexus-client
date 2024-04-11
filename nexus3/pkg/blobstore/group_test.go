@@ -55,6 +55,10 @@ func TestBlobstoreGroup(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, updatedGroup)
 
+	quotaStatus, err := getBlobstoreQuotaStatus(service.Client, updatedGroup.Name)
+	assert.Nil(t, err)
+	assert.Equal(t, updatedGroup.Name, quotaStatus.BlobStoreName)
+
 	assert.NotNil(t, updatedGroup.SoftQuota)
 	assert.Equal(t, blobstore.GroupFillPolicyWriteToFirst, updatedGroup.FillPolicy)
 
