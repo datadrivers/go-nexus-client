@@ -77,6 +77,6 @@ func (s *BlobStoreS3Service) Delete(name string) error {
 	return deleteBlobstore(s.Client, name)
 }
 
-func (s *BlobStoreS3Service) GetQuotaStatus(name string) error {
+func (s *BlobStoreS3Service) GetQuotaStatus(name string) (*blobstore.QuotaStatus, error) {
 	return getBlobstoreQuotaStatus(s.Client, name)
 }

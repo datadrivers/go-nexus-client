@@ -41,6 +41,10 @@ func TestBlobstoreFile(t *testing.T) {
 	assert.NotNil(t, updatedBlobstore)
 	assert.NotNil(t, updatedBlobstore.SoftQuota)
 
+	quotaStatus, err := getBlobstoreQuotaStatus(service.Client, updatedBlobstore.Name)
+	assert.Nil(t, err)
+	assert.Equal(t, updatedBlobstore.Name, quotaStatus.BlobStoreName)
+
 	err = service.File.Delete(bs.Name)
 	assert.Nil(t, err)
 
