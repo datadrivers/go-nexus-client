@@ -36,7 +36,7 @@ type NpmProxyRepository struct {
 }
 
 type Npm struct {
-	// Remove Non-Cataloged Versions
+	// Remove Non-Cataloged Versions, removed since nexus 3.66.0
 	RemoveNonCataloged bool `json:"removeNonCataloged"`
 	// Remove Quarantined Versions
 	RemoveQuarantined bool `json:"removeQuarantined"`

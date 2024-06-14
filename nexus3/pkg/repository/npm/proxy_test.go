@@ -37,8 +37,8 @@ func getTestNpmProxyRepository(name string) repository.NpmProxyRepository {
 		},
 
 		Npm: &repository.Npm{
-			RemoveNonCataloged: true,
-			RemoveQuarantined:  false,
+			RemoveNonCataloged: false, // deprecated since nexus 3.66.0
+			RemoveQuarantined:  true,
 		},
 	}
 }
@@ -63,14 +63,14 @@ func TestNpmProxyRepository(t *testing.T) {
 
 	updatedRepo := repo
 	updatedRepo.Online = false
-	updatedRepo.RemoveNonCataloged = false
+	updatedRepo.RemoveQuarantined = false
 
 	err = service.Proxy.Update(repo.Name, updatedRepo)
 	assert.Nil(t, err)
 	generatedRepo, err = service.Proxy.Get(updatedRepo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, updatedRepo.Online, generatedRepo.Online)
-	assert.Equal(t, updatedRepo.RemoveNonCataloged, generatedRepo.RemoveNonCataloged)
+	assert.Equal(t, updatedRepo.RemoveQuarantined, generatedRepo.RemoveQuarantined)
 
 	service.Proxy.Delete(repo.Name)
 	assert.Nil(t, err)
