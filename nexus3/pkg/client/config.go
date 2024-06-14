@@ -6,4 +6,5 @@ type Config struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Insecure bool   `json:"insecure"`
-	Timeout  *int   `json:"timeout,omitempty"`}
+	Timeout  *int   `json:"timeout,omitempty"`
+}
