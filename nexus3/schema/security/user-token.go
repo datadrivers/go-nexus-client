@@ -4,4 +4,5 @@ package security
 type UserTokenConfiguration struct {
 	Enabled        bool `json:"enabled"`
 	ProtectContent bool `json:"protectContent"`
+	ExpirationDays int  `json:"expirationDays"`
 }
