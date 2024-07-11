@@ -8,7 +8,7 @@
 
 Sonatype Nexus Golang Client
 
-Implemented and tested with Sonatype Nexus `3.69.0-02` with `java11` and legacy DB `OrientDB`.
+Implemented and tested with Sonatype Nexus `3.70.1` with `java11` and legacy DB `OrientDB`.
 
 ## Development and testing
 
