@@ -16,7 +16,7 @@ const (
 	ContentTypeApplicationJSON = "application/json"
 	// ContentTypeTextPlain ...
 	ContentTypeTextPlain = "text/plain"
-	//
+	// BasePath ...
 	BasePath = "service/rest/"
 )
 
@@ -79,12 +79,12 @@ func (c *Client) ContentType() string {
 	return c.contentType
 }
 
-// ContentTypJSON configures the content type for future requests to be 'application/json'
+// ContentTypeJSON configures the content type for future requests to be 'application/json'
 func (c *Client) ContentTypeJSON() {
 	c.setContentType(ContentTypeApplicationJSON)
 }
 
-// ContentTypTestPlain configures the content typ for future requests to be 'test/plain'
+// ContentTypeTextPlain configures the content type for future requests to be 'test/plain'
 func (c *Client) ContentTypeTextPlain() {
 	c.setContentType(ContentTypeTextPlain)
 }
