@@ -2,10 +2,12 @@ package client
 
 import (
 	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -14,7 +16,7 @@ const (
 	ContentTypeApplicationJSON = "application/json"
 	// ContentTypeTextPlain ...
 	ContentTypeTextPlain = "text/plain"
-	//
+	// BasePath ...
 	BasePath = "service/rest/"
 )
 
@@ -32,6 +34,25 @@ func NewClient(config Config) *Client {
 		config.Timeout = &defaultTimeout
 	}
 
+	var caCertPool *x509.CertPool
+	if *config.RootCAPath != "" {
+		caCert, err := os.ReadFile(*config.RootCAPath)
+		// Backwards because we need to return a client and haven't got a logger
+		if err == nil {
+			caCertPool, err := x509.SystemCertPool()
+			if err != nil {
+				caCertPool = x509.NewCertPool()
+			}
+			caCertPool.AppendCertsFromPEM(caCert)
+		}
+	}
+
+	var cert tls.Certificate
+	if *config.ClientCertificatePath != "" && *config.ClientKeyPath != "" {
+		// Load client PEM mTLS certificate
+		cert, _ = tls.LoadX509KeyPair(*config.ClientCertificatePath, *config.ClientKeyPath)
+	}
+
 	return &Client{
 		config:      config,
 		contentType: ContentTypeApplicationJSON,
@@ -41,6 +62,8 @@ func NewClient(config Config) *Client {
 				Proxy: http.ProxyFromEnvironment,
 				TLSClientConfig: &tls.Config{
 					InsecureSkipVerify: config.Insecure,
+					RootCAs:            caCertPool,
+					Certificates:       []tls.Certificate{cert},
 				},
 			},
 		},
@@ -56,12 +79,12 @@ func (c *Client) ContentType() string {
 	return c.contentType
 }
 
-// ContentTypJSON configures the content type for future requests to be 'application/json'
+// ContentTypeJSON configures the content type for future requests to be 'application/json'
 func (c *Client) ContentTypeJSON() {
 	c.setContentType(ContentTypeApplicationJSON)
 }
 
-// ContentTypTestPlain configures the content typ for future requests to be 'test/plain'
+// ContentTypeTextPlain configures the content type for future requests to be 'test/plain'
 func (c *Client) ContentTypeTextPlain() {
 	c.setContentType(ContentTypeTextPlain)
 }
