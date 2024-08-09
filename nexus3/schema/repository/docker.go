@@ -66,6 +66,10 @@ type DockerProxy struct {
 	IndexType DockerProxyIndexType `json:"indexType"`
 	// Url of Docker Index to use
 	IndexURL *string `json:"indexUrl,omitempty"`
+	// CacheForeignLayers: Allow Nexus Repository Manager to download and cache foreign layers
+	CacheForeignLayers *bool `json:"cacheForeignLayers,omitempty"`
+	// ForeignLayerUrlWhitelist is a list of regular expressions used to identify URLs that are allowed for foreign layer requests
+	ForeignLayerUrlWhitelist []string `json:"foreignLayerUrlWhitelist"`
 }
 
 // DockerHostedStorage contains repository storage for hosted docker
