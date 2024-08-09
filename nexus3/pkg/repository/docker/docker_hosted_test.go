@@ -11,7 +11,7 @@ import (
 )
 
 func getTestDockerHostedRepository(name string) repository.DockerHostedRepository {
-	writePolicy := repository.StorageWritePolicyAllow
+	latestPolicy := false
 	return repository.DockerHostedRepository{
 		Name:   name,
 		Online: true,
@@ -19,10 +19,11 @@ func getTestDockerHostedRepository(name string) repository.DockerHostedRepositor
 		Cleanup: &repository.Cleanup{
 			PolicyNames: []string{"weekly-cleanup"},
 		},
-		Storage: repository.HostedStorage{
+		Storage: repository.DockerHostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 &writePolicy,
+			WritePolicy:                 repository.StorageWritePolicyAllowOnce,
+			LatestPolicy:                &latestPolicy,
 		},
 		Component: &repository.Component{
 			ProprietaryComponents: true,
@@ -37,7 +38,7 @@ func getTestDockerHostedRepository(name string) repository.DockerHostedRepositor
 }
 
 func getTestProDockerHostedRepository(name string) repository.DockerHostedRepository {
-	writePolicy := repository.StorageWritePolicyAllow
+	latestPolicy := true
 	return repository.DockerHostedRepository{
 		Name:   name,
 		Online: true,
@@ -45,10 +46,11 @@ func getTestProDockerHostedRepository(name string) repository.DockerHostedReposi
 		Cleanup: &repository.Cleanup{
 			PolicyNames: []string{"weekly-cleanup"},
 		},
-		Storage: repository.HostedStorage{
+		Storage: repository.DockerHostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 &writePolicy,
+			WritePolicy:                 repository.StorageWritePolicyAllowOnce,
+			LatestPolicy:                &latestPolicy,
 		},
 		Component: &repository.Component{
 			ProprietaryComponents: true,
