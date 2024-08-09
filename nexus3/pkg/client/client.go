@@ -35,7 +35,7 @@ func NewClient(config Config) *Client {
 	}
 
 	var caCertPool *x509.CertPool
-	if *config.RootCAPath != "" {
+	if config.RootCAPath != nil && *config.RootCAPath != "" {
 		caCert, err := os.ReadFile(*config.RootCAPath)
 		// Backwards because we need to return a client and haven't got a logger
 		if err == nil {
@@ -48,7 +48,8 @@ func NewClient(config Config) *Client {
 	}
 
 	var cert tls.Certificate
-	if *config.ClientCertificatePath != "" && *config.ClientKeyPath != "" {
+	if config.ClientCertificatePath != nil && *config.ClientCertificatePath != "" &&
+		config.ClientKeyPath != nil && *config.ClientKeyPath != "" {
 		// Load client PEM mTLS certificate
 		cert, _ = tls.LoadX509KeyPair(*config.ClientCertificatePath, *config.ClientKeyPath)
 	}
