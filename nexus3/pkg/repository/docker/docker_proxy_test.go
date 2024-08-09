@@ -48,6 +48,7 @@ func getTestDockerProxyRepository(name string) repository.DockerProxyRepository 
 }
 
 func getTestProDockerProxyRepository(name string) repository.DockerProxyRepository {
+	cacheForeignLayers := true
 	return repository.DockerProxyRepository{
 		Name:   name,
 		Online: true,
@@ -80,7 +81,9 @@ func getTestProDockerProxyRepository(name string) repository.DockerProxyReposito
 			Subdomain:      tools.GetStringPointer(name),
 		},
 		DockerProxy: repository.DockerProxy{
-			IndexType: repository.DockerProxyIndexTypeHub,
+			IndexType:                repository.DockerProxyIndexTypeHub,
+			CacheForeignLayers:       &cacheForeignLayers,
+			ForeignLayerUrlWhitelist: []string{".*\\.docker\\.io"},
 		},
 	}
 }
