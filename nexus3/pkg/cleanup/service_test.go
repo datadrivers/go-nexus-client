@@ -49,14 +49,14 @@ func TestCreateCleanupPolicy(t *testing.T) {
 		Notes:              tools.GetStringPointer("Test"),
 		CriteriaAssetRegex: tools.GetStringPointer("*"),
 		Name:               "Test",
-		Format:             "go",
+		Format:             cleanuppolicies.FormatGo,
 	}
 
 	policy2 := &cleanuppolicies.CleanupPolicy{
 		Notes:              tools.GetStringPointer("Test2"),
 		CriteriaAssetRegex: tools.GetStringPointer("*"),
 		Name:               "Test2",
-		Format:             "go",
+		Format:             cleanuppolicies.FormatApt,
 	}
 
 	err := s.Create(policy)
