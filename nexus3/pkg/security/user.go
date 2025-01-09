@@ -126,3 +126,21 @@ func (s *SecurityUserService) ChangePassword(id string, password string) error {
 	}
 	return nil
 }
+
+func (s *SecurityUserService) List() ([]security.User, error) {
+	body, resp, err := s.Client.Get(securityUsersAPIEndpoint, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("%s", string(body))
+	}
+
+	users, err := jsonUnmarshalUsers(body)
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
