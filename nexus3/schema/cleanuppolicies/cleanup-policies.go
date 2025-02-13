@@ -22,6 +22,7 @@ const (
 	RepositoryFormatRubyGems  RepositoryFormat = "rubygems"
 	RepositoryFormatTerraform RepositoryFormat = "terraform"
 	RepositoryFormatYum       RepositoryFormat = "yum"
+	RepositoryFormatGitLfs    RepositoryFormat = "gitlfs"
 )
 
 const (
