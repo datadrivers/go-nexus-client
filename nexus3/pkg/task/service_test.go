@@ -1,12 +1,16 @@
 package task
 
 import (
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/task"
 	"testing"
+	"time"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
 	"github.com/stretchr/testify/assert"
 )
+
+const dummyTask = "dummy"
 
 var (
 	testClient *client.Client = nil
@@ -22,14 +26,6 @@ func getTestClient() *client.Client {
 func getTestService() *TaskService {
 	return NewTaskService(getTestClient())
 }
-
-//func getTestTask(name string) *task.Task {
-//	return &task.Task{
-//		Name:         name,
-//		Type:         "tags.cleanup",
-//		CurrentState: "currentState",
-//	}
-//}
 
 func getDefaultConfig() client.Config {
 	timeout := tools.GetEnv("NEXUS_TIMEOUT", 30).(int)
@@ -69,22 +65,137 @@ func TestFreezeAndReleaseTaskState(t *testing.T) {
 		assert.NotEmpty(t, task.Type)
 		assert.NotEmpty(t, task.CurrentState)
 	}
+}
 
-	if len(tasks) > 0 {
-		err := s.RunTask(tasks[0].ID)
-		if err != nil {
-			assert.Failf(t, "fail to run task", err.Error())
-			return
-		}
-		task, err := s.GetTask(tasks[0].ID)
-		if err != nil {
-			assert.Failf(t, "fail to get task", err.Error())
-			return
-		}
-		assert.NotEmpty(t, task.LastRunResult)
-		err = s.StopTask(tasks[0].ID)
-		if err != nil {
-			assert.Failf(t, "fail to stop task", err.Error())
-		}
+func TestTaskService_CreateTask(t *testing.T) {
+	if tools.GetEnv("SKIP_PRO_TESTS", "false") == "true" {
+		t.Skip("Skipping Nexus Pro tests")
 	}
+	s := getTestService()
+	newTask := getTestTask()
+	createdTask, err := s.CreateTask(newTask)
+	if err != nil {
+		assert.Failf(t, "fail to create task", err.Error())
+		return
+	}
+	assert.NotNil(t, createdTask)
+}
+
+func getTestTask() *task.TaskCreateStruct {
+	newTask := &task.TaskCreateStruct{
+		Name:                  "test-task",
+		Type:                  "tags.cleanup",
+		Enabled:               true,
+		AlertEmail:            "abc@acb.com",
+		NotificationCondition: "FAILURE",
+		Frequency: task.FrequencyXO{
+			Schedule:       "manual",
+			StartDate:      int(time.Now().Unix()),
+			TimeZoneOffset: "-08:00",
+			CronExpression: "string",
+		},
+		Properties: map[string]interface{}{},
+	}
+	return newTask
+}
+
+func TestTaskService_UpdateTask(t *testing.T) {
+	if tools.GetEnv("SKIP_PRO_TESTS", "false") == "true" {
+		t.Skip("Skipping Nexus Pro tests")
+	}
+	s := getTestService()
+	newTask := getTestTask()
+	createdTask, err := s.CreateTask(newTask)
+	if err != nil {
+		assert.Failf(t, "fail to create task", err.Error())
+		return
+	}
+	assert.NotNil(t, createdTask)
+	newTask.Type = ""
+	newTask.Name = "test-task-updated"
+	err = s.UpdateTask(createdTask.ID, newTask)
+	if err != nil {
+		assert.Failf(t, "fail to update task", err.Error())
+		return
+	}
+	updatedTask, err := s.GetTask(createdTask.ID)
+	if err != nil {
+		assert.Failf(t, "fail to get task", err.Error())
+		return
+	}
+	assert.NotNil(t, updatedTask)
+	assert.Equal(t, newTask.Name, updatedTask.Name, "newTask.Name should be equal to updatedTask.Name")
+
+	err = s.UpdateTask(dummyTask, newTask)
+	assert.NotNil(t, err)
+}
+
+func TestTaskService_DeleteTaskTask(t *testing.T) {
+	if tools.GetEnv("SKIP_PRO_TESTS", "false") == "true" {
+		t.Skip("Skipping Nexus Pro tests")
+	}
+	s := getTestService()
+	newTask := getTestTask()
+	createdTask, err := s.CreateTask(newTask)
+	if err != nil {
+		assert.Failf(t, "fail to create task", err.Error())
+		return
+	}
+	assert.NotNil(t, createdTask)
+	err = s.DeleteTask(createdTask.ID)
+	removedTask, err := s.GetTask(createdTask.ID)
+	if err != nil {
+		assert.Failf(t, "fail to update task", err.Error())
+		return
+	}
+	assert.Nil(t, removedTask)
+	err = s.DeleteTask(dummyTask)
+	assert.NotNil(t, err)
+}
+
+func TestTaskService_RunTask(t *testing.T) {
+	if tools.GetEnv("SKIP_PRO_TESTS", "false") == "true" {
+		t.Skip("Skipping Nexus Pro tests")
+	}
+	s := getTestService()
+	newTask := getTestTask()
+	createdTask, err := s.CreateTask(newTask)
+	if err != nil {
+		assert.Failf(t, "fail to create task", err.Error())
+		return
+	}
+	assert.NotNil(t, createdTask)
+	err = s.RunTask(createdTask.ID)
+	if err != nil {
+		assert.Failf(t, "fail to run task", err.Error())
+		return
+	}
+	err = s.RunTask(dummyTask)
+	assert.NotNil(t, err)
+}
+
+func TestTaskService_StopTask(t *testing.T) {
+	if tools.GetEnv("SKIP_PRO_TESTS", "false") == "true" {
+		t.Skip("Skipping Nexus Pro tests")
+	}
+	s := getTestService()
+	newTask := getTestTask()
+	createdTask, err := s.CreateTask(newTask)
+	if err != nil {
+		assert.Failf(t, "fail to create task", err.Error())
+		return
+	}
+	assert.NotNil(t, createdTask)
+	err = s.RunTask(createdTask.ID)
+	if err != nil {
+		assert.Failf(t, "fail to run task", err.Error())
+		return
+	}
+	err = s.StopTask(createdTask.ID)
+	if err != nil {
+		assert.Failf(t, "fail to stop task", err.Error())
+		return
+	}
+	err = s.StopTask(dummyTask)
+	assert.NotNil(t, err)
 }
