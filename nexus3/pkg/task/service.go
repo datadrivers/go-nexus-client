@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema"
 	"net/http"
 	"net/url"
@@ -97,17 +98,25 @@ func (s *TaskService) StopTask(id string) error {
 	}
 }
 
-func (s *TaskService) CreateTask(id string) error {
-	body, resp, err := s.Client.Post(taskAPIEndpoint, nil)
+func (s *TaskService) CreateTask(newTask *task.Task) (*task.Task, error) {
+	ioReader, err := tools.JsonMarshalInterfaceToIOReader(newTask)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	switch resp.StatusCode {
-	case http.StatusNoContent:
-		return nil
-	case http.StatusConflict:
-		return ErrTaskNotRunning
-	default:
-		return fmt.Errorf("could not stop task '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
+
+	body, resp, err := s.Client.Post(taskAPIEndpoint, ioReader)
+	if err != nil {
+		return nil, err
 	}
+
+	if resp.StatusCode != http.StatusCreated {
+		return nil, fmt.Errorf("could not create task: HTTP: %d, %s", resp.StatusCode, string(body))
+	}
+
+	var createdTask task.Task
+	if err := json.Unmarshal(body, &createdTask); err != nil {
+		return nil, fmt.Errorf("could not unmarshal created task: %v", err)
+	}
+
+	return &createdTask, nil
 }

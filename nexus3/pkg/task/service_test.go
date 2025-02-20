@@ -1,6 +1,7 @@
 package task
 
 import (
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/task"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
@@ -87,4 +88,26 @@ func TestFreezeAndReleaseTaskState(t *testing.T) {
 			assert.Failf(t, "fail to stop task", err.Error())
 		}
 	}
+}
+
+func TestCreateTask(t *testing.T) {
+	if tools.GetEnv("SKIP_PRO_TESTS", "false") == "true" {
+		t.Skip("Skipping Nexus Pro tests")
+	}
+	s := getTestService()
+
+	newTask := &task.Task{
+		Name: "test-task",
+		Type: "tags.cleanup",
+	}
+
+	createdTask, err := s.CreateTask(newTask)
+	if err != nil {
+		assert.Failf(t, "fail to create task", err.Error())
+		return
+	}
+
+	assert.NotNil(t, createdTask)
+	assert.Equal(t, newTask.Name, createdTask.Name)
+	assert.Equal(t, newTask.Type, createdTask.Type)
 }
