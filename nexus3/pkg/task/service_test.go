@@ -82,7 +82,7 @@ func TestFreezeAndReleaseTaskState(t *testing.T) {
 			assert.Failf(t, "fail to get task", err.Error())
 			return
 		}
-		assert.NotEmpty(t, task.LastRunResult)
+		assert.NotEmpty(t, task.LastRun)
 		err = s.StopTask(tasks[0].ID)
 		if err != nil {
 			assert.Failf(t, "fail to stop task", err.Error())
@@ -96,7 +96,7 @@ func TestCreateTask(t *testing.T) {
 	}
 	s := getTestService()
 
-	newTask := &task.Task{
+	newTask := &task.TaskCreateStruct{
 		Name: "test-task",
 		Type: "tags.cleanup",
 	}

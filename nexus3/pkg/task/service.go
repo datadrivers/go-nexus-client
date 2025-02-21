@@ -98,11 +98,15 @@ func (s *TaskService) StopTask(id string) error {
 	}
 }
 
-func (s *TaskService) CreateTask(newTask *task.Task) (*task.Task, error) {
+func (s *TaskService) CreateTask(newTask *task.TaskCreateStruct) (*task.Task, error) {
 	ioReader, err := tools.JsonMarshalInterfaceToIOReader(newTask)
 	if err != nil {
 		return nil, err
 	}
+	//buf := new(bytes.Buffer)
+	//buf.ReadFrom(ioReader)
+	//log.Printf("Creating task:::::::::::: \n%v\n", newTask)
+	//log.Printf("IOREADER task:::::::::::: \n%v\n", buf.String())
 
 	body, resp, err := s.Client.Post(taskAPIEndpoint, ioReader)
 	if err != nil {
@@ -119,4 +123,34 @@ func (s *TaskService) CreateTask(newTask *task.Task) (*task.Task, error) {
 	}
 
 	return &createdTask, nil
+}
+
+func (s *TaskService) UpdateTask(id string, updatedTask *task.TaskCreateStruct) error {
+	ioReader, err := tools.JsonMarshalInterfaceToIOReader(updatedTask)
+	if err != nil {
+		return err
+	}
+
+	body, resp, err := s.Client.Put(fmt.Sprintf("%s/%s", taskAPIEndpoint, id), ioReader)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusNoContent {
+		return fmt.Errorf("could not update task '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
+	}
+	return nil
+}
+
+func (s *TaskService) DeleteTask(id string) error {
+	body, resp, err := s.Client.Delete(fmt.Sprintf("%s/%s", taskAPIEndpoint, id))
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusNoContent {
+		return fmt.Errorf("could not delete task '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
+	}
+
+	return nil
 }
