@@ -103,11 +103,6 @@ func (s *TaskService) CreateTask(newTask *task.TaskCreateStruct) (*task.Task, er
 	if err != nil {
 		return nil, err
 	}
-	//buf := new(bytes.Buffer)
-	//buf.ReadFrom(ioReader)
-	//log.Printf("Creating task:::::::::::: \n%v\n", newTask)
-	//log.Printf("IOREADER task:::::::::::: \n%v\n", buf.String())
-
 	body, resp, err := s.Client.Post(taskAPIEndpoint, ioReader)
 	if err != nil {
 		return nil, err
