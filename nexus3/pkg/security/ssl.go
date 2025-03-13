@@ -123,6 +123,6 @@ func NewCertificateRequest(proxyUrl string) (*security.CertificateRequest, error
 			return nil, err
 		}
 	}
-	request := &security.CertificateRequest{data.Hostname(), port}
+	request := &security.CertificateRequest{Host: data.Hostname(), Port: port}
 	return request, nil
 }
