@@ -64,6 +64,8 @@ func (s *SecurityUserService) Get(id string, source *string) (*security.User, er
 		params.Add("source", *source)
 	}
 
+	baseURL.RawQuery = params.Encode()
+
 	body, resp, err := s.Client.Get(baseURL.String(), nil)
 	if err != nil {
 		return nil, err
