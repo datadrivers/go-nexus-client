@@ -95,7 +95,7 @@ func TestUserDeleteCurrentlySignedInUser(t *testing.T) {
 func TestListUsers(t *testing.T) {
 	service := getTestService()
 
-	users, err := service.User.List()
+	users, err := service.User.List(nil)
 	assert.Nil(t, err)
 	// There are at least 2 users in a fresh Nexus installation
 	assert.Equal(t, 2, len(users))
