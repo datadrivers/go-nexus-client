@@ -51,8 +51,13 @@ func (s *SecurityUserService) Create(user security.User) error {
 	return nil
 }
 
-func (s *SecurityUserService) Get(id string) (*security.User, error) {
-	body, resp, err := s.Client.Get(fmt.Sprintf("%s?userId=%s", securityUsersAPIEndpoint, id), nil)
+func (s *SecurityUserService) Get(id string, source *string) (*security.User, error) {
+	endpoint := fmt.Sprintf("%s?userId=%s", securityUsersAPIEndpoint, id)
+	if source != nil {
+		endpoint = fmt.Sprintf("%s&source=%s", endpoint, *source)
+	}
+
+	body, resp, err := s.Client.Get(endpoint, nil)
 	if err != nil {
 		return nil, err
 	}
