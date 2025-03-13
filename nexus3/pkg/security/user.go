@@ -127,8 +127,13 @@ func (s *SecurityUserService) ChangePassword(id string, password string) error {
 	return nil
 }
 
-func (s *SecurityUserService) List() ([]security.User, error) {
-	body, resp, err := s.Client.Get(securityUsersAPIEndpoint, nil)
+func (s *SecurityUserService) List(source *string) ([]security.User, error) {
+	url := securityUsersAPIEndpoint
+	if source != nil {
+		url = fmt.Sprintf("%s?source=%s", securityUsersAPIEndpoint, *source)
+	}
+
+	body, resp, err := s.Client.Get(url, nil)
 	if err != nil {
 		return nil, err
 	}
