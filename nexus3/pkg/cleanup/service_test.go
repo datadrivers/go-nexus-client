@@ -43,6 +43,10 @@ func TestNewCleanupService(t *testing.T) {
 }
 
 func TestCreateCleanupPolicy(t *testing.T) {
+	if tools.GetEnv("SKIP_PRO_TESTS", "false") == "true" {
+		t.Skip("Skipping Nexus Pro tests")
+	}
+
 	s := getTestService()
 
 	policy := &cleanuppolicies.CleanupPolicy{
