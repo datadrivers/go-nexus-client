@@ -37,7 +37,7 @@ func (s *RepositoryService[R]) CreateContext(ctx context.Context, repo R) error 
 		return err
 	}
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
-		return fmt.Errorf("could not create repository %q: HTTP: %d, %s", repo, resp.StatusCode, string(body))
+		return fmt.Errorf("could not create repository %v: HTTP: %d, %s", repo, resp.StatusCode, string(body))
 	}
 	return nil
 }
