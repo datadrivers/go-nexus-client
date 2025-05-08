@@ -2,10 +2,12 @@ package nexus3
 
 import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/blobstore"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/cleanup"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/readonly"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/security"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/task"
 )
 
 const (
@@ -27,6 +29,8 @@ type NexusClient struct {
 	Script      *ScriptService
 	ReadOnly    *readonly.ReadOnlyService
 	MailConfig  *MailConfigService
+	Task        *task.TaskService
+	Cleanup     *cleanup.CleanupPolicyService
 }
 
 // NewClient returns an instance of client that implements the Client interface
@@ -35,11 +39,13 @@ func NewClient(config client.Config) *NexusClient {
 	return &NexusClient{
 		client:      client,
 		BlobStore:   blobstore.NewBlobStoreService(client),
+		Cleanup:     cleanup.NewCleanupPolicyService(client),
 		Repository:  repository.NewRepositoryService(client),
 		RoutingRule: NewRoutingRuleService(client),
 		Security:    security.NewSecurityService(client),
 		Script:      NewScriptService(client),
 		ReadOnly:    readonly.NewReadOnlyService(client),
 		MailConfig:  NewMailConfigService(client),
+		Task:        task.NewTaskService(client),
 	}
 }
