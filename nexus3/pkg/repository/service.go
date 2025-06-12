@@ -4,6 +4,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/apt"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/bower"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/cargo"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/cocoapods"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/common"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/conan"
@@ -30,6 +31,7 @@ type RepositoryService struct {
 	// API Services
 	Apt       *apt.RepositoryAptService
 	Bower     *bower.RepositoryBowerService
+	Cargo     *cargo.RepositoryCargoService
 	Cocoapods *cocoapods.RepositoryCocoapodsService
 	Conan     *conan.RepositoryConanService
 	Conda     *conda.RepositoryCondaService
@@ -54,6 +56,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 
 		Apt:       apt.NewRepositoryAptService(c),
 		Bower:     bower.NewRepositoryBowerService(c),
+		Cargo:     cargo.NewRepositoryCargoService(c),
 		Cocoapods: cocoapods.NewRepositoryCocoapodsService(c),
 		Conan:     conan.NewRepositoryConanService(c),
 		Conda:     conda.NewRepositoryCondaService(c),

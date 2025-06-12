@@ -51,7 +51,7 @@ func TestCreateCleanupPolicy(t *testing.T) {
 
 	policy := &cleanuppolicies.CleanupPolicy{
 		Notes:              tools.GetStringPointer("Test"),
-		CriteriaAssetRegex: tools.GetStringPointer("*"),
+		CriteriaAssetRegex: tools.GetStringPointer("/*"),
 		Name:               "Test",
 		Format:             cleanuppolicies.RepositoryFormatGo,
 	}

@@ -3,10 +3,15 @@ package conan
 import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/common"
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
 )
 
 const (
 	conanAPIEndpoint = common.RepositoryAPIEndpoint + "/conan"
+)
+
+type (
+	RepositoryConanProxyService = common.RepositoryService[repository.ConanProxyRepository]
 )
 
 type RepositoryConanService struct {
@@ -21,4 +26,8 @@ func NewRepositoryConanService(c *client.Client) *RepositoryConanService {
 
 		Proxy: NewRepositoryConanProxyService(c),
 	}
+}
+
+func NewRepositoryConanProxyService(c *client.Client) *RepositoryConanProxyService {
+	return common.NewRepositoryService[repository.ConanProxyRepository](conanAPIEndpoint+"/proxy", c)
 }

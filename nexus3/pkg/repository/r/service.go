@@ -3,10 +3,17 @@ package r
 import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/common"
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
 )
 
 const (
 	rAPIEndpoint = common.RepositoryAPIEndpoint + "/r"
+)
+
+type (
+	RepositoryRGroupService  = common.RepositoryService[repository.RGroupRepository]
+	RepositoryRHostedService = common.RepositoryService[repository.RHostedRepository]
+	RepositoryRProxyService  = common.RepositoryService[repository.RProxyRepository]
 )
 
 type RepositoryRService struct {
@@ -25,4 +32,16 @@ func NewRepositoryRService(c *client.Client) *RepositoryRService {
 		Hosted: NewRepositoryRHostedService(c),
 		Proxy:  NewRepositoryRProxyService(c),
 	}
+}
+
+func NewRepositoryRGroupService(c *client.Client) *RepositoryRGroupService {
+	return common.NewRepositoryService[repository.RGroupRepository](rAPIEndpoint+"/group", c)
+}
+
+func NewRepositoryRHostedService(c *client.Client) *RepositoryRHostedService {
+	return common.NewRepositoryService[repository.RHostedRepository](rAPIEndpoint+"/hosted", c)
+}
+
+func NewRepositoryRProxyService(c *client.Client) *RepositoryRProxyService {
+	return common.NewRepositoryService[repository.RProxyRepository](rAPIEndpoint+"/proxy", c)
 }
