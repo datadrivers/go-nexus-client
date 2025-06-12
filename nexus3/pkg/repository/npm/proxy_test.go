@@ -21,6 +21,10 @@ func getTestNpmProxyRepository(name string) repository.NpmProxyRepository {
 				Timeout:       tools.GetIntPointer(20),
 				UseTrustStore: tools.GetBoolPointer(true),
 			},
+			Authentication: &repository.HTTPClientAuthentication{
+				Type:        repository.HTTPClientAuthenticationTypeBearerToken,
+				BearerToken: "test-token",
+			},
 		},
 		NegativeCache: repository.NegativeCache{
 			Enabled: true,
