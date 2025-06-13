@@ -1,6 +1,7 @@
 package common
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -22,11 +23,16 @@ func NewRepositoryService[R any](ep string, c *client.Client) *RepositoryService
 }
 
 func (s *RepositoryService[R]) Create(repo R) error {
+	return s.CreateContext(context.Background(), repo)
+}
+
+func (s *RepositoryService[R]) CreateContext(ctx context.Context, repo R) error {
+
 	data, err := tools.JsonMarshalInterfaceToIOReader(repo)
 	if err != nil {
 		return err
 	}
-	body, resp, err := s.client.Post(s.endpoint, data)
+	body, resp, err := s.client.PostContext(ctx, s.endpoint, data)
 	if err != nil {
 		return err
 	}
@@ -37,8 +43,12 @@ func (s *RepositoryService[R]) Create(repo R) error {
 }
 
 func (s *RepositoryService[R]) Get(id string) (*R, error) {
+	return s.GetContext(context.Background(), id)
+}
+
+func (s *RepositoryService[R]) GetContext(ctx context.Context, id string) (*R, error) {
 	repo := new(R)
-	body, resp, err := s.client.Get(fmt.Sprintf("%s/%s", s.endpoint, id), nil)
+	body, resp, err := s.client.GetContext(ctx, fmt.Sprintf("%s/%s", s.endpoint, id), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -52,11 +62,15 @@ func (s *RepositoryService[R]) Get(id string) (*R, error) {
 }
 
 func (s *RepositoryService[R]) Update(id string, repo R) error {
+	return s.UpdateContext(context.Background(), id, repo)
+}
+
+func (s *RepositoryService[R]) UpdateContext(ctx context.Context, id string, repo R) error {
 	data, err := tools.JsonMarshalInterfaceToIOReader(repo)
 	if err != nil {
 		return err
 	}
-	body, resp, err := s.client.Put(fmt.Sprintf("%s/%s", s.endpoint, id), data)
+	body, resp, err := s.client.PutContext(ctx, fmt.Sprintf("%s/%s", s.endpoint, id), data)
 	if err != nil {
 		return err
 	}
@@ -67,5 +81,9 @@ func (s *RepositoryService[R]) Update(id string, repo R) error {
 }
 
 func (s *RepositoryService[R]) Delete(id string) error {
-	return DeleteRepository(s.client, id)
+	return s.DeleteContext(context.Background(), id)
+}
+
+func (s *RepositoryService[R]) DeleteContext(ctx context.Context, id string) error {
+	return DeleteRepositoryContext(ctx, s.client, id)
 }
