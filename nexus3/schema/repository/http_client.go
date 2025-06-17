@@ -1,8 +1,9 @@
 package repository
 
 const (
-	HTTPClientAuthenticationTypeUsername HTTPClientAuthenticationType = "username"
-	HTTPClientAuthenticationTypeNtlm     HTTPClientAuthenticationType = "ntlm"
+	HTTPClientAuthenticationTypeUsername    HTTPClientAuthenticationType = "username"
+	HTTPClientAuthenticationTypeNtlm        HTTPClientAuthenticationType = "ntlm"
+	HTTPClientAuthenticationTypeBearerToken HTTPClientAuthenticationType = "bearerToken"
 )
 
 // What type of artifacts does this repository store?
@@ -45,20 +46,22 @@ type HTTPClientConnection struct {
 
 // HTTPClientAuthentication ...
 type HTTPClientAuthentication struct {
-	NTLMDomain string                       `json:"ntlmDomain,omitempty"`
-	NTLMHost   string                       `json:"ntlmHost,omitempty"`
-	Password   string                       `json:"password,omitempty"`
-	Type       HTTPClientAuthenticationType `json:"type"`
-	Username   string                       `json:"username,omitempty"`
+	NTLMDomain  string                       `json:"ntlmDomain,omitempty"`
+	NTLMHost    string                       `json:"ntlmHost,omitempty"`
+	Password    string                       `json:"password,omitempty"`
+	Type        HTTPClientAuthenticationType `json:"type"`
+	Username    string                       `json:"username,omitempty"`
+	BearerToken string                       `json:"bearerToken,omitempty"`
 }
 
 // HTTPClientAuthenticationWithPreemptive ...
 type HTTPClientAuthenticationWithPreemptive struct {
-	NTLMDomain string                       `json:"ntlmDomain,omitempty"`
-	NTLMHost   string                       `json:"ntlmHost,omitempty"`
-	Password   string                       `json:"password,omitempty"`
-	Type       HTTPClientAuthenticationType `json:"type"`
-	Username   string                       `json:"username,omitempty"`
+	NTLMDomain  string                       `json:"ntlmDomain,omitempty"`
+	NTLMHost    string                       `json:"ntlmHost,omitempty"`
+	Password    string                       `json:"password,omitempty"`
+	Type        HTTPClientAuthenticationType `json:"type"`
+	Username    string                       `json:"username,omitempty"`
+	BearerToken string                       `json:"bearerToken,omitempty"`
 	// Whether to use pre-emptive authentication. Use with caution. Defaults to false.
 	Preemptive *bool `json:"preemptive,omitempty"`
 }

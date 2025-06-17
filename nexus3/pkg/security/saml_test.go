@@ -22,16 +22,23 @@ func TestSAML(t *testing.T) {
 	dat, err := ioutil.ReadFile("./testfiles/saml-testconfig.xml")
 	assert.Nil(t, err)
 
+	validateAssertionSignature := false
+	validateResponseSignature := false
+	firstNameAttribute := "firstName2"
+	lastNameAttribute := "lastName2"
+	emailAttribute := "email2"
+	groupsAttribute := "groups2"
+
 	saml := security.SAML{
 		IdpMetadata:                string(dat),
 		EntityId:                   "http://localhost:8081/service/rest/v1/security/saml/metadata",
-		ValidateAssertionSignature: false,
-		ValidateResponseSignature:  false,
+		ValidateAssertionSignature: &validateAssertionSignature,
+		ValidateResponseSignature:  &validateResponseSignature,
 		UsernameAttribute:          "username2",
-		FirstNameAttribute:         "firstName2",
-		LastNameAttribute:          "lastName2",
-		EmailAttribute:             "email2",
-		GroupsAttribute:            "groups2",
+		FirstNameAttribute:         &firstNameAttribute,
+		LastNameAttribute:          &lastNameAttribute,
+		EmailAttribute:             &emailAttribute,
+		GroupsAttribute:            &groupsAttribute,
 	}
 	err = service.SAML.Apply(saml)
 	assert.Nil(t, err)
