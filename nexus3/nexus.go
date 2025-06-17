@@ -7,6 +7,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/readonly"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/security"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/task"
 )
 
 const (
@@ -27,6 +28,7 @@ type NexusClient struct {
 	CleanupPolicy *cleanup.CleanupPolicyService
 	Security      *security.SecurityService
 	Script        *ScriptService
+	Task          *task.TaskService
 	ReadOnly      *readonly.ReadOnlyService
 	MailConfig    *MailConfigService
 }
@@ -42,6 +44,7 @@ func NewClient(config client.Config) *NexusClient {
 		CleanupPolicy: cleanup.NewCleanupPolicyService(client),
 		Security:      security.NewSecurityService(client),
 		Script:        NewScriptService(client),
+		Task:          task.NewTaskService(client),
 		ReadOnly:      readonly.NewReadOnlyService(client),
 		MailConfig:    NewMailConfigService(client),
 	}

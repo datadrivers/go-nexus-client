@@ -3,11 +3,10 @@ package cleanup
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
-
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/cleanuppolicies"
+	"net/http"
 )
 
 const (
@@ -20,21 +19,24 @@ func NewCleanupPolicyService(c *client.Client) *CleanupPolicyService {
 	return &CleanupPolicyService{Client: c}
 }
 
-func (s *CleanupPolicyService) Create(policy *cleanuppolicies.CleanupPolicy) error {
+func (s *CleanupPolicyService) Create(policy *cleanuppolicies.CleanupPolicy) (*cleanuppolicies.CleanupPolicy, error) {
 	data, err := tools.JsonMarshalInterfaceToIOReader(policy)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	body, resp, err := s.Client.Post(cleanupAPIEndpoint, data)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
-		return fmt.Errorf("could not create cleanup policy '%s': HTTP: %d, %s", policy.Name, resp.StatusCode, string(body))
+		return nil, fmt.Errorf("could not create cleanup policy '%s': HTTP: %d, %s", policy.Name, resp.StatusCode, string(body))
 	}
-	return nil
+	createdPolicy := &cleanuppolicies.CleanupPolicy{}
+	if err := json.Unmarshal(body, createdPolicy); err != nil {
+		return nil, fmt.Errorf("could not unmarshal created cleanup policy: %v", err)
+	}
+	return createdPolicy, nil
 }
-
 func (s *CleanupPolicyService) Get(name string) (*cleanuppolicies.CleanupPolicy, error) {
 
 	body, resp, err := s.Client.Get(fmt.Sprintf("%s/%s", cleanupAPIEndpoint, name), nil)
@@ -46,7 +48,7 @@ func (s *CleanupPolicyService) Get(name string) (*cleanuppolicies.CleanupPolicy,
 	}
 	policy := &cleanuppolicies.CleanupPolicy{}
 	if err := json.Unmarshal(body, policy); err != nil {
-		return nil, fmt.Errorf("could not unmarshal repository: %v", err)
+		return nil, fmt.Errorf("could not unmarshal CleanupPolicy: %v", err)
 	}
 
 	return policy, nil
