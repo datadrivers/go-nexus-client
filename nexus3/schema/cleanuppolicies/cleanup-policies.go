@@ -42,5 +42,5 @@ type CleanupPolicy struct {
 	CriteriaAssetRegex      *string              `json:"criteriaAssetRegex,omitempty"`      // a regex string to filter for specific asset paths. Not for gitlfs or *
 	Retain                  int                  `json:"retain,omitempty"`                  // number of versions to keep. Only available for Docker and Maven release repositories on PostgreSQL deployments.
 	Name                    string               `json:"name"`                              // the name of the policy needs to be unique and cannot be edited once set. Only letters, digits, underscores(_), hyphens(-), and dots(.) are allowed and may not start with underscore or dot.
-	Format                  RepositoryFormat     `json:"format"`                            // one of ["*", "apt", "bower", "cocoapods", "conan", "conda", "docker", "gitlfs", "go", "helm", "maven2", "npm", "nuget", "p2", "pypi", "r", "raw", "rubygems", "yum"]
+	Format                  RepositoryFormat     `json:"format"`                            // one of ["*", "apt", "bower", "cocoapods", "conan", "conda", "docker", "gitlfs", "go", "helm", "huggingface", "maven2", "npm", "nuget", "p2", "pypi", "r", "raw", "rubygems", "yum"]
 }
