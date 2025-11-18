@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: Nexus Golang Client
+  x-cortex-tag: platform-tooling/nexus/go-client
+  x-cortex-type: service
+  description: Sonatype Nexus Golang Client
+  x-cortex-git:
+    github:
+      repository: octoenergy/go-nexus-client
+      alias: octoenergy
+  x-cortex-slack:
+    channels:
+    - id: C0853HWRHKL
+      description: '#tech-team-platform-enablement-monitoring - Enablement team alerting channel for monitoring services'
+      notificationsEnabled: true
+    - id: C0853EG15S7
+      description: '#tech-team-platform-enablement - Enablement team channel'
+      notificationsEnabled: false
+  x-cortex-groups:
+    - services
+    - platform
+    - platform-experience
+    - nexus
+  x-cortex-owners:
+  - name: team-platform-experience
+    type: group
+    provider: CORTEX
+  x-cortex-relationships:
+  - type: ktl-product-hierarchy
+    sources:
+    - tag: platform-tooling/nexus
+  - type: ktl-client-hierarchy
+    sources:
+      - tag: clients/kraken-tech
+  x-cortex-custom-metadata:
+    data-classification:
+      value: Internal
+      description: "Confidential, Internal or Public. See OEGL Information Classification\
+        \ policy for further details: https://drive.google.com/drive/folders/1L8z2mtWjcv3SIOJWr7K2Whcr39vkFg5c"
