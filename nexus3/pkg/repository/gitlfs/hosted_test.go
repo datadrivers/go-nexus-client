@@ -15,9 +15,6 @@ func getTestGitLfsHostedRepository(name string) repository.GitLfsHostedRepositor
 		Name:   name,
 		Online: true,
 
-		Cleanup: &repository.Cleanup{
-			PolicyNames: []string{"weekly-cleanup"},
-		},
 		Storage: repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
@@ -35,7 +32,6 @@ func TestGitLfsHostedRepository(t *testing.T) {
 	generatedRepo, err := service.Hosted.Get(repo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, repo.Online, generatedRepo.Online)
-	assert.Equal(t, repo.Cleanup, generatedRepo.Cleanup)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
 
 	updatedRepo := repo
