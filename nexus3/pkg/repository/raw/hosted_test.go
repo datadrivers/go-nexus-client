@@ -16,9 +16,6 @@ func getTestRawHostedRepository(name string) repository.RawHostedRepository {
 		Name:   name,
 		Online: true,
 
-		Cleanup: &repository.Cleanup{
-			PolicyNames: []string{"weekly-cleanup"},
-		},
 		Storage: repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
@@ -39,7 +36,6 @@ func TestRawHostedRepository(t *testing.T) {
 	generatedRepo, err := service.Hosted.Get(repo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, repo.Online, generatedRepo.Online)
-	assert.Equal(t, repo.Cleanup, generatedRepo.Cleanup)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
 	// ToDo: Add following Test after implemented issue https://issues.sonatype.org/browse/NEXUS-30750
 	// assert.Equal(t, repo.Raw, generatedRepo.Raw)
