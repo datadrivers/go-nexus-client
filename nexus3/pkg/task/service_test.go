@@ -1,9 +1,10 @@
 package task
 
 import (
-	"github.com/datadrivers/go-nexus-client/nexus3/schema/task"
 	"testing"
 	"time"
+
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/task"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -88,7 +89,7 @@ func getTestTask() *task.TaskCreateStruct {
 		Enabled:               true,
 		AlertEmail:            "abc@acb.com",
 		NotificationCondition: "FAILURE",
-		Frequency: task.FrequencyXO{
+		Frequency: &task.FrequencyXO{
 			Schedule:       "manual",
 			StartDate:      int(time.Now().Unix()),
 			TimeZoneOffset: "-08:00",
