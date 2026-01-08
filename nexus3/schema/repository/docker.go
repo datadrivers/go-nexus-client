@@ -58,6 +58,8 @@ type Docker struct {
 	V1Enabled bool `json:"v1Enabled"`
 	// Whether to allow subdomain connector at the specified subdomain
 	Subdomain *string `json:"subdomain,omitempty"`
+	// Whether to enable path based routing
+	PathEnabled bool `json:"pathEnabled,omitempty"`
 }
 
 // DockerProxy contains data of a Docker Proxy Repository

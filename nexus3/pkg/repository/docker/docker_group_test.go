@@ -49,6 +49,7 @@ func getTestProDockerGroupRepository(name string) repository.DockerGroupReposito
 			HTTPPort:       tools.GetIntPointer(8080),
 			HTTPSPort:      tools.GetIntPointer(8443),
 			Subdomain:      tools.GetStringPointer(name),
+			PathEnabled: 		false,
 		},
 	}
 }
