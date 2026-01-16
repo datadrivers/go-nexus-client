@@ -55,7 +55,7 @@ func getTestProDockerHostedRepository(name string) repository.DockerHostedReposi
 			HTTPPort:       tools.GetIntPointer(8180),
 			HTTPSPort:      tools.GetIntPointer(8543),
 			Subdomain:      tools.GetStringPointer(name),
-			PathEnabled:		false,
+			PathEnabled:    tools.GetBoolPointer(false),
 		},
 	}
 }
