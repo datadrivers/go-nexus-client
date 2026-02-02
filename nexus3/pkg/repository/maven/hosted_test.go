@@ -15,9 +15,6 @@ func getTestMavenHostedRepository(name string) repository.MavenHostedRepository 
 		Name:   name,
 		Online: true,
 
-		Cleanup: &repository.Cleanup{
-			PolicyNames: []string{"weekly-cleanup"},
-		},
 		Storage: repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
@@ -39,7 +36,6 @@ func TestMavenHostedRepository(t *testing.T) {
 	generatedRepo, err := service.Hosted.Get(repo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, repo.Online, generatedRepo.Online)
-	assert.Equal(t, repo.Cleanup, generatedRepo.Cleanup)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
 	assert.Equal(t, repo.Maven, generatedRepo.Maven)
 

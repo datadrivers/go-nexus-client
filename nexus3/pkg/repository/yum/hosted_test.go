@@ -16,9 +16,6 @@ func getTestYumHostedRepository(name string) repository.YumHostedRepository {
 		Name:   name,
 		Online: true,
 
-		Cleanup: &repository.Cleanup{
-			PolicyNames: []string{"weekly-cleanup"},
-		},
 		Storage: repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
@@ -43,7 +40,6 @@ func TestYumHostedRepository(t *testing.T) {
 	generatedRepo, err := service.Hosted.Get(repo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, repo.Online, generatedRepo.Online)
-	assert.Equal(t, repo.Cleanup, generatedRepo.Cleanup)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
 	assert.Equal(t, repo.Component, generatedRepo.Component)
 	assert.Equal(t, repo.Yum, generatedRepo.Yum)

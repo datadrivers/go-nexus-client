@@ -13,6 +13,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/gitlfs"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/golang"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/helm"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/huggingface"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/maven"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/npm"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/nuget"
@@ -39,6 +40,7 @@ type RepositoryService struct {
 	GitLfs    *gitlfs.RepositoryGitLfsService
 	Go        *golang.RepositoryGoService
 	Helm      *helm.RepositoryHelmService
+	Huggingface *huggingface.RepositoryHuggingfaceService
 	Maven     *maven.RepositoryMavenService
 	Npm       *npm.RepositoryNpmService
 	Nuget     *nuget.RepositoryNugetService
@@ -64,6 +66,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		GitLfs:    gitlfs.NewRepositoryGitLfsService(c),
 		Go:        golang.NewRepositoryGoService(c),
 		Helm:      helm.NewRepositoryHelmService(c),
+		Huggingface: huggingface.NewRepositoryHuggingfaceService(c),
 		Maven:     maven.NewRepositoryMavenService(c),
 		Npm:       npm.NewRepositoryNpmService(c),
 		Nuget:     nuget.NewRepositoryNugetService(c),

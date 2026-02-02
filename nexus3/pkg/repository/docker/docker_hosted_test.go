@@ -16,9 +16,6 @@ func getTestDockerHostedRepository(name string) repository.DockerHostedRepositor
 		Name:   name,
 		Online: true,
 
-		Cleanup: &repository.Cleanup{
-			PolicyNames: []string{"weekly-cleanup"},
-		},
 		Storage: repository.DockerHostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
@@ -43,9 +40,6 @@ func getTestProDockerHostedRepository(name string) repository.DockerHostedReposi
 		Name:   name,
 		Online: true,
 
-		Cleanup: &repository.Cleanup{
-			PolicyNames: []string{"weekly-cleanup"},
-		},
 		Storage: repository.DockerHostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
@@ -74,7 +68,6 @@ func TestDockerHostedRepository(t *testing.T) {
 	generatedRepo, err := service.Hosted.Get(repo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, repo.Online, generatedRepo.Online)
-	assert.Equal(t, repo.Cleanup, generatedRepo.Cleanup)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
 	assert.Equal(t, repo.Component, generatedRepo.Component)
 	assert.Equal(t, repo.Docker, generatedRepo.Docker)
@@ -106,7 +99,6 @@ func TestProDockerHostedRepository(t *testing.T) {
 	generatedRepo, err := service.Hosted.Get(repo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, repo.Online, generatedRepo.Online)
-	assert.Equal(t, repo.Cleanup, generatedRepo.Cleanup)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
 	assert.Equal(t, repo.Component, generatedRepo.Component)
 	assert.Equal(t, repo.Docker, generatedRepo.Docker)
