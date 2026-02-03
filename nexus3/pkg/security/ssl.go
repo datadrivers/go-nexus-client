@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
-	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 	"github.com/google/go-querystring/query"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/client"
+	"github.com/williamt1997/go-nexus-client/nexus3/schema/security"
 )
 
 const (

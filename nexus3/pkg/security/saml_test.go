@@ -4,9 +4,9 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
-	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 	"github.com/stretchr/testify/assert"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/tools"
+	"github.com/williamt1997/go-nexus-client/nexus3/schema/security"
 )
 
 func TestSAML(t *testing.T) {

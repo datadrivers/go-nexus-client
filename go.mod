@@ -1,4 +1,4 @@
-module github.com/datadrivers/go-nexus-client
+module github.com/williamt1997/go-nexus-client
 
 go 1.19
 

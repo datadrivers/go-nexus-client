@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/security/privilege"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
-	schemasecurity "github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 	"github.com/stretchr/testify/assert"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/security/privilege"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/tools"
+	schemasecurity "github.com/williamt1997/go-nexus-client/nexus3/schema/security"
 )
 
 func getTestPrivilegeApplication(name string, description string, actions []schemasecurity.SecurityPrivilegeApplicationActions, domain string) *schemasecurity.PrivilegeApplication {

@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/datadrivers/go-nexus-client/nexus3"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/security/privilege"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
-	"github.com/datadrivers/go-nexus-client/nexus3/schema"
-	schemasecurity "github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 	"github.com/stretchr/testify/assert"
+	"github.com/williamt1997/go-nexus-client/nexus3"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/client"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/security/privilege"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/tools"
+	"github.com/williamt1997/go-nexus-client/nexus3/schema"
+	schemasecurity "github.com/williamt1997/go-nexus-client/nexus3/schema/security"
 )
 
 func getDefaultConfig() client.Config {

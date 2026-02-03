@@ -3,8 +3,8 @@ package nexus3
 import (
 	"testing"
 
-	"github.com/datadrivers/go-nexus-client/nexus3/schema"
 	"github.com/stretchr/testify/assert"
+	"github.com/williamt1997/go-nexus-client/nexus3/schema"
 )
 
 func testMailConfig(enabled *bool, host string, port int, username *string, password *string, fromAddress string, subjectPrefix *string) *schema.MailConfig {

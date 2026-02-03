@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
-	"github.com/datadrivers/go-nexus-client/nexus3/schema/iq"
 	"github.com/stretchr/testify/assert"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/client"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/tools"
+	"github.com/williamt1997/go-nexus-client/nexus3/schema/iq"
 )
 
 var (

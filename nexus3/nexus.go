@@ -1,14 +1,12 @@
 package nexus3
 
 import (
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/blobstore"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/capability"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/cleanup"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/iq"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/readonly"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository"
-	"github.com/datadrivers/go-nexus-client/nexus3/pkg/security"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/cleanup"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/client"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/iq"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/readonly"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/repository"
+	"github.com/williamt1997/go-nexus-client/nexus3/pkg/security"
 )
 
 const (
@@ -23,8 +21,6 @@ type NexusClient struct {
 	client *client.Client
 
 	// API Services
-	BlobStore     *blobstore.BlobStoreService
-	Capability    *capability.CapabilityService
 	CleanupPolicy *cleanup.CleanupPolicyService
 	IQServer      *iq.IQServerService
 	MailConfig    *MailConfigService
@@ -40,8 +36,6 @@ func NewClient(config client.Config) *NexusClient {
 	client := client.NewClient(config)
 	return &NexusClient{
 		client:        client,
-		BlobStore:     blobstore.NewBlobStoreService(client),
-		Capability:    capability.NewCapabilityService(client),
 		CleanupPolicy: cleanup.NewCleanupPolicyService(client),
 		IQServer:      iq.NewIQServerService(client),
 		MailConfig:    NewMailConfigService(client),

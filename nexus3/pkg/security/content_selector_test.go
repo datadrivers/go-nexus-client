@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/datadrivers/go-nexus-client/nexus3/schema/security"
 	"github.com/stretchr/testify/assert"
+	"github.com/williamt1997/go-nexus-client/nexus3/schema/security"
 )
 
 func TestSecurityContentSelector(t *testing.T) {

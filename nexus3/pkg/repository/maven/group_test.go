@@ -3,8 +3,8 @@ package maven
 import (
 	"testing"
 
-	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
 	"github.com/stretchr/testify/assert"
+	"github.com/williamt1997/go-nexus-client/nexus3/schema/repository"
 )
 
 func getTestMavenGroupRepository(name string) repository.MavenGroupRepository {

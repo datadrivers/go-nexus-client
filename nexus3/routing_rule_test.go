@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/datadrivers/go-nexus-client/nexus3/schema"
 	"github.com/stretchr/testify/assert"
+	"github.com/williamt1997/go-nexus-client/nexus3/schema"
 )
 
 func testRoutingRule(name string, mode schema.RoutingRuleMode) *schema.RoutingRule {
