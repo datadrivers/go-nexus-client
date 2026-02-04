@@ -22,6 +22,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/r"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/raw"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/rubygems"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/terraform"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/yum"
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
 )
@@ -50,6 +51,7 @@ type RepositoryService struct {
 	Raw       *raw.RepositoryRawService
 	RubyGems  *rubygems.RepositoryRubyGemsService
 	Yum       *yum.RepositoryYumService
+	Terraform *terraform.RepositoryTerraformService
 }
 
 func NewRepositoryService(c *client.Client) *RepositoryService {
@@ -76,6 +78,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		Raw:       raw.NewRepositoryRawService(c),
 		RubyGems:  rubygems.NewRepositoryRubyGemsService(c),
 		Yum:       yum.NewRepositoryYumService(c),
+		Terraform: terraform.NewRepositoryTerraformService(c),
 	}
 }
 
