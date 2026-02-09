@@ -6,14 +6,12 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
 )
 
-// RepositoryTerraformProxyService provides access to
-// Terraform proxy repository REST endpoints:
-//
-//   GET    /v1/repositories/terraform/proxy/{repositoryName}
-//   POST   /v1/repositories/terraform/proxy
-//   PUT    /v1/repositories/terraform/proxy/{repositoryName}
+
 type RepositoryTerraformProxyService =
 	common.RepositoryService[repository.TerraformProxyRepository]
+
+type RepositoryTerraformHostedService =
+	common.RepositoryService[repository.TerraformHostedRepository]
 
 // NewRepositoryTerraformProxyService creates a new Terraform proxy repository service.
 func NewRepositoryTerraformProxyService(c *client.Client) *RepositoryTerraformProxyService {
@@ -21,14 +19,21 @@ func NewRepositoryTerraformProxyService(c *client.Client) *RepositoryTerraformPr
 	return common.NewRepositoryService[repository.TerraformProxyRepository](endpoint, c)
 }
 
+func NewRepositoryTerraformHostedService(c *client.Client) *RepositoryTerraformHostedService {
+	endpoint := common.RepositoryAPIEndpoint + "/terraform/hosted"
+	return common.NewRepositoryService[repository.TerraformHostedRepository](endpoint, c)
+}
+
 // RepositoryTerraformService groups all Terraform repository services.
 type RepositoryTerraformService struct {
-	Proxy *RepositoryTerraformProxyService
+	Proxy   *RepositoryTerraformProxyService
+	Hosted  *RepositoryTerraformHostedService
 }
 
 // NewRepositoryTerraformService creates a new Terraform repository service group.
 func NewRepositoryTerraformService(c *client.Client) *RepositoryTerraformService {
 	return &RepositoryTerraformService{
-		Proxy: NewRepositoryTerraformProxyService(c),
+		Proxy:  NewRepositoryTerraformProxyService(c),
+		Hosted: NewRepositoryTerraformHostedService(c),
 	}
 }
