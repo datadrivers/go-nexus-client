@@ -32,7 +32,7 @@ func (s *ScriptService) List() ([]schema.Script, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("%s", string(body))
+		return nil, fmt.Errorf("could not list scripts: HTTP %d, %s", resp.StatusCode, string(body))
 	}
 
 	var scripts []schema.Script
@@ -49,7 +49,7 @@ func (s *ScriptService) Get(name string) (*schema.Script, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("%s", string(body))
+		return nil, fmt.Errorf("could not get script '%s': HTTP %d, %s", name, resp.StatusCode, string(body))
 	}
 	var script schema.Script
 	if err := json.Unmarshal(body, &script); err != nil {
@@ -69,7 +69,7 @@ func (s *ScriptService) Create(script *schema.Script) error {
 	}
 
 	if resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not create script: HTTP %d, %s", resp.StatusCode, string(body))
 	}
 
 	return nil
@@ -87,7 +87,7 @@ func (s *ScriptService) Update(script *schema.Script) error {
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not update script '%s': HTTP %d, %s", script.Name, resp.StatusCode, string(body))
 	}
 
 	return nil
@@ -100,7 +100,7 @@ func (s *ScriptService) Delete(name string) error {
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not delete script '%s': HTTP %d, %s", name, resp.StatusCode, string(body))
 	}
 	return err
 }
@@ -112,7 +112,7 @@ func (s *ScriptService) Run(name string) error {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not run script '%s': HTTP %d, %s", name, resp.StatusCode, string(body))
 	}
 	return err
 }
@@ -124,7 +124,7 @@ func (s *ScriptService) RunWithPayload(name, payload string) error {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not run script '%s' with payload: HTTP %d, %s", name, resp.StatusCode, string(body))
 	}
 	return err
 }

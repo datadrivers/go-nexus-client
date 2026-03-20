@@ -47,7 +47,7 @@ func (s *SecurityRoleService) Create(role security.Role) error {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not create role: HTTP %d, %s", resp.StatusCode, string(body))
 	}
 
 	return nil
@@ -62,7 +62,7 @@ func (s *SecurityRoleService) Get(id string) (*security.Role, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("%s", string(body))
+		return nil, fmt.Errorf("could not get role '%s': HTTP %d, %s", id, resp.StatusCode, string(body))
 	}
 
 	var role security.Role
@@ -87,7 +87,7 @@ func (s *SecurityRoleService) Update(id string, role security.Role) error {
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not update role '%s': HTTP %d, %s", id, resp.StatusCode, string(body))
 	}
 
 	return nil
@@ -102,7 +102,7 @@ func (s *SecurityRoleService) Delete(id string) error {
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not delete role '%s': HTTP %d, %s", id, resp.StatusCode, string(body))
 	}
 
 	return nil

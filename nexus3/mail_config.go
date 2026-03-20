@@ -31,7 +31,7 @@ func (s *MailConfigService) Get() (*schema.MailConfig, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("%s", string(body))
+		return nil, fmt.Errorf("could not get mail config: HTTP %d, %s", resp.StatusCode, string(body))
 	}
 	var mailconfig schema.MailConfig
 	if err := json.Unmarshal(body, &mailconfig); err != nil {
@@ -51,7 +51,7 @@ func (s *MailConfigService) Create(mailconfig *schema.MailConfig) error {
 	}
 
 	if resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not create mail config: HTTP %d, %s", resp.StatusCode, string(body))
 	}
 
 	return nil
@@ -69,7 +69,7 @@ func (s *MailConfigService) Update(mailconfig *schema.MailConfig) error {
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not update mail config: HTTP %d, %s", resp.StatusCode, string(body))
 	}
 
 	return nil
@@ -82,7 +82,7 @@ func (s *MailConfigService) Delete() error {
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not delete mail config: HTTP %d, %s", resp.StatusCode, string(body))
 	}
 	return err
 }
