@@ -21,6 +21,9 @@ type S3BucketConfiguration struct {
 
 	// A custom endpoint URL, signer type and whether path style access is enabled
 	AdvancedBucketConnection *S3AdvancedBucketConnection `json:"advancedBucketConnection,omitempty"`
+
+	// Whether to enable pre-signed URL downloads for the S3 blob store
+	PreSignedUrlEnabled *bool `json:"preSignedUrlEnabled,omitempty"`
 }
 
 type S3Bucket struct {

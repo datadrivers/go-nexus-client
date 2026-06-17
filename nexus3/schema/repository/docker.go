@@ -17,9 +17,9 @@ type DockerGroupRepository struct {
 }
 
 type DockerHostedRepository struct {
-	Name    string        `json:"name"`
-	Online  bool          `json:"online"`
-	Storage HostedStorage `json:"storage"`
+	Name    string              `json:"name"`
+	Online  bool                `json:"online"`
+	Storage DockerHostedStorage `json:"storage"`
 	Docker  `json:"docker"`
 
 	*Cleanup   `json:"cleanup,omitempty"`
@@ -58,6 +58,8 @@ type Docker struct {
 	V1Enabled bool `json:"v1Enabled"`
 	// Whether to allow subdomain connector at the specified subdomain
 	Subdomain *string `json:"subdomain,omitempty"`
+	// Whether to enable path based routing
+	PathEnabled *bool `json:"pathEnabled,omitempty"`
 }
 
 // DockerProxy contains data of a Docker Proxy Repository
@@ -66,4 +68,24 @@ type DockerProxy struct {
 	IndexType DockerProxyIndexType `json:"indexType"`
 	// Url of Docker Index to use
 	IndexURL *string `json:"indexUrl,omitempty"`
+	// CacheForeignLayers: Allow Nexus Repository Manager to download and cache foreign layers
+	CacheForeignLayers *bool `json:"cacheForeignLayers,omitempty"`
+	// ForeignLayerUrlWhitelist is a list of regular expressions used to identify URLs that are allowed for foreign layer requests
+	ForeignLayerUrlWhitelist []string `json:"foreignLayerUrlWhitelist"`
+}
+
+// DockerHostedStorage contains repository storage for hosted docker
+type DockerHostedStorage struct {
+	// Blob store used to store repository contents
+	BlobStoreName string `json:"blobStoreName"`
+
+	// StrictContentTypeValidation: Whether to validate uploaded content's MIME type appropriate for the repository format
+	StrictContentTypeValidation bool `json:"strictContentTypeValidation"`
+
+	// WritePolicy controls if deployments of and updates to assets are allowed
+	WritePolicy StorageWritePolicy `json:"writePolicy"`
+
+	// LatestPolicy: Whether to allow redeploying the 'latest' tag but defer to the Deployment Policy for all other tags
+	// WritePolicy ALLOW_ONCE required
+	LatestPolicy *bool `json:"latestPolicy,omitempty"`
 }

@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func JsonMarshalInterfaceToIOReader(data interface{}) (io.Reader, error) {
+func JsonMarshalInterfaceToIOReader(data any) (io.Reader, error) {
 	b, err := json.Marshal(data)
 	if err != nil {
 		return nil, fmt.Errorf("could not marshal data: %v", err)
@@ -19,7 +19,7 @@ func JsonMarshalInterfaceToIOReader(data interface{}) (io.Reader, error) {
 	return bytes.NewReader(b), nil
 }
 
-func GetEnv(key string, fallback interface{}) interface{} {
+func GetEnv(key string, fallback any) any {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
 	}

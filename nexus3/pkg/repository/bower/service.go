@@ -3,10 +3,17 @@ package bower
 import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/common"
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
 )
 
 const (
-	repositoryBowerAPIEndpoint = common.RepositoryAPIEndpoint + "/bower"
+	bowerAPIEndpoint = common.RepositoryAPIEndpoint + "/bower"
+)
+
+type (
+	RepositoryBowerGroupService  = common.RepositoryService[repository.BowerGroupRepository]
+	RepositoryBowerHostedService = common.RepositoryService[repository.BowerHostedRepository]
+	RepositoryBowerProxyService  = common.RepositoryService[repository.BowerProxyRepository]
 )
 
 type RepositoryBowerService struct {
@@ -25,4 +32,16 @@ func NewRepositoryBowerService(c *client.Client) *RepositoryBowerService {
 		Hosted: NewRepositoryBowerHostedService(c),
 		Proxy:  NewRepositoryBowerProxyService(c),
 	}
+}
+
+func NewRepositoryBowerGroupService(c *client.Client) *RepositoryBowerGroupService {
+	return common.NewRepositoryService[repository.BowerGroupRepository](bowerAPIEndpoint+"/group", c)
+}
+
+func NewRepositoryBowerHostedService(c *client.Client) *RepositoryBowerHostedService {
+	return common.NewRepositoryService[repository.BowerHostedRepository](bowerAPIEndpoint+"/hosted", c)
+}
+
+func NewRepositoryBowerProxyService(c *client.Client) *RepositoryBowerProxyService {
+	return common.NewRepositoryService[repository.BowerProxyRepository](bowerAPIEndpoint+"/proxy", c)
 }

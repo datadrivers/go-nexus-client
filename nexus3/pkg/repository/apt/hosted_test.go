@@ -23,9 +23,6 @@ func getTestAptHostedRepository(name string) repository.AptHostedRepository {
 			Keypair:    "string",
 			Passphrase: tools.GetStringPointer("string"),
 		},
-		Cleanup: &repository.Cleanup{
-			PolicyNames: []string{"weekly-cleanup"},
-		},
 		Storage: repository.HostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
@@ -44,7 +41,6 @@ func TestAptHostedRepository(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, repo.Online, generatedRepo.Online)
 	assert.Equal(t, repo.Apt, generatedRepo.Apt)
-	assert.Equal(t, repo.Cleanup, generatedRepo.Cleanup)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
 
 	updatedRepo := repo

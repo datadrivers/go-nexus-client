@@ -4,6 +4,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/apt"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/bower"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/cargo"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/cocoapods"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/common"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/conan"
@@ -12,6 +13,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/gitlfs"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/golang"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/helm"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/huggingface"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/maven"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/npm"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/nuget"
@@ -30,6 +32,7 @@ type RepositoryService struct {
 	// API Services
 	Apt       *apt.RepositoryAptService
 	Bower     *bower.RepositoryBowerService
+	Cargo     *cargo.RepositoryCargoService
 	Cocoapods *cocoapods.RepositoryCocoapodsService
 	Conan     *conan.RepositoryConanService
 	Conda     *conda.RepositoryCondaService
@@ -37,6 +40,7 @@ type RepositoryService struct {
 	GitLfs    *gitlfs.RepositoryGitLfsService
 	Go        *golang.RepositoryGoService
 	Helm      *helm.RepositoryHelmService
+	Huggingface *huggingface.RepositoryHuggingfaceService
 	Maven     *maven.RepositoryMavenService
 	Npm       *npm.RepositoryNpmService
 	Nuget     *nuget.RepositoryNugetService
@@ -54,6 +58,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 
 		Apt:       apt.NewRepositoryAptService(c),
 		Bower:     bower.NewRepositoryBowerService(c),
+		Cargo:     cargo.NewRepositoryCargoService(c),
 		Cocoapods: cocoapods.NewRepositoryCocoapodsService(c),
 		Conan:     conan.NewRepositoryConanService(c),
 		Conda:     conda.NewRepositoryCondaService(c),
@@ -61,6 +66,7 @@ func NewRepositoryService(c *client.Client) *RepositoryService {
 		GitLfs:    gitlfs.NewRepositoryGitLfsService(c),
 		Go:        golang.NewRepositoryGoService(c),
 		Helm:      helm.NewRepositoryHelmService(c),
+		Huggingface: huggingface.NewRepositoryHuggingfaceService(c),
 		Maven:     maven.NewRepositoryMavenService(c),
 		Npm:       npm.NewRepositoryNpmService(c),
 		Nuget:     nuget.NewRepositoryNugetService(c),

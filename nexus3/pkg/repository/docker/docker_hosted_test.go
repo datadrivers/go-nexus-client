@@ -11,18 +11,16 @@ import (
 )
 
 func getTestDockerHostedRepository(name string) repository.DockerHostedRepository {
-	writePolicy := repository.StorageWritePolicyAllow
+	latestPolicy := false
 	return repository.DockerHostedRepository{
 		Name:   name,
 		Online: true,
 
-		Cleanup: &repository.Cleanup{
-			PolicyNames: []string{"weekly-cleanup"},
-		},
-		Storage: repository.HostedStorage{
+		Storage: repository.DockerHostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 &writePolicy,
+			WritePolicy:                 repository.StorageWritePolicyAllowOnce,
+			LatestPolicy:                &latestPolicy,
 		},
 		Component: &repository.Component{
 			ProprietaryComponents: true,
@@ -37,18 +35,16 @@ func getTestDockerHostedRepository(name string) repository.DockerHostedRepositor
 }
 
 func getTestProDockerHostedRepository(name string) repository.DockerHostedRepository {
-	writePolicy := repository.StorageWritePolicyAllow
+	latestPolicy := true
 	return repository.DockerHostedRepository{
 		Name:   name,
 		Online: true,
 
-		Cleanup: &repository.Cleanup{
-			PolicyNames: []string{"weekly-cleanup"},
-		},
-		Storage: repository.HostedStorage{
+		Storage: repository.DockerHostedStorage{
 			BlobStoreName:               "default",
 			StrictContentTypeValidation: true,
-			WritePolicy:                 &writePolicy,
+			WritePolicy:                 repository.StorageWritePolicyAllowOnce,
+			LatestPolicy:                &latestPolicy,
 		},
 		Component: &repository.Component{
 			ProprietaryComponents: true,
@@ -59,6 +55,7 @@ func getTestProDockerHostedRepository(name string) repository.DockerHostedReposi
 			HTTPPort:       tools.GetIntPointer(8180),
 			HTTPSPort:      tools.GetIntPointer(8543),
 			Subdomain:      tools.GetStringPointer(name),
+			PathEnabled:    tools.GetBoolPointer(false),
 		},
 	}
 }
@@ -72,7 +69,6 @@ func TestDockerHostedRepository(t *testing.T) {
 	generatedRepo, err := service.Hosted.Get(repo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, repo.Online, generatedRepo.Online)
-	assert.Equal(t, repo.Cleanup, generatedRepo.Cleanup)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
 	assert.Equal(t, repo.Component, generatedRepo.Component)
 	assert.Equal(t, repo.Docker, generatedRepo.Docker)
@@ -104,7 +100,6 @@ func TestProDockerHostedRepository(t *testing.T) {
 	generatedRepo, err := service.Hosted.Get(repo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, repo.Online, generatedRepo.Online)
-	assert.Equal(t, repo.Cleanup, generatedRepo.Cleanup)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
 	assert.Equal(t, repo.Component, generatedRepo.Component)
 	assert.Equal(t, repo.Docker, generatedRepo.Docker)

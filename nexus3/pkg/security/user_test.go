@@ -40,7 +40,9 @@ func TestUserCreateReadUpdateDelete(t *testing.T) {
 	err := service.User.Create(*testUser)
 	assert.Nil(t, err)
 
-	user, err := service.User.Get(testUser.UserID)
+	userSource := "default"
+
+	user, err := service.User.Get(testUser.UserID, &userSource)
 	assert.Nil(t, err)
 	assert.NotNil(t, user)
 	assert.Equal(t, testUser.UserID, user.UserID)
@@ -75,7 +77,9 @@ func TestUserCreate(t *testing.T) {
 func TestUserRead(t *testing.T) {
 	service := getTestService()
 
-	user, err := service.User.Get("admin")
+	userSource := "default"
+	user, err := service.User.Get("admin", &userSource)
+
 	assert.Nil(t, err)
 	assert.NotNil(t, user)
 	assert.Equal(t, "admin", user.UserID)
@@ -90,4 +94,14 @@ func TestUserDeleteCurrentlySignedInUser(t *testing.T) {
 	err := service.User.Delete(getDefaultConfig().Username)
 	assert.NotNil(t, err)
 	assert.Contains(t, err.Error(), "Can not delete currently signed in user")
+}
+
+func TestListUsers(t *testing.T) {
+	service := getTestService()
+
+	users, err := service.User.List(nil)
+	assert.Nil(t, err)
+	// There are at least 2 users in a fresh Nexus installation
+	assert.Equal(t, 2, len(users))
+
 }

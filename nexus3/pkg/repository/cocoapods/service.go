@@ -3,10 +3,15 @@ package cocoapods
 import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository/common"
+	"github.com/datadrivers/go-nexus-client/nexus3/schema/repository"
 )
 
 const (
 	cocoapodsAPIEndpoint = common.RepositoryAPIEndpoint + "/cocoapods"
+)
+
+type (
+	RepositoryCocoapodsProxyService = common.RepositoryService[repository.CocoapodsProxyRepository]
 )
 
 type RepositoryCocoapodsService struct {
@@ -21,4 +26,8 @@ func NewRepositoryCocoapodsService(c *client.Client) *RepositoryCocoapodsService
 
 		Proxy: NewRepositoryCocoapodsProxyService(c),
 	}
+}
+
+func NewRepositoryCocoapodsProxyService(c *client.Client) *RepositoryCocoapodsProxyService {
+	return common.NewRepositoryService[repository.CocoapodsProxyRepository](cocoapodsAPIEndpoint+"/proxy", c)
 }

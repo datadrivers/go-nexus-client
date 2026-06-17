@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/tools"
@@ -51,8 +52,21 @@ func (s *SecurityUserService) Create(user security.User) error {
 	return nil
 }
 
-func (s *SecurityUserService) Get(id string) (*security.User, error) {
-	body, resp, err := s.Client.Get(fmt.Sprintf("%s?userId=%s", securityUsersAPIEndpoint, id), nil)
+func (s *SecurityUserService) Get(id string, source *string) (*security.User, error) {
+	baseURL, err := url.Parse(securityUsersAPIEndpoint)
+	if err != nil {
+		return nil, err
+	}
+
+	params := url.Values{}
+	params.Add("userId", id)
+	if source != nil {
+		params.Add("source", *source)
+	}
+
+	baseURL.RawQuery = params.Encode()
+
+	body, resp, err := s.Client.Get(baseURL.String(), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -125,4 +139,34 @@ func (s *SecurityUserService) ChangePassword(id string, password string) error {
 		return fmt.Errorf("could not change password of user '%s':  HTTP: %d, %s ", id, resp.StatusCode, string(body))
 	}
 	return nil
+}
+
+func (s *SecurityUserService) List(source *string) ([]security.User, error) {
+	baseURL, err := url.Parse(securityUsersAPIEndpoint)
+	if err != nil {
+		return nil, err
+	}
+
+	params := url.Values{}
+	if source != nil {
+		params.Add("source", *source)
+	}
+
+	baseURL.RawQuery = params.Encode()
+
+	body, resp, err := s.Client.Get(baseURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("%s", string(body))
+	}
+
+	users, err := jsonUnmarshalUsers(body)
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
 }
