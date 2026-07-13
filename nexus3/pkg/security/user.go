@@ -46,7 +46,7 @@ func (s *SecurityUserService) Create(user security.User) error {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not create user: HTTP %d, %s", resp.StatusCode, string(body))
 	}
 
 	return nil
@@ -72,7 +72,7 @@ func (s *SecurityUserService) Get(id string, source *string) (*security.User, er
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("%s", string(body))
+		return nil, fmt.Errorf("could not get user '%s': HTTP %d, %s", id, resp.StatusCode, string(body))
 	}
 
 	users, err := jsonUnmarshalUsers(body)
@@ -106,7 +106,7 @@ func (s *SecurityUserService) Update(id string, user security.User) error {
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not update user '%s': HTTP %d, %s", id, resp.StatusCode, string(body))
 	}
 
 	return nil
@@ -119,7 +119,7 @@ func (s *SecurityUserService) Delete(id string) error {
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not delete user '%s': HTTP %d, %s", id, resp.StatusCode, string(body))
 	}
 	return err
 }
@@ -160,7 +160,7 @@ func (s *SecurityUserService) List(source *string) ([]security.User, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("%s", string(body))
+		return nil, fmt.Errorf("could not list users: HTTP %d, %s", resp.StatusCode, string(body))
 	}
 
 	users, err := jsonUnmarshalUsers(body)

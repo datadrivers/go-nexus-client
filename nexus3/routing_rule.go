@@ -30,7 +30,7 @@ func (s *RoutingRuleService) Lists() ([]schema.RoutingRule, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("%s", string(body))
+		return nil, fmt.Errorf("could not list routing rules: HTTP %d, %s", resp.StatusCode, string(body))
 	}
 
 	var rules []schema.RoutingRule
@@ -47,7 +47,7 @@ func (s *RoutingRuleService) Get(name string) (*schema.RoutingRule, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("%s", string(body))
+		return nil, fmt.Errorf("could not get routing rule '%s': HTTP %d, %s", name, resp.StatusCode, string(body))
 	}
 	var rule schema.RoutingRule
 	if err := json.Unmarshal(body, &rule); err != nil {
@@ -70,7 +70,7 @@ func (s *RoutingRuleService) Create(rule *schema.RoutingRule) error {
 	}
 
 	if resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not create routing rule: HTTP %d, %s", resp.StatusCode, string(body))
 	}
 
 	return nil
@@ -88,7 +88,7 @@ func (s *RoutingRuleService) Update(rule *schema.RoutingRule) error {
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not update routing rule '%s': HTTP %d, %s", rule.Name, resp.StatusCode, string(body))
 	}
 
 	return nil
@@ -101,7 +101,7 @@ func (s *RoutingRuleService) Delete(name string) error {
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not delete routing rule '%s': HTTP %d, %s", name, resp.StatusCode, string(body))
 	}
 	return err
 }

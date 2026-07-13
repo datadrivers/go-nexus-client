@@ -85,7 +85,7 @@ func (s SecurityPrivilegeService) Delete(name string) error {
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("%s", string(body))
+		return fmt.Errorf("could not delete privilege '%s': HTTP %d, %s", name, resp.StatusCode, string(body))
 	}
 	return err
 }
