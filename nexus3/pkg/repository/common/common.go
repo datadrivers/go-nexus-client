@@ -1,6 +1,7 @@
 package common
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -14,7 +15,11 @@ const (
 )
 
 func DeleteRepository(client *client.Client, id string) error {
-	body, resp, err := client.Delete(fmt.Sprintf("%s/%s", RepositoryAPIEndpoint, id))
+	return DeleteRepositoryContext(context.Background(), client, id)
+}
+
+func DeleteRepositoryContext(ctx context.Context, client *client.Client, id string) error {
+	body, resp, err := client.DeleteContext(ctx, fmt.Sprintf("%s/%s", RepositoryAPIEndpoint, id))
 	if err != nil {
 		return err
 	}

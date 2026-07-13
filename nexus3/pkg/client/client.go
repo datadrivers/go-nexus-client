@@ -1,11 +1,11 @@
 package client
 
 import (
+	"context"
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
@@ -91,8 +91,12 @@ func (c *Client) ContentTypeTextPlain() {
 }
 
 func (c *Client) NewRequest(method string, endpoint string, body io.Reader) (req *http.Request, err error) {
+	return c.NewRequestContext(context.Background(), method, endpoint, body)
+}
+
+func (c *Client) NewRequestContext(ctx context.Context, method string, endpoint string, body io.Reader) (req *http.Request, err error) {
 	url := fmt.Sprintf("%s/%s", c.config.URL, endpoint)
-	req, err = http.NewRequest(method, url, body)
+	req, err = http.NewRequestWithContext(ctx, method, url, body)
 	if err != nil {
 		return req, err
 	}
@@ -104,34 +108,77 @@ func (c *Client) NewRequest(method string, endpoint string, body io.Reader) (req
 	return req, nil
 }
 
-func (c *Client) execute(method string, endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
-	req, err := c.NewRequest(method, endpoint, payload)
-	if err != nil {
-		return nil, nil, err
-	}
-
+func (c *Client) execute(req *http.Request) ([]byte, *http.Response, error) {
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, nil, err
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	return body, resp, err
 }
 
 func (c *Client) Get(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
-	return c.execute(http.MethodGet, endpoint, payload)
+	if req, err := c.NewRequest(http.MethodGet, endpoint, payload); err != nil {
+		return nil, nil, err
+	} else {
+		return c.execute(req)
+	}
 }
 
 func (c *Client) Post(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
-	return c.execute(http.MethodPost, endpoint, payload)
+	if req, err := c.NewRequest(http.MethodPost, endpoint, payload); err != nil {
+		return nil, nil, err
+	} else {
+		return c.execute(req)
+	}
 }
 
 func (c *Client) Put(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
-	return c.execute(http.MethodPut, endpoint, payload)
+	if req, err := c.NewRequest(http.MethodPut, endpoint, payload); err != nil {
+		return nil, nil, err
+	} else {
+		return c.execute(req)
+	}
 }
 
 func (c *Client) Delete(endpoint string) ([]byte, *http.Response, error) {
-	return c.execute(http.MethodDelete, endpoint, nil)
+	if req, err := c.NewRequest(http.MethodDelete, endpoint, nil); err != nil {
+		return nil, nil, err
+	} else {
+		return c.execute(req)
+	}
+}
+
+func (c *Client) GetContext(ctx context.Context, endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
+	if req, err := c.NewRequestContext(ctx, http.MethodGet, endpoint, payload); err != nil {
+		return nil, nil, err
+	} else {
+		return c.execute(req)
+	}
+}
+
+func (c *Client) PostContext(ctx context.Context, endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
+	if req, err := c.NewRequestContext(ctx, http.MethodPost, endpoint, payload); err != nil {
+		return nil, nil, err
+	} else {
+		return c.execute(req)
+	}
+}
+
+func (c *Client) PutContext(ctx context.Context, endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
+	if req, err := c.NewRequestContext(ctx, http.MethodPut, endpoint, payload); err != nil {
+		return nil, nil, err
+	} else {
+		return c.execute(req)
+	}
+}
+
+func (c *Client) DeleteContext(ctx context.Context, endpoint string) ([]byte, *http.Response, error) {
+	if req, err := c.NewRequestContext(ctx, http.MethodDelete, endpoint, nil); err != nil {
+		return nil, nil, err
+	} else {
+		return c.execute(req)
+	}
 }
