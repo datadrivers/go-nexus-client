@@ -27,9 +27,10 @@ func testUser(id string) *security.User {
 		FirstName:    "Test Firstname",
 		LastName:     "Test Lastname",
 		EmailAddress: "test-user@example.org",
-		Password:     "abc123",
-		Roles:        []string{"nx-admin"},
-		Status:       "active",
+		// Nexus enforces a minimum password length of 8 characters.
+		Password: "abc123xyz",
+		Roles:    []string{"nx-admin"},
+		Status:   "active",
 	}
 }
 

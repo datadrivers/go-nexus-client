@@ -18,6 +18,7 @@ func TestBlobstoreS3(t *testing.T) {
 	awsSecretAccessKey := tools.GetEnv("AWS_SECRET_ACCESS_KEY", string("")).(string)
 
 	service := getTestService()
+	allowSSRFTo(t, getTestClient(), awsEndpoint)
 
 	bsName := "test-blobstore-s3"
 	forcePathStyle := true

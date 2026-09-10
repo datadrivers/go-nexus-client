@@ -29,7 +29,7 @@ func getTestRProxyRepository(name string) repository.RProxyRepository {
 		Proxy: repository.Proxy{
 			ContentMaxAge:  1440,
 			MetadataMaxAge: 1440,
-			RemoteURL:      "https://api.r.org/v3/index.json",
+			RemoteURL:      "https://cran.r-project.org/",
 		},
 		Storage: repository.Storage{
 			BlobStoreName:               "default",
@@ -57,7 +57,7 @@ func TestRProxyRepository(t *testing.T) {
 
 	updatedRepo := repo
 	updatedRepo.Online = false
-	updatedRepo.Proxy.RemoteURL = "https://api.r.org/v2/"
+	updatedRepo.Proxy.RemoteURL = "https://cran.rstudio.com/"
 
 	err = service.Proxy.Update(repo.Name, updatedRepo)
 	assert.Nil(t, err)
