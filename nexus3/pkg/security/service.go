@@ -21,6 +21,7 @@ type SecurityService struct {
 	Role            *SecurityRoleService
 	SAML            *SecuritySamlService
 	SSL             *SecuritySSLService
+	SsrfProtection  *SecuritySsrfProtectionService
 	User            *SecurityUserService
 	UserTokens      *SecurityUserTokensService
 }
@@ -37,6 +38,7 @@ func NewSecurityService(c *client.Client) *SecurityService {
 		Role:            NewSecurityRoleService(c),
 		SAML:            NewSecuritySamlService(c),
 		SSL:             NewSecuritySSLService(c),
+		SsrfProtection:  NewSecuritySsrfProtectionService(c),
 		User:            NewSecurityUserService(c),
 		UserTokens:      NewSecurityUserTokensService(c),
 	}
