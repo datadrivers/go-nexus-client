@@ -1,0 +1,43 @@
+package terraform
+
+// testSigningKeypair is a throwaway PGP key pair generated for these tests
+// only. Nexus rejects a terraform hosted repository whose terraformSigning
+// keypair is not a valid armored PGP private key, so the fixtures cannot use
+// a placeholder string.
+const testSigningKeypair = `-----BEGIN PGP PRIVATE KEY BLOCK-----
+
+lQPFBGqijJEBCADeCpQ+YQ8ziIXBHScEO0HbyM1DBBwfNE0aw3r2WWIDNqh51vvl
+ZnlZTnEJj7mrhxM9ue5EX8rO+ArsKZk7PmExAixqxqfDsXbeykuRloAbQDK9mAfB
+PY6h8R73J1tNHru7SK6DtpQLm8SwHjYUhQC1TD5fRB+rcinPpCUJ3MIAhYkN8QRU
+4O7rs7oVKx5zbfBW+Z0prVmKLDX3aM0Wcv7Zl/ahb3IJWVNgXF/n3MZhIsnTftyd
+hWhmboKf3mVJen+Ztm3x6Rka1rTTi12+vjqE+FdP/8RiGTMAB4xz+nymdklXVSHs
+ySjW93SEOW8tQRU0K40ba8Isnp+yoKsiy2l5ABEBAAH+BwMCmbBxonK+Rq7/qOVB
+YhyUlz2K6hHwFLBmeM/AHjORG8mw4b/v3eWPMIUy/2zK1XstTb90GdKtrJNRrHub
+3mFBAux18sNNxLJ7/HnSJdMICN/jJfeyfdUpyJ4KyUcUEGdGhucuSyX1gl0Wt6Mb
+zxZBIxKbhXoplTbd4INtaCXIrish8SS+OAgRliYmqvXjezu9BMjJLDPP9zhlchEz
+X7puRc8PEq/HPboq+juIsTwM4TxXRgsT/A+f7UcukrG00G2fWrUOzde9SQejSI7f
++hAwzT9s4tTET3uNVs0HRVv76OiCuCL6KMxrquPkzDkICPwMKAkySz/FyM2S1yyE
+mCbOmneQtA1/N3ggLyRbMeBZfoPJwaaAcplmPjeXWDcx4jfMNSk9Y1RcUg3V629U
+Z1m1A5kB1F67jGfGPY0kDq7BzMcnYSW8MkQ+yRffwtq7Q850/NQr9xLRLkruI/Jt
+hcBULi1KqPTVpPb03To4f99RqquMjLeoGDh4gldAfdP0IQRpDanLErEKBI8x1ofd
+r6zkQgB5G6xljQRl7CvH+tK68MWgJPuYaU3lk4tjB7gTkzW4v572g7M74x1qbvd1
+3kjKSGNcv6yv5iwA4RAsSpJAdtgjJ0VWxvscygIDULKL91SWwOivyhoLO+nEjFc6
+5IMGhTWO/NSK26El5byqlMAw1VnhM2OU0NiIbFqKnNpwDfQDesXLHRAs4wNStbyo
+UwudSQ7fifvbg3F8MiThFMJA72//mxhq5lulKZ6q77gGbXZo7m90feYUD3FH8SZj
+Kgzv50zxvTGNpjsJIgiHkinIvskt24pMbmqQJf/QIsQBeV0MR4D9EztdE4kVZR0u
+caQZm/NAq2rOaRCcWgN+p1msQ84uwF2TOjWQT/S1XmUIOLAjtBr43RAI2C2CBA8F
+dFnQyunD8L60L2dvLW5leHVzLWNsaWVudCB0ZXN0IGtleSA8dGVzdEBleGFtcGxl
+LmludmFsaWQ+iQFRBBMBCgA7FiEEvP+kklvOOv0dMGNOSGSs7qG3IhUFAmqijJEC
+GwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQSGSs7qG3IhUVMggAkIKz
+T5I0KT2xEPAQnx9F/4Arj/aNdBRMmXBiAhqxiOICYV7nJo6ovTxi7E2ndjIxESQY
+i/hUg2uDe0aBn/1eGZWkZhosDSAY4Qg+Ljv3yXcwR0f85mdScR1QgsRHkc9u5Q8r
+fFbeP79uYTsAbEMcs0zD3zLApANRPL5gEAHUnfggH983jEgp5jhIcqITov3IQF0C
+Y2NX1XOUg3+o9lGGHfgnuEPLRa5gm+oeH7MxbJDrfwYBXbBH3KreVSo+5iVIYH0B
+qZsVjWsePyL1TBsQ7fm8ZOKXwknacoKHU/ntULe4iMhFIhKJUSgO9Qm0GOM7jsjS
+RHuHbzN89/xS0eyoPQ==
+=2X+y
+-----END PGP PRIVATE KEY BLOCK-----
+`
+
+// testSigningPassphrase unlocks testSigningKeypair.
+const testSigningPassphrase = "test"
