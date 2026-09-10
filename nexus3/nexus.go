@@ -9,6 +9,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/readonly"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/security"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/settings"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/task"
 )
 
@@ -34,6 +35,7 @@ type NexusClient struct {
 	RoutingRule   *RoutingRuleService
 	Script        *ScriptService
 	Security      *security.SecurityService
+	Settings      *settings.SettingsService
 	Task          *task.TaskService
 }
 
@@ -52,6 +54,7 @@ func NewClient(config client.Config) *NexusClient {
 		RoutingRule:   NewRoutingRuleService(client),
 		Script:        NewScriptService(client),
 		Security:      security.NewSecurityService(client),
+		Settings:      settings.NewSettingsService(client),
 		Task:          task.NewTaskService(client),
 	}
 }
