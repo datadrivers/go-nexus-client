@@ -6,6 +6,7 @@ import (
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/cleanup"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/iq"
+	"github.com/datadrivers/go-nexus-client/nexus3/pkg/license"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/readonly"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/repository"
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/security"
@@ -28,6 +29,7 @@ type NexusClient struct {
 	Capability    *capability.CapabilityService
 	CleanupPolicy *cleanup.CleanupPolicyService
 	IQServer      *iq.IQServerService
+	License       *license.LicenseService
 	MailConfig    *MailConfigService
 	ReadOnly      *readonly.ReadOnlyService
 	Repository    *repository.RepositoryService
@@ -46,6 +48,7 @@ func NewClient(config client.Config) *NexusClient {
 		Capability:    capability.NewCapabilityService(client),
 		CleanupPolicy: cleanup.NewCleanupPolicyService(client),
 		IQServer:      iq.NewIQServerService(client),
+		License:       license.NewLicenseService(client),
 		MailConfig:    NewMailConfigService(client),
 		ReadOnly:      readonly.NewReadOnlyService(client),
 		Repository:    repository.NewRepositoryService(client),

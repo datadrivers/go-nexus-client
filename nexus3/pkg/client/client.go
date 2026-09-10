@@ -16,6 +16,8 @@ const (
 	ContentTypeApplicationJSON = "application/json"
 	// ContentTypeTextPlain ...
 	ContentTypeTextPlain = "text/plain"
+	// ContentTypeApplicationOctetStream ...
+	ContentTypeApplicationOctetStream = "application/octet-stream"
 	// BasePath ...
 	BasePath = "service/rest/"
 )
@@ -105,10 +107,17 @@ func (c *Client) NewRequest(method string, endpoint string, body io.Reader) (req
 }
 
 func (c *Client) execute(method string, endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
+	return c.executeWithContentType(method, endpoint, payload, c.contentType)
+}
+
+// executeWithContentType performs a request with an explicit Content-Type
+// header, leaving the content type configured on the client untouched.
+func (c *Client) executeWithContentType(method string, endpoint string, payload io.Reader, contentType string) ([]byte, *http.Response, error) {
 	req, err := c.NewRequest(method, endpoint, payload)
 	if err != nil {
 		return nil, nil, err
 	}
+	req.Header.Set("Content-Type", contentType)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
@@ -126,6 +135,12 @@ func (c *Client) Get(endpoint string, payload io.Reader) ([]byte, *http.Response
 
 func (c *Client) Post(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
 	return c.execute(http.MethodPost, endpoint, payload)
+}
+
+// PostWithContentType performs a POST with an explicit Content-Type header,
+// for endpoints that do not accept the content type configured on the client.
+func (c *Client) PostWithContentType(endpoint string, payload io.Reader, contentType string) ([]byte, *http.Response, error) {
+	return c.executeWithContentType(http.MethodPost, endpoint, payload, contentType)
 }
 
 func (c *Client) Put(endpoint string, payload io.Reader) ([]byte, *http.Response, error) {
