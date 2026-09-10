@@ -11,6 +11,7 @@ import (
 
 func getTestMavenHostedRepository(name string) repository.MavenHostedRepository {
 	writePolicy := repository.StorageWritePolicyAllow
+	contentDisposition := repository.MavenContentDispositionAttachment
 	return repository.MavenHostedRepository{
 		Name:   name,
 		Online: true,
@@ -23,6 +24,9 @@ func getTestMavenHostedRepository(name string) repository.MavenHostedRepository 
 		Maven: repository.Maven{
 			VersionPolicy: repository.MavenVersionPolicySnapshot,
 			LayoutPolicy:  repository.MavenLayoutPolicyStrict,
+			// Nexus defaults contentDisposition to ATTACHMENT and reports it
+			// back, so it has to be set for the round trip to compare equal.
+			ContentDisposition: &contentDisposition,
 		},
 	}
 }

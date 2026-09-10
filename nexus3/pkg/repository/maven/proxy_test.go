@@ -11,6 +11,7 @@ import (
 )
 
 func getTestMavenProxyRepository(name string) repository.MavenProxyRepository {
+	contentDisposition := repository.MavenContentDispositionAttachment
 	return repository.MavenProxyRepository{
 		Name:   name,
 		Online: true,
@@ -40,6 +41,9 @@ func getTestMavenProxyRepository(name string) repository.MavenProxyRepository {
 		Maven: repository.Maven{
 			VersionPolicy: repository.MavenVersionPolicyRelease,
 			LayoutPolicy:  repository.MavenLayoutPolicyStrict,
+			// Nexus defaults contentDisposition to ATTACHMENT and reports it
+			// back, so it has to be set for the round trip to compare equal.
+			ContentDisposition: &contentDisposition,
 		},
 	}
 }

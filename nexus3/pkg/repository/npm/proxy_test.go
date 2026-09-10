@@ -40,10 +40,11 @@ func getTestNpmProxyRepository(name string) repository.NpmProxyRepository {
 			StrictContentTypeValidation: true,
 		},
 
-		Npm: &repository.Npm{
-			RemoveNonCataloged: false, // deprecated since nexus 3.66.0
-			RemoveQuarantined:  true,
-		},
+		// The npm block is left out: removeNonCataloged is gone since Nexus
+		// 3.66.0 and removeQuarantined is a Sonatype Firewall feature, which
+		// Nexus rejects with "Firewall Server must be enabled" unless an IQ
+		// server is configured. With neither set Nexus reports npm as null,
+		// so there is nothing here to assert a round trip on.
 	}
 }
 
@@ -63,18 +64,15 @@ func TestNpmProxyRepository(t *testing.T) {
 	assert.Equal(t, repo.NegativeCache, generatedRepo.NegativeCache)
 	assert.Equal(t, repo.Proxy, generatedRepo.Proxy)
 	assert.Equal(t, repo.Storage, generatedRepo.Storage)
-	assert.Equal(t, repo.Npm, generatedRepo.Npm)
 
 	updatedRepo := repo
 	updatedRepo.Online = false
-	updatedRepo.RemoveQuarantined = false
 
 	err = service.Proxy.Update(repo.Name, updatedRepo)
 	assert.Nil(t, err)
 	generatedRepo, err = service.Proxy.Get(updatedRepo.Name)
 	assert.Nil(t, err)
 	assert.Equal(t, updatedRepo.Online, generatedRepo.Online)
-	assert.Equal(t, updatedRepo.RemoveQuarantined, generatedRepo.RemoveQuarantined)
 
 	service.Proxy.Delete(repo.Name)
 	assert.Nil(t, err)

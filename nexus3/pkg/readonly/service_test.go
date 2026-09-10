@@ -1,6 +1,7 @@
 package readonly
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/datadrivers/go-nexus-client/nexus3/pkg/client"
@@ -37,6 +38,13 @@ func TestFreezeAndReleaseReadOnlyState(t *testing.T) {
 
 	state, err := s.GetState()
 	if err != nil {
+		// Sonatype dropped /v1/read-only from the REST API: 3.90.5 still
+		// serves it, 3.91.1 already answers 404. The service is kept for
+		// users on older Nexus versions, so the test steps aside rather than
+		// failing when the endpoint is gone.
+		if strings.Contains(err.Error(), "HTTP: 404") {
+			t.Skipf("read-only API not available on this Nexus: %v", err)
+		}
 		assert.Failf(t, "fail to retreive readonly state", err.Error())
 		return
 	}
