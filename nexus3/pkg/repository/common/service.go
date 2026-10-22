@@ -42,7 +42,12 @@ func (s *RepositoryService[R]) Get(id string) (*R, error) {
 	if err != nil {
 		return nil, err
 	}
-	if resp.StatusCode != http.StatusOK {
+	switch resp.StatusCode {
+	case http.StatusOK:
+	case http.StatusNotFound:
+		// A repository that does not exist is not an error: callers treat nil as absent.
+		return nil, nil
+	default:
 		return nil, fmt.Errorf("could not read repository '%s': HTTP: %d, %s", id, resp.StatusCode, string(body))
 	}
 	if err = json.Unmarshal(body, repo); err != nil {
